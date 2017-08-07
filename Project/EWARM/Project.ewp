@@ -317,21 +317,13 @@
         <option>
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F0xx\Include</state>
-          <state>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F0xx\Source</state>
           <state>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc</state>
-          <state>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src</state>
-          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\inc</state>
-          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\src</state>
-          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc</state>
-          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src</state>
-          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc</state>
-          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src</state>
-          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\inc</state>
-          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src</state>
-          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\RICNU_Knee_v1\inc</state>
-          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\RICNU_Knee_v1\src</state>
           <state>$PROJ_DIR$\..\inc</state>
-          <state>$PROJ_DIR$\..\src</state>
+          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\inc</state>
+          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc</state>
+          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc</state>
+          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\inc</state>
+          <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\RICNU_Knee_v1\inc</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -8895,12 +8887,6 @@
           <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\dynamic_user_structs_common.c</name>
         </file>
         <file>
-          <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\dynamic_user_structs_exec.c</name>
-        </file>
-        <file>
-          <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\dynamic_user_structs_manage.c</name>
-        </file>
-        <file>
           <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\dynamic_user_structs_plan.c</name>
         </file>
         <file>
@@ -8910,18 +8896,6 @@
           <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\flexsea_user_structs.c</name>
         </file>
       </group>
-    </group>
-    <group>
-      <name>inc</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\FlexSEA\inc\flexsea_board.h</name>
-      </file>
-    </group>
-    <group>
-      <name>src</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\..\..\FlexSEA\src\flexsea_board.c</name>
-      </file>
     </group>
   </group>
   <group>
@@ -8968,6 +8942,9 @@
     <group>
       <name>inc</name>
       <file>
+        <name>$PROJ_DIR$\..\inc\flexsea_board.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\inc\plan_comm.h</name>
       </file>
       <file>
@@ -8991,6 +8968,9 @@
     </group>
     <group>
       <name>src</name>
+      <file>
+        <name>$PROJ_DIR$\..\src\flexsea_board.c</name>
+      </file>
       <file>
         <name>$PROJ_DIR$\..\src\main.c</name>
       </file>

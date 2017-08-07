@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V7.80.4.12462/W32 for ARM                07/Aug/2017  15:23:23
+# IAR ELF Linker V7.80.4.12462/W32 for ARM                07/Aug/2017  16:10:25
 # Copyright 2007-2017 IAR Systems AB.
 #
 #    Output file  =  
@@ -10,8 +10,6 @@
 #    Command line =  
 #        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\cmd-RICNU_Knee_v1.o
 #        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\dynamic_user_structs_common.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\dynamic_user_structs_exec.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\dynamic_user_structs_manage.o
 #        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\dynamic_user_structs_plan.o
 #        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea.o
 #        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_board.o
