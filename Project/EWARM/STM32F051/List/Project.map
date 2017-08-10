@@ -1,61 +1,61 @@
 ###############################################################################
 #
-# IAR ELF Linker V7.80.4.12462/W32 for ARM                07/Aug/2017  16:10:25
+# IAR ELF Linker V7.80.4.12462/W32 for ARM                10/Aug/2017  15:46:27
 # Copyright 2007-2017 IAR Systems AB.
 #
 #    Output file  =  
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Exe\Project.out
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Exe\Project.out
 #    Map file     =  
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\List\Project.map
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\List\Project.map
 #    Command line =  
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\cmd-RICNU_Knee_v1.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\dynamic_user_structs_common.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\dynamic_user_structs_plan.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_board.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_buffers.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_circular_buffer.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_calibration.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_control_1.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_control_2.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_data.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_external.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_in_control.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_sensors.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_stream.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_tools.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_user.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_comm.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_global_structs.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_payload.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_system.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_user_structs.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\main.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_comm.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_config.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_led.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_utilities.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\startup_stm32f051.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_can.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_crs.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_dma.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_exti.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_gpio.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_it.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_misc.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_pwr.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_rcc.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_spi.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_syscfg.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_tim.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_usart.o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\system_stm32f0xx.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\cmd-RICNU_Knee_v1.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\dynamic_user_structs_common.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\dynamic_user_structs_plan.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_board.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_buffers.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_circular_buffer.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_calibration.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_control_1.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_control_2.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_data.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_external.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_in_control.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_sensors.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_stream.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_tools.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_cmd_user.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_comm.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_global_structs.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_payload.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_system.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_user_structs.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\main.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_comm.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_config.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_led.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_utilities.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\startup_stm32f051.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_can.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_crs.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_dma.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_exti.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_gpio.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_it.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_misc.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_pwr.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_rcc.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_spi.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_syscfg.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_tim.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_usart.o
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\system_stm32f0xx.o
 #        --redirect _Printf=_PrintfSmall --redirect _Scanf=_ScanfSmall -o
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Exe\Project.out
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Exe\Project.out
 #        --map
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\List\Project.map
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\List\Project.map
 #        --config
-#        C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\stm32f051_flash.icf
+#        C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\stm32f051_flash.icf
 #        --semihosting --entry __iar_program_start --vfe
 #
 ###############################################################################
@@ -208,7 +208,7 @@ Copy (__iar_copy_init3)
 
     Module                    ro code  ro data  rw data
     ------                    -------  -------  -------
-C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj: [1]
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj: [1]
     cmd-RICNU_Knee_v1.o           736
     flexsea.o                     114             1 524
     flexsea_board.o                16        1        1
@@ -406,7 +406,7 @@ usart_rx_buffer         0x20001532    0x2  Data  Gb  main.o [1]
 usart_tx_buffer         0x20001504   0x1c  Data  Gb  main.o [1]
 
 
-[1] = C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj
+[1] = C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj
 [2] = command line
 [3] = dl6M_tlf.a
 [4] = rt6M_tl.a

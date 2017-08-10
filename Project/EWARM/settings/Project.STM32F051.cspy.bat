@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\common\bin\cspybat" -f "C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\settings\Project.STM32F051.general.xcl" --backend -f "C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\settings\Project.STM32F051.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\common\bin\cspybat" -f "C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\settings\Project.STM32F051.general.xcl" --backend -f "C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\settings\Project.STM32F051.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\common\bin\cspybat" -f "C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\settings\Project.STM32F051.general.xcl" "--debug_file=%~1" --backend -f "C:\RICNU_Knee_HLCI-test2\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\settings\Project.STM32F051.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\common\bin\cspybat" -f "C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\settings\Project.STM32F051.general.xcl" "--debug_file=%~1" --backend -f "C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\settings\Project.STM32F051.driver.xcl" 
 
 @echo off 
 :end
