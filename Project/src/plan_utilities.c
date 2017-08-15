@@ -21,3 +21,5 @@ void set_tick(uint32_t us)
   SysTick_Config((RCC_Clocks.HCLK_Frequency/FACTOR_us_PER_s)*us);
   NVIC_SetPriority(SysTick_IRQn, 0x0);
 }
+
+

@@ -7,13 +7,15 @@
 #include "plan_include.h"
 
 
-// CONSTANTS  ==================================================================
+// DEFINES  ==================================================================
 
-#define SYSTICK                         50  //us
+#define SYSTICK                         50      //us
 #define UPDATE_RATE                     TIMEBASE_250_HZ
 #define DATA_SIZE_FLEXSEA               48      //bytes
 #define DATA_SIZE_P2U                   25      //bytes
 #define DATA_SIZE_U2P                   2       //bytes
+
+#define SPI_USE_SOFTWARE_CONTROL
 
 
 // MACROS  =====================================================================
@@ -74,7 +76,6 @@
 #define USARTx_DMA_RX_CHANNEL           DMA1_Channel5
 
 
-
 // NICKNAMES: DMA  =============================================================
 
 // NVIC-related nicknames
@@ -82,14 +83,29 @@
 #define DMAx_USARTx_IRQn                DMA1_Channel4_5_IRQn
 
 
+// NICKNAMES: EXTI  ============================================================
+
+
+#define CARD_DETECT_PIN                GPIO_Pin_0
+#define CARD_DETECT_GPIO_PORT          GPIOA
+#define CARD_DETECT_GPIO_CLK           RCC_AHBPeriph_GPIOA
+#define CARD_DETECT_EXTI_LINE          EXTI_Line0
+#define CARD_DETECT_EXTI_PORT_SOURCE   EXTI_PortSourceGPIOA
+#define CARD_DETECT_EXTI_PIN_SOURCE    EXTI_PinSource0
+#define CARD_DETECT_EXTI_IRQn          EXTI0_1_IRQn 
+
+
+
 // FUNCTION PROTOTYPES  ========================================================
 
-void SYSCFG_config(void);
-void RCC_confg(void);
-void GPIO_config(void);
 void DMA_config(void);
+void EXTI_config(void);
+void GPIO_config(void);
 void NVIC_config(void);
+void RCC_confg(void);
+void RTC_config(void);
 void SPI_config(void);
+void SYSCFG_config(void);
 void USART_config(void);
 
 #endif //PLAN_CONFIG_H

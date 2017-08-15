@@ -35,6 +35,7 @@ void SYSCFG_config(void)
 {
   SYSCFG_DMAChannelRemapConfig(SYSCFG_DMARemap_USART1Tx, ENABLE);
   SYSCFG_DMAChannelRemapConfig(SYSCFG_DMARemap_USART1Rx, ENABLE);
+  SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA, EXTI_PinSource0);
 }
 
 
@@ -63,7 +64,9 @@ void GPIO_config(void)
   GPIO_Init(SPIx_GPIO_PORT, &GPIO_InitStructure);
   
   // SPI NSS PIN  --------------------------------------------------------------
-  /*
+  
+  #ifdef SPI_USE_HARDWARE_CONTROL
+  
   // HARDWARE CONTROL
   // Alternate Function assignment
   GPIO_PinAFConfig(SPIx_GPIO_PORT, SPIx_NSS_SOURCE,  SPIx_AF);
@@ -74,7 +77,8 @@ void GPIO_config(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_Level_3;
   GPIO_InitStructure.GPIO_Pin   = SPIx_NSS_PIN;
   GPIO_Init(SPIx_GPIO_PORT, &GPIO_InitStructure);
-  */
+  
+  #else
   // SOFTWARE CONTROL (MANUAL)
   GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -82,7 +86,10 @@ void GPIO_config(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_Level_3;
   GPIO_InitStructure.GPIO_Pin = SPIx_NSS_PIN;
   GPIO_Init(SPIx_GPIO_PORT, &GPIO_InitStructure);
-    
+  
+  #endif
+  
+  
   // USART GPIO PINS  ----------------------------------------------------------
   
   // Alternate Function assignments
@@ -96,6 +103,13 @@ void GPIO_config(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_Level_3;
   GPIO_InitStructure.GPIO_Pin   = USARTx_TX_PIN | USARTx_RX_PIN;
   GPIO_Init(USARTx_GPIO_PORT, &GPIO_InitStructure);
+  
+  
+  // SD CARD DETECT EXTERNAL INTERRUPT PIN
+  GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_0;
+  GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IN;
+  GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_DOWN;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
 }
 
 
@@ -122,11 +136,10 @@ void SPI_config(void)
   SPI_InitStructure.SPI_CRCPolynomial = 7;
   SPI_Init(SPIx, &SPI_InitStructure);
   
-  /*
-  // Enable NSS output in master pulse mode
-  SPI_SSOutputCmd(SPIx, ENABLE);
+  #ifdef SPI_USE_HARDWARE_CONTROL
+  SPI_SSOutputCmd(SPIx, ENABLE);      // Enable NSS output in master pulse mode
   SPI_NSSPulseModeCmd(SPIx, ENABLE);
-  */
+  #endif
   
   // Set FIFO threshold to
   SPI_RxFIFOThresholdConfig(SPIx, SPI_RxFIFOThreshold_QF);
@@ -167,6 +180,7 @@ void USART_config(void)
   USART_Cmd(USARTx, ENABLE);
 }
 
+
 //==============================================================================
 // FUNCTION DMA_config()
 //      - Configures STM32's DMA controller
@@ -180,7 +194,7 @@ void DMA_config(void)
   DMA_InitTypeDef           DMA_InitStructure;
   
   
-  // SPI RECEIVE REGISTER  -----------------------------------------------------
+  // SPI RECEIVE CHANNEL -------------------------------------------------------
   
   DMA_DeInit(SPIx_DMA_RX_CHANNEL);
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPIx_DR_ADDRESS;
@@ -196,10 +210,10 @@ void DMA_config(void)
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(SPIx_DMA_RX_CHANNEL, &DMA_InitStructure);
   DMA_ITConfig(SPIx_DMA_RX_CHANNEL, DMA_IT_TC, ENABLE);
-  DMA_Cmd(SPIx_DMA_RX_CHANNEL, ENABLE);
+  //DMA_Cmd(SPIx_DMA_RX_CHANNEL, ENABLE);
   
   
-   // SPI TRANSMIT REGISTER  ---------------------------------------------------
+   // SPI TRANSMIT CHANNEL -----------------------------------------------------
   
   DMA_DeInit(SPIx_DMA_TX_CHANNEL);
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPIx_DR_ADDRESS;
@@ -218,7 +232,7 @@ void DMA_config(void)
   //DMA_Cmd(SPIx_DMA_TX_CHANNEL, ENABLE);     // Not enabled yet - only when ready
   
   
-  // USART RECEIVE REGISTER  ---------------------------------------------------
+  // USART RECEIVE CHANNEL -----------------------------------------------------
   
   DMA_DeInit(USARTx_DMA_RX_CHANNEL);    // Alternate channel
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)USARTx_RDR_ADDRESS;
@@ -234,10 +248,10 @@ void DMA_config(void)
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(USARTx_DMA_RX_CHANNEL, &DMA_InitStructure);
   DMA_ITConfig(USARTx_DMA_RX_CHANNEL, DMA_IT_TC, ENABLE);
-  DMA_Cmd(USARTx_DMA_RX_CHANNEL, ENABLE);
+  //DMA_Cmd(USARTx_DMA_RX_CHANNEL, ENABLE);
   
   
-  // USART TRANSMIT REGISTER  --------------------------------------------------
+  // USART TRANSMIT CHANNEL ----------------------------------------------------
 
   DMA_DeInit(USARTx_DMA_TX_CHANNEL);    // Alternate channel
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)USARTx_TDR_ADDRESS;
@@ -256,7 +270,6 @@ void DMA_config(void)
   //DMA_Cmd(USARTx_DMA_TX_CHANNEL, ENABLE);     // Not enabled yet - only when ready
   
 }
-
 
 
 //==============================================================================
@@ -280,4 +293,37 @@ void NVIC_config(void)
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
+  // Configure EXTI0 Interrupt
+  NVIC_InitStructure.NVIC_IRQChannel = EXTI0_1_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 0x00;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+  
+}
+
+
+//==============================================================================
+// FUNCTION RTC_config()
+//      - Configures real time clock peripheral
+//==============================================================================
+void RTC_config(void)
+{
+  ;
+}
+
+//==============================================================================
+// FUNCTION EXTI_config()
+//      - Configures sd card detect pin external interrupt
+//==============================================================================
+void EXTI_config(void)
+{
+  // Declare the GPIO initialization structure
+  EXTI_InitTypeDef EXTI_InitStructure;
+
+  // Configure EXTI line
+  EXTI_InitStructure.EXTI_Line = CARD_DETECT_EXTI_LINE;
+  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
+  EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+  EXTI_Init(&EXTI_InitStructure);
 }

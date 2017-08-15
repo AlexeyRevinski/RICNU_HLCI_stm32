@@ -1,57 +1,90 @@
 #include "plan_include.h"
 
-
-// FUNCTION PROTOTYPES  ========================================================
-void    initialize(void);       // System initialization function
-void initial_delay(void);
-
 // GLOBAL VARIABLES  ===========================================================
 uint16_t        state_time_us = 0;      // Time in microseconds since last cycle
 uint8_t         systick_update = 0;     // Did SysTick tick? 0=no, 1=yes
-uint8_t         spi_rx_buffer[DATA_SIZE_FLEXSEA]; // For tx, comm_str_1 is used
-uint8_t         usart_tx_buffer[DATA_SIZE_P2U];
-uint8_t         usart_rx_buffer[DATA_SIZE_U2P];
+state           sys_state = ENTRY_STATE;
+int LED_err_count = 0;
 
-int delay = 0;
+// Data Buffers
+uint8_t         spi_rx_buffer[DATA_SIZE_FLEXSEA];       // Used for SPI rx
+extern uint8_t  comm_str_1[COMM_STR_BUF_LEN];           // Used for SPI tx
+uint8_t         usart_tx_buffer[DATA_SIZE_P2U];         // Used for UART tx
+uint8_t         usart_rx_buffer[DATA_SIZE_U2P];         // Used for UART rx
 
-extern uint8_t comm_str_1[COMM_STR_BUF_LEN];
+// FUNCTION PROTOTYPES  ========================================================
+void    initialize(void);       // System initialization function
 
 //==============================================================================
 // FUNCTION main()
 //      - initializes the system
-//      - implements a time-based state machine
+//      - implements system state machine
 //==============================================================================
 int main(void)
 {
-  initialize();         // Initialize software and hardware  
   while(1)
   {
-    if (systick_update == 1)    // On SysTick update:
+    switch (sys_state)
     {
-      systick_update = 0;       // Reset systick_update flag
-      switch(state_time_us)     // Assume one of the following states:
+    case STATE_INITIALIZING:
+      initialize();
+      change_sys_state(&sys_state,EVENT_INITIALIZATION_SUCCESS);
+      break;
+    case STATE_WAITING_FOR_MANIFEST:
+      break;
+    case STATE_READING_MANIFEST:
+      change_sys_state(&sys_state,EVENT_MANIFEST_READ_SUCCESS);
+      break;
+    case STATE_INCORRECT_MANIFEST:
+      break;
+    case STATE_BUILDING_FSM:
+      change_sys_state(&sys_state,EVENT_FSM_BUILD_SUCCESS);
+      break;
+    case STATE_WAIT_FOR_USER:
+      change_sys_state(&sys_state,EVENT_USER_FSM_INITIALIZE);
+      break;
+    case STATE_INITIALIZING_FSM:
+      change_sys_state(&sys_state,EVENT_FSM_INITIALIZED);
+      break;
+    case STATE_ACTIVE_CONTROL:
+      while(sys_state==STATE_ACTIVE_CONTROL)
       {
-        case SYSTICK*0:         // At t = 0us:
-          GPIO_SetBits(LEDx_PORT,LED2_PIN);
-          update_Manage();      // - Communicate with Manage
-          GPIO_ResetBits(LEDx_PORT,LED2_PIN);
-          break;
-        case SYSTICK*7:         // At t = 350us
-          GPIO_SetBits(LEDx_PORT,LED2_PIN);
-          pack_P2U();
-          GPIO_ResetBits(LEDx_PORT,LED2_PIN);
-          break;
-        case SYSTICK*14:         // At t = 700us microseconds:
-          GPIO_SetBits(LEDx_PORT,LED2_PIN);
-          update_User();        // - Communicate with user
-          GPIO_ResetBits(LEDx_PORT,LED2_PIN);
-          break;
-        case SYSTICK*40:
-          GPIO_SetBits(LEDx_PORT,LED2_PIN);
-          pack_U2P();
-          GPIO_ResetBits(LEDx_PORT,LED2_PIN);
-          break;
+        if (systick_update == 1)    // On SysTick update:
+        {
+          systick_update = 0;       // Reset systick_update flag
+          switch(state_time_us)     // Assume one of the following states:
+          {
+            case SYSTICK*0:         // At t = 0us:
+              update_Manage();      // - Communicate with Manage
+              break;
+            case SYSTICK*7:         // At t = 350us
+              pack_P2U();           // Pack data to send upstream
+              break;
+            case SYSTICK*14:         // At t = 700us microseconds:
+              update_User();        // - Communicate with user
+              break;
+            case SYSTICK*40:
+              pack_U2P();           // Pack data to send downstream
+              break;
+          }
+        }
       }
+      break;
+    case STATE_ERROR:
+      while(sys_state==STATE_ERROR)
+      {
+        if (systick_update == 1)    // On SysTick update:
+        {
+          systick_update = 0;       // Reset systick_update flag
+          LED_err_count++;
+          if(LED_err_count>=0.25*FACTOR_us_PER_s/SYSTICK)
+          {
+            GPIO_ToggleBits(LEDx_PORT,LED1_PIN);
+            LED_err_count = 0;
+          }
+        }
+      }
+      break;
     }
   }
 }
@@ -72,22 +105,18 @@ void initialize(void)
   
   // Configure Plan peripherals
   RCC_confg();          // Reset and Clock Control
+  RTC_config();         // Real Time Clock configuration
   SYSCFG_config();      // Pin remapping
-  LED_config();         // GPIOs - LEDs on the eval board (deprecate later)           //TODO
+  LED_config();         // GPIOs - LEDs on the eval board (deprecate later)     //TODO
   GPIO_config();        // GPIOs - for SPI, USART, etc.
   NVIC_config();        // Nested Vector Interrupt Controller
+  EXTI_config();
   DMA_config();         // Direct Memory Access Controller
   SPI_config();         // Serial Peripheral Interface Controller
   USART_config();       // Universal Synch/Asynch Receiver/Transmitter
   
   // Configure system state machine update rate
   set_tick(SYSTICK);
-  //initial_delay();
-}
-
-void initial_delay(void)
-{
-  while(delay<=140000){;}
 }
 
 

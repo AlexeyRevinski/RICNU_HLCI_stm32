@@ -318,6 +318,7 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F0xx\Include</state>
           <state>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc</state>
+          <state>$PROJ_DIR$\..\..\Libraries\FatFs</state>
           <state>$PROJ_DIR$\..\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\FlexSEA\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc</state>
@@ -8731,6 +8732,39 @@
     </file>
   </group>
   <group>
+    <name>FATFS</name>
+    <group>
+      <name>inc</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\diskio.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffconf.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\integer.h</name>
+      </file>
+    </group>
+    <group>
+      <name>src</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\diskio.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffsystem.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffunicode.c</name>
+      </file>
+    </group>
+  </group>
+  <group>
     <name>FLEXSEA</name>
     <group>
       <name>flexsea-comm</name>
@@ -8957,6 +8991,9 @@
         <name>$PROJ_DIR$\..\inc\plan_led.h</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\inc\plan_state_system.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\inc\plan_utilities.h</name>
       </file>
       <file>
@@ -8982,6 +9019,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\plan_led.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\src\plan_state_system.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\plan_utilities.c</name>

@@ -15,6 +15,7 @@ void update_Manage(void)
   // Start packet transmission sequence - drive chip select low
   GPIO_ResetBits(SPIx_GPIO_PORT,SPIx_NSS_PIN); // Pull SPI NSS low manually
   // Start DMA transfer from memory to SPI->DR
+  DMA_Cmd(SPIx_DMA_RX_CHANNEL, ENABLE);
   DMA_Cmd(SPIx_DMA_TX_CHANNEL, ENABLE);
 }
 
@@ -26,6 +27,7 @@ void update_Manage(void)
 void update_User(void)
 {
   // Start DMA transfer from memory to USART->TDR
+  DMA_Cmd(USARTx_DMA_RX_CHANNEL, ENABLE);
   DMA_Cmd(USARTx_DMA_TX_CHANNEL, ENABLE);
 }
 

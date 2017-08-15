@@ -1,7 +1,11 @@
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\Project.pbd.linf
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\cmd-RICNU_Knee_v1.pbi
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\diskio.pbi
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\dynamic_user_structs_common.pbi
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\dynamic_user_structs_plan.pbi
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\ff.pbi
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\ffsystem.pbi
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\ffunicode.pbi
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea.pbi
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_board.pbi
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\flexsea_buffers.pbi
@@ -25,6 +29,7 @@ C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\main.
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_comm.pbi
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_config.pbi
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_led.pbi
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_state_system.pbi
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\plan_utilities.pbi
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_can.pbi
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj\stm32f0xx_crs.pbi

@@ -6,6 +6,8 @@ C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\Libraries\CMS
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc
 -I
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\Libraries\FatFs
+-I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\inc
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\..\..\FlexSEA\inc
@@ -27,6 +29,8 @@ C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\arm\inc\c
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\CMSIS\Device\ST\STM32F0xx\Include
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\STM32F0xx_StdPeriph_Driver\inc
+-I
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\FatFs
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\inc
 -I

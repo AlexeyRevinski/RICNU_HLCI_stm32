@@ -36,6 +36,8 @@ extern uint8_t systick_update;
 
 extern int delay;
 
+extern state sys_state;
+
 /******************************************************************************/
 /*            Cortex-M0 Processor Exceptions Handlers                         */
 /******************************************************************************/
@@ -87,7 +89,6 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
-  delay++;
   systick_update = 1;
   if(state_time_us!=(SYSTEM_PERIOD_US-SYSTICK)){state_time_us+=SYSTICK;}
   else{state_time_us=0;}
@@ -100,9 +101,30 @@ void SysTick_Handler(void)
 /*  file (startup_stm32f0xx.s).                                            */
 /******************************************************************************/
 
+// Handles SD Card insertion/ejection response
+void EXTI0_1_IRQHandler(void)
+{
+  if(EXTI_GetITStatus(EXTI_Line0) != RESET)
+  {
+    // If card is detected in the socket
+    if ((CARD_DETECT_GPIO_PORT->IDR & CARD_DETECT_PIN))
+    {
+      GPIO_ResetBits(LEDx_PORT,LED2_PIN);
+      change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DETECTED);
+    }
+    else // If card was taken out of the socket
+    {
+      GPIO_SetBits(LEDx_PORT,LED2_PIN);
+      change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DISCONNECTED);
+    }
+    // Clear the interrupt pending bit
+    EXTI_ClearITPendingBit(EXTI_Line0);
+  }
+}
+
+// Handles SPI DMA transfer events
 void DMA1_Channel2_3_IRQHandler(void)
 {
-  GPIO_SetBits(LEDx_PORT,LED2_PIN);
   // If finished transmitting an SPI packet (48 byte limit reached)
   if (DMA_GetITStatus(DMA1_IT_TC3))
   {
@@ -118,15 +140,15 @@ void DMA1_Channel2_3_IRQHandler(void)
   {
     // Stop packet transmission sequence - drive chip select high
     GPIO_SetBits(SPIx_GPIO_PORT,SPIx_NSS_PIN); // Pull SPI NSS high manually
+    DMA_Cmd(SPIx_DMA_RX_CHANNEL, DISABLE);
     // Clear all channel 2 IT requests
     DMA_ClearITPendingBit(DMA1_IT_GL2);
   }
-  GPIO_ResetBits(LEDx_PORT,LED2_PIN);
 }
 
+// Handles UART DMA transfer events
 void DMA1_Channel4_5_IRQHandler(void)
 {
-  GPIO_SetBits(LEDx_PORT,LED2_PIN);
   // If finished transmitting an SPI packet (48 byte limit reached)
   if (DMA_GetITStatus(DMA1_IT_TC4))
   {
@@ -140,10 +162,10 @@ void DMA1_Channel4_5_IRQHandler(void)
   // If finished receiving an SPI packet (48 byte limit reached)
   else if(DMA_GetITStatus(DMA1_IT_TC5))
   {
+    DMA_Cmd(USARTx_DMA_RX_CHANNEL, DISABLE);
     // Clear all channel 5 IT requests
     DMA_ClearITPendingBit(DMA1_IT_GL5);
   }
-  GPIO_ResetBits(LEDx_PORT,LED2_PIN);
 }
 
 
