@@ -101,13 +101,55 @@ void SysTick_Handler(void)
 /*  file (startup_stm32f0xx.s).                                            */
 /******************************************************************************/
 
-// Handles SD Card insertion/ejection response
+// Handles Button press response (press and release)
 void EXTI0_1_IRQHandler(void)
 {
-  if(EXTI_GetITStatus(EXTI_Line0) != RESET)
+  if(EXTI_GetITStatus(EXTI_UB_LINE) != RESET)
+  {
+    // If button is pressed
+    if ((GPIO_EXTI_UB_PORT->IDR & GPIO_EXTI_UB_PIN))
+    {
+      change_sys_state(&sys_state,EVENT_MANIFEST_READ_SUCCESS);
+      GPIO_ResetBits(LEDx_PORT,LED1_PIN);
+      
+      if(sys_state==STATE_INITIALIZING_MEMORY)
+      {
+        /* Set chip select high */
+        GPIO_ResetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN);
+        GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);
+        /* Send dummy byte 0xFF, 10 times with CS high */
+        /* Rise CS and MOSI for 80 clocks cycles */
+        for (int i = 0; i <= 9; i++)
+        {
+          /* Wait until the transmit buffer is empty */
+          while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET){;}
+          /* Send the byte */
+          SPI_SendData8(SPIx, 0xFF);
+          /* Wait to receive a byte*/
+          while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_RXNE) == RESET){;}
+        }
+        while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_BSY)== SET){;}
+        GPIO_SetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN);
+        change_sys_state(&sys_state,EVENT_MEMORY_INITIALIZATION_SUCCESS);
+      }
+    }
+    else // If button is not pressed
+    {
+      GPIO_SetBits(LEDx_PORT,LED1_PIN);
+    }
+    
+    // Clear the interrupt pending bit
+    EXTI_ClearITPendingBit(EXTI_UB_LINE);
+  }
+}
+
+// Handles SD Card insertion/ejection response
+void EXTI2_3_IRQHandler(void)
+{
+  if(EXTI_GetITStatus(EXTI_CD_LINE) != RESET)
   {
     // If card is detected in the socket
-    if ((CARD_DETECT_GPIO_PORT->IDR & CARD_DETECT_PIN))
+    if ((GPIO_EXTI_CD_PORT->IDR & GPIO_EXTI_CD_PIN))
     {
       GPIO_ResetBits(LEDx_PORT,LED2_PIN);
       change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DETECTED);
@@ -118,7 +160,7 @@ void EXTI0_1_IRQHandler(void)
       change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DISCONNECTED);
     }
     // Clear the interrupt pending bit
-    EXTI_ClearITPendingBit(EXTI_Line0);
+    EXTI_ClearITPendingBit(EXTI_UB_LINE);
   }
 }
 
@@ -139,7 +181,7 @@ void DMA1_Channel2_3_IRQHandler(void)
   else if(DMA_GetITStatus(DMA1_IT_TC2))
   {
     // Stop packet transmission sequence - drive chip select high
-    GPIO_SetBits(SPIx_GPIO_PORT,SPIx_NSS_PIN); // Pull SPI NSS high manually
+    GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);
     DMA_Cmd(SPIx_DMA_RX_CHANNEL, DISABLE);
     // Clear all channel 2 IT requests
     DMA_ClearITPendingBit(DMA1_IT_GL2);

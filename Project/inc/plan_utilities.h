@@ -12,7 +12,7 @@
 #define TIMEBASE_250_HZ                 250     //Hz
 #define TIMEBASE_500_HZ                 500     //Hz
 #define FACTOR_us_PER_s                 1000000 //us per 1s
-
+#define ERROR_LED_TIME                  0.25    //s
 
 
 // FUNCTION PROTOTYPES  ========================================================

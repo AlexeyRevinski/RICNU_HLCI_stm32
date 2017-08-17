@@ -15,5 +15,6 @@
 #include "plan_led.h"           // LED add-on
 #include "plan_utilities.h"     // Utility code
 #include "plan_state_system.h"  // System state machine
+#include "plan_sd.h"
 
 #endif //PLAN_INCLUDE_H

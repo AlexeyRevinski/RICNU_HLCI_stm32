@@ -13,7 +13,7 @@ extern uint8_t comm_str_1[COMM_STR_BUF_LEN];
 void update_Manage(void)
 {
   // Start packet transmission sequence - drive chip select low
-  GPIO_ResetBits(SPIx_GPIO_PORT,SPIx_NSS_PIN); // Pull SPI NSS low manually
+  GPIO_ResetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);
   // Start DMA transfer from memory to SPI->DR
   DMA_Cmd(SPIx_DMA_RX_CHANNEL, ENABLE);
   DMA_Cmd(SPIx_DMA_TX_CHANNEL, ENABLE);
@@ -61,23 +61,19 @@ void pack_U2P(void)
   int pwm = 0;
   if(((usart_rx_buffer[0]>>(7-POS_MOTOR_ON_OFF))&1))
   {
-    GPIO_SetBits(LEDx_PORT,LED1_PIN);
     ctrl = CTRL_OPEN;
   }
   else if (!((usart_rx_buffer[0]>>(7-POS_MOTOR_ON_OFF))&1))
   {
-    GPIO_ResetBits(LEDx_PORT,LED1_PIN);
     ctrl = CTRL_NONE;
     pwm = 0;
   }
   if(((usart_rx_buffer[0]>>(7-POS_MOTOR_DIRECT))&1))
   {
-    GPIO_SetBits(LEDx_PORT,LED1_PIN);
     pwm = -800;
   }
   else if (!((usart_rx_buffer[0]>>(7-POS_MOTOR_DIRECT))&1))
   {
-    GPIO_ResetBits(LEDx_PORT,LED1_PIN);
     pwm = 800;
   }
   uint16_t numb = 0;

@@ -8991,6 +8991,9 @@
         <name>$PROJ_DIR$\..\inc\plan_led.h</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\inc\plan_sd.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\inc\plan_state_system.h</name>
       </file>
       <file>
@@ -9019,6 +9022,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\plan_led.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\src\plan_sd.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\plan_state_system.c</name>
