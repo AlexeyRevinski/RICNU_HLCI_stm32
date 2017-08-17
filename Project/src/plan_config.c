@@ -124,12 +124,14 @@ void GPIO_config(void)
 //      - Configures STM32's SPI peripheral
 //      - 1.5MHz clock (48MHz/32)
 //==============================================================================
-void SPI_config(spi_mode mode)
+void SPI_config(void)
 {
   // Declare SPI initialization structure 
   SPI_InitTypeDef  SPI_InitStructure;
   
+  // Start SPI 1 clock
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1,ENABLE);
+  
   // SPI configuration
   SPI_I2S_DeInit(SPIx);
   SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
@@ -138,28 +140,14 @@ void SPI_config(spi_mode mode)
   SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
   SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-  if(mode==MODE_ACTIVE_CONTROL)
-  {
-    // Enable SPI TX and RX interrupts for DMA
-    SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Rx, ENABLE);
-    SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Tx, ENABLE);
-    SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_32;
-  }
-  else if(mode==MODE_SD_SETUP)
-  {
-    // Disable SPI TX and RX interrupts for DMA
-    SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Rx, DISABLE);
-    SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Tx, DISABLE);
-    SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_128;
-  }
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_32;
   SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
   SPI_InitStructure.SPI_CRCPolynomial = 7;
   SPI_Init(SPIx, &SPI_InitStructure);
-  
-  #ifdef SPI_USE_HARDWARE_CONTROL
-  SPI_SSOutputCmd(SPIx, ENABLE);      // Enable NSS output in master pulse mode
-  SPI_NSSPulseModeCmd(SPIx, ENABLE);
-  #endif
+    
+  // Enable SPI interrupts for DMA
+  SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Rx, ENABLE);
+  SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Tx, ENABLE);
   
   // Set FIFO threshold to
   SPI_RxFIFOThresholdConfig(SPIx, SPI_RxFIFOThreshold_QF);
@@ -179,6 +167,7 @@ void USART_config(void)
   // Declare USART initialization structure
   USART_InitTypeDef USART_InitStructure;
   
+  // Start USART clock
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
   
   // USART configuration
@@ -211,12 +200,12 @@ void DMA_config(void)
   // Declare DMA initialization structure
   DMA_InitTypeDef           DMA_InitStructure;
   
-  
-  
+  // Start SYSCFG clock
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
   SYSCFG_DMAChannelRemapConfig(SYSCFG_DMARemap_USART1Tx, ENABLE);
   SYSCFG_DMAChannelRemapConfig(SYSCFG_DMARemap_USART1Rx, ENABLE);
   
+  // Start DMA clock
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);
   
   // SPI RECEIVE CHANNEL -------------------------------------------------------

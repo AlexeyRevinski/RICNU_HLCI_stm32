@@ -12,6 +12,8 @@ extern uint8_t comm_str_1[COMM_STR_BUF_LEN];
 //==============================================================================
 void update_Manage(void)
 {
+  // Clear data register
+  while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_RXNE) == SET){SPI_ReceiveData8(SPIx);}
   // Start packet transmission sequence - drive chip select low
   GPIO_ResetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);
   // Start DMA transfer from memory to SPI->DR

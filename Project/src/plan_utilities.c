@@ -22,4 +22,36 @@ void set_tick(uint32_t us)
   NVIC_SetPriority(SysTick_IRQn, 0x0);
 }
 
+//==============================================================================
+// FUNCTION change_spi_mode()
+//      - Changes SPI configuration based on SPI mode requested
+//==============================================================================
+void change_spi_mode(spi_mode mode)
+{
+  // SPI mode for initializing the SD card in SPI mode
+  if(mode==SPI_MODE_SD_INIT)
+  {
+    SPI_Cmd(SPIx, DISABLE);
+    // Disable interactions with DMA
+    SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Rx, DISABLE);
+    SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Tx, DISABLE);
+    // SPI clock rate at 375kHz
+    SPIx->CR1 &= ~SPI_CR1_BR;                   //Clear baud rate prescaler bits
+    SPIx->CR1 |= SPI_BaudRatePrescaler_128;     //Set baud rate prescaler
+    SPI_Cmd(SPIx, ENABLE);
+  }
+  // SPI mode for communicating with Manage
+  if(mode==SPI_MODE_MANAGE)
+  {
+    SPI_Cmd(SPIx, DISABLE);
+    // Enable SPI interrupts for DMA
+    SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Rx, ENABLE);
+    SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Tx, ENABLE);
+    // SPI clock rate at 1.5MHz
+    SPIx->CR1 &= ~SPI_CR1_BR;                   //Clear baud rate prescaler bits
+    SPIx->CR1 |= SPI_BaudRatePrescaler_32;      //Set baud rate prescaler
+    SPI_Cmd(SPIx, ENABLE);
+  }
+}
+
 

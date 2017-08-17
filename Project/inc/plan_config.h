@@ -68,7 +68,6 @@
 #define GPIO_SPIx_SS_MN_PUPD            GPIO_PuPd_NOPULL
 #define GPIO_SPIx_SS_MN_SPEED           GPIO_Speed_Level_3
 
-
 // PA3  SPI Slave Select SD Card pin     // Output, 50Mhz, push-pull
 #define GPIO_SPIx_SS_SD_PORT            GPIOA
 #define GPIO_SPIx_SS_SD_PIN             GPIO_Pin_3
@@ -77,7 +76,6 @@
 #define GPIO_SPIx_SS_SD_OTYPE           GPIO_OType_PP
 #define GPIO_SPIx_SS_SD_PUPD            GPIO_PuPd_NOPULL
 #define GPIO_SPIx_SS_SD_SPEED           GPIO_Speed_Level_3
-
 
 // PA9 USART Tx pin                     //AF Output, push-pull, 50Mhz,
 #define GPIO_USARTx_TX_PORT             GPIOA
@@ -152,11 +150,6 @@
 #define USARTx_TDR_ADDRESS              0x40013828
 #define USARTx_RDR_ADDRESS              0x40013824
 
-typedef enum
-{
-  MODE_SD_SETUP = 0,
-  MODE_ACTIVE_CONTROL = 1,
-} spi_mode;
 
 // FUNCTION PROTOTYPES  ========================================================
 
@@ -165,7 +158,7 @@ void EXTI_config(void);
 void GPIO_config(void);
 void NVIC_config(void);
 void RTC_config(void);
-void SPI_config(spi_mode mode);
+void SPI_config(void);
 void USART_config(void);
 
 #endif //PLAN_CONFIG_H

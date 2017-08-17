@@ -127,6 +127,7 @@ void EXTI0_1_IRQHandler(void)
           SPI_SendData8(SPIx, 0xFF);
           /* Wait to receive a byte*/
           while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_RXNE) == RESET){;}
+          SPI_ReceiveData8(SPIx);
         }
         while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_BSY)== SET){;}
         GPIO_SetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN);
@@ -181,8 +182,8 @@ void DMA1_Channel2_3_IRQHandler(void)
   else if(DMA_GetITStatus(DMA1_IT_TC2))
   {
     // Stop packet transmission sequence - drive chip select high
-    GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);
     DMA_Cmd(SPIx_DMA_RX_CHANNEL, DISABLE);
+    GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);
     // Clear all channel 2 IT requests
     DMA_ClearITPendingBit(DMA1_IT_GL2);
   }

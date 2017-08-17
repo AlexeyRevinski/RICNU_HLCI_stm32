@@ -34,6 +34,7 @@ int main(void)
       if ((GPIO_EXTI_CD_PORT->IDR & GPIO_EXTI_CD_PIN))
       {
         // Move up to STATE_READING_MANIFEST
+        
         change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DETECTED);
       }
       else //Do nothing; wait for the card to be put in
@@ -59,7 +60,7 @@ int main(void)
       change_sys_state(&sys_state,EVENT_FSM_INITIALIZED);
       break;
     case STATE_ACTIVE_CONTROL:
-      SPI_config(MODE_ACTIVE_CONTROL);
+      change_spi_mode(SPI_MODE_MANAGE);
       while(sys_state==STATE_ACTIVE_CONTROL)
       {
         if (systick_update == 1)    // On SysTick update:
@@ -121,10 +122,13 @@ void initialize(void)
   LED_config();         // GPIOs - LEDs on the eval board (deprecate later)     //TODO
   GPIO_config();        // GPIOs - for SPI, USART, etc.
   NVIC_config();        // Nested Vector Interrupt Controller
-  EXTI_config();
+  EXTI_config();        // External Interrupt Controller
   DMA_config();         // Direct Memory Access Controller
-  SPI_config(MODE_SD_SETUP);// Serial Peripheral Interface Controller
+  SPI_config();         // Serial Peripheral Interface Controller
   USART_config();       // Universal Synch/Asynch Receiver/Transmitter
+  
+  // Prepare to initialize the SD Card
+  change_spi_mode(SPI_MODE_SD_INIT);
   
   // Configure system state machine update rate
   set_tick(SYSTICK);
