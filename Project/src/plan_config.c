@@ -144,10 +144,6 @@ void SPI_config(void)
   SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
   SPI_InitStructure.SPI_CRCPolynomial = 7;
   SPI_Init(SPIx, &SPI_InitStructure);
-    
-  // Enable SPI interrupts for DMA
-  SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Rx, ENABLE);
-  SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Tx, ENABLE);
   
   // Set FIFO threshold to
   SPI_RxFIFOThresholdConfig(SPIx, SPI_RxFIFOThreshold_QF);
@@ -200,16 +196,17 @@ void DMA_config(void)
   // Declare DMA initialization structure
   DMA_InitTypeDef           DMA_InitStructure;
   
-  // Start SYSCFG clock
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
-  SYSCFG_DMAChannelRemapConfig(SYSCFG_DMARemap_USART1Tx, ENABLE);
-  SYSCFG_DMAChannelRemapConfig(SYSCFG_DMARemap_USART1Rx, ENABLE);
-  
   // Start DMA clock
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);
   
-  // SPI RECEIVE CHANNEL -------------------------------------------------------
+  // Start SYSCFG clock
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+  // Remap USART1 Tx DMA requests from channel2 to channel4 (2 used by SPI RX)
+  SYSCFG_DMAChannelRemapConfig(SYSCFG_DMARemap_USART1Rx, ENABLE);
+  // Remap USART1 Rx DMA requests from channel3 to channel5 (3 used by SPI TX)
+  SYSCFG_DMAChannelRemapConfig(SYSCFG_DMARemap_USART1Tx, ENABLE);
   
+  // SPI RECEIVE CHANNEL -------------------------------------------------------
   DMA_DeInit(SPIx_DMA_RX_CHANNEL);
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPIx_DR_ADDRESS;
   DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)spi_rx_buffer;
@@ -224,11 +221,8 @@ void DMA_config(void)
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(SPIx_DMA_RX_CHANNEL, &DMA_InitStructure);
   DMA_ITConfig(SPIx_DMA_RX_CHANNEL, DMA_IT_TC, ENABLE);
-  //DMA_Cmd(SPIx_DMA_RX_CHANNEL, ENABLE);
-  
   
    // SPI TRANSMIT CHANNEL -----------------------------------------------------
-  
   DMA_DeInit(SPIx_DMA_TX_CHANNEL);
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPIx_DR_ADDRESS;
   DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)comm_str_1;
@@ -243,12 +237,9 @@ void DMA_config(void)
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(SPIx_DMA_TX_CHANNEL, &DMA_InitStructure);
   DMA_ITConfig(SPIx_DMA_TX_CHANNEL, DMA_IT_TC, ENABLE);
-  //DMA_Cmd(SPIx_DMA_TX_CHANNEL, ENABLE);     // Not enabled yet - only when ready
-  
   
   // USART RECEIVE CHANNEL -----------------------------------------------------
-  
-  DMA_DeInit(USARTx_DMA_RX_CHANNEL);    // Alternate channel
+  DMA_DeInit(USARTx_DMA_RX_CHANNEL); 
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)USARTx_RDR_ADDRESS;
   DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)usart_rx_buffer;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
@@ -262,12 +253,9 @@ void DMA_config(void)
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(USARTx_DMA_RX_CHANNEL, &DMA_InitStructure);
   DMA_ITConfig(USARTx_DMA_RX_CHANNEL, DMA_IT_TC, ENABLE);
-  //DMA_Cmd(USARTx_DMA_RX_CHANNEL, ENABLE);
-  
   
   // USART TRANSMIT CHANNEL ----------------------------------------------------
-
-  DMA_DeInit(USARTx_DMA_TX_CHANNEL);    // Alternate channel
+  DMA_DeInit(USARTx_DMA_TX_CHANNEL);
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)USARTx_TDR_ADDRESS;
   DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)usart_tx_buffer;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
@@ -280,9 +268,7 @@ void DMA_config(void)
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(USARTx_DMA_TX_CHANNEL, &DMA_InitStructure);
-  DMA_ITConfig(USARTx_DMA_TX_CHANNEL, DMA_IT_TC, ENABLE);
-  //DMA_Cmd(USARTx_DMA_TX_CHANNEL, ENABLE);     // Not enabled yet - only when ready
-  
+  DMA_ITConfig(USARTx_DMA_TX_CHANNEL, DMA_IT_TC, ENABLE); 
 }
 
 
@@ -314,7 +300,7 @@ void NVIC_config(void)
   NVIC_Init(&NVIC_InitStructure);
   
   // Configure EXTI0 Interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = EXTI0_1_IRQn ;
+  NVIC_InitStructure.NVIC_IRQChannel = EXTI_UB_IRQn ;
   NVIC_InitStructure.NVIC_IRQChannelPriority = 0x00;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
@@ -350,8 +336,8 @@ void EXTI_config(void)
   EXTI_Init(&EXTI_InitStructure);
   
   // Configure EXTI line
-  SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA,EXTI_PinSource0);
-  EXTI_InitStructure.EXTI_Line = EXTI_Line0;
+  SYSCFG_EXTILineConfig(EXTI_UB_PORT_SOURCE,EXTI_UB_PIN_SOURCE);
+  EXTI_InitStructure.EXTI_Line = EXTI_UB_LINE;
   EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
   EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
   EXTI_InitStructure.EXTI_LineCmd = ENABLE;

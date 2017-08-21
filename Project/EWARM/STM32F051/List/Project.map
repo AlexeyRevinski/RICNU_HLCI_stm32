@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V7.80.4.12462/W32 for ARM                17/Aug/2017  14:18:17
+# IAR ELF Linker V7.80.4.12462/W32 for ARM                21/Aug/2017  10:15:58
 # Copyright 2007-2017 IAR Systems AB.
 #
 #    Output file  =  
@@ -90,103 +90,111 @@ initialize by copy { rw };
   .intvec            ro code  0x08000000    0xc0  startup_stm32f051.o [1]
                             - 0x080000c0    0xc0
 
-"P1":                                     0x1974
-  .text              ro code  0x080000c0   0x3ee  plan_config.o [1]
-  .text              ro code  0x080004ae     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x080004b0   0x1c4  stm32f0xx_rcc.o [1]
-  .text              ro code  0x08000674    0x94  stm32f0xx_gpio.o [1]
-  .text              ro code  0x08000708    0xea  stm32f0xx_spi.o [1]
-  .text              ro code  0x080007f2     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x080007f4    0xea  stm32f0xx_usart.o [1]
-  .text              ro code  0x080008de     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x080008e0    0x44  stm32f0xx_syscfg.o [1]
-  .text              ro code  0x08000924   0x15c  stm32f0xx_dma.o [1]
-  .text              ro code  0x08000a80    0x54  stm32f0xx_misc.o [1]
-  .text              ro code  0x08000ad4    0x88  stm32f0xx_exti.o [1]
-  .text              ro code  0x08000b5c    0xae  I32DivModFast.o [4]
-  .text              ro code  0x08000c0a     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08000c0c     0x2  IntDivZer.o [4]
-  .text              ro code  0x08000c0e     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08000c10   0x2e0  cmd-RICNU_Knee_v1.o [1]
-  .text              ro code  0x08000ef0    0x72  flexsea.o [1]
-  .text              ro code  0x08000f62     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08000f64   0x10c  flexsea_system.o [1]
-  .text              ro code  0x08001070    0x20  flexsea_cmd_user.o [1]
-  .text              ro code  0x08001090    0x10  flexsea_board.o [1]
-  .text              ro code  0x080010a0    0x16  flexsea_payload.o [1]
-  .text              ro code  0x080010b6     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x080010b8    0x5c  ABImemcpy.o [4]
-  .text              ro code  0x08001114    0xac  flexsea_comm.o [1]
-  .text              ro code  0x080011c0    0x54  ABImemset.o [4]
-  .text              ro code  0x08001214   0x1a0  stm32f0xx_it.o [1]
-  .text              ro code  0x080013b4    0x54  plan_state_system.o [1]
-  .text              ro code  0x08001408   0x164  main.o [1]
-  .text              ro code  0x0800156c   0x110  plan_utilities.o [1]
-  .text              ro code  0x0800167c   0x118  plan_comm.o [1]
-  .text              ro code  0x08001794    0x2c  plan_led.o [1]
-  .text              ro code  0x080017c0    0xf0  system_stm32f0xx.o [1]
-  .text              ro code  0x080018b0    0x3c  startup_stm32f051.o [1]
-  .text              ro code  0x080018ec    0x3c  zero_init3.o [4]
-  .text              ro code  0x08001928    0x30  copy_init3.o [4]
-  .text              ro code  0x08001958    0x28  data_init.o [4]
-  .iar.init_table    const    0x08001980    0x24  - Linker created -
-  .text              ro code  0x080019a4    0x1a  cmain.o [4]
-  .text              ro code  0x080019be     0x4  low_level_init.o [3]
-  .text              ro code  0x080019c2     0x8  exit.o [3]
-  .text              ro code  0x080019ca     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x080019cc     0xa  cexit.o [4]
-  .text              ro code  0x080019d6     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x080019d8    0x14  exit.o [5]
-  Initializer bytes  const    0x080019ec    0x1c  <for P2-1>
-  .text              ro code  0x08001a08     0xc  cstartup_M.o [4]
-  .text              ro code  0x08001a14     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a16     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a18     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a1a     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a1c     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a1e     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a20     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a22     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a24     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a26     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a28     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a2a     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a2c     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a2e     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a30     0x2  startup_stm32f051.o [1]
-  .text              ro code  0x08001a32     0x2  startup_stm32f051.o [1]
-  .rodata            const    0x08001a34     0x0  zero_init3.o [4]
-  .rodata            const    0x08001a34     0x0  copy_init3.o [4]
-                            - 0x08001a34  0x1974
+"P1":                                     0x252e
+  .text              ro code  0x080000c0   0x51c  plan_config.o [1]
+  .text              ro code  0x080005dc   0x2d8  stm32f0xx_rcc.o [1]
+  .text              ro code  0x080008b4   0x130  stm32f0xx_gpio.o [1]
+  .text              ro code  0x080009e4   0x12e  stm32f0xx_spi.o [1]
+  .text              ro code  0x08000b12     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x08000b14   0x134  stm32f0xx_usart.o [1]
+  .text              ro code  0x08000c48    0x80  stm32f0xx_syscfg.o [1]
+  .text              ro code  0x08000cc8   0x218  stm32f0xx_dma.o [1]
+  .text              ro code  0x08000ee0    0x78  stm32f0xx_misc.o [1]
+  .text              ro code  0x08000f58    0xc4  stm32f0xx_exti.o [1]
+  .text              ro code  0x0800101c    0xae  I32DivModFast.o [4]
+  .text              ro code  0x080010ca     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080010cc     0x2  IntDivZer.o [4]
+  .text              ro code  0x080010ce     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080010d0   0x428  cmd-RICNU_Knee_v1.o [1]
+  .text              ro code  0x080014f8    0xa2  flexsea.o [1]
+  .text              ro code  0x0800159a     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x0800159c   0x1a0  flexsea_system.o [1]
+  .text              ro code  0x0800173c    0x2c  flexsea_cmd_user.o [1]
+  .text              ro code  0x08001768    0x10  flexsea_board.o [1]
+  .text              ro code  0x08001778    0x1e  flexsea_payload.o [1]
+  .text              ro code  0x08001796     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x08001798    0x5c  ABImemcpy.o [4]
+  .text              ro code  0x080017f4   0x124  flexsea_comm.o [1]
+  .text              ro code  0x08001918    0x54  ABImemset.o [4]
+  .text              ro code  0x0800196c   0x296  plan_sd.o [1]
+  .text              ro code  0x08001c02     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x08001c04   0x190  plan_utilities.o [1]
+  .text              ro code  0x08001d94   0x1c8  main.o [1]
+  .text              ro code  0x08001f5c    0x68  plan_state_system.o [1]
+  .text              ro code  0x08001fc4   0x16c  plan_comm.o [1]
+  .text              ro code  0x08002130    0x3c  plan_led.o [1]
+  .text              ro code  0x0800216c   0x174  stm32f0xx_it.o [1]
+  .text              ro code  0x080022e0   0x160  system_stm32f0xx.o [1]
+  .text              ro code  0x08002440    0x3c  startup_stm32f051.o [1]
+  .text              ro code  0x0800247c    0x3c  zero_init3.o [4]
+  .text              ro code  0x080024b8    0x30  copy_init3.o [4]
+  .rodata            const    0x080024e8    0x2c  plan_state_system.o [1]
+  .text              ro code  0x08002514    0x28  data_init.o [4]
+  .iar.init_table    const    0x0800253c    0x24  - Linker created -
+  .text              ro code  0x08002560    0x1a  cmain.o [4]
+  .text              ro code  0x0800257a     0x4  low_level_init.o [3]
+  .text              ro code  0x0800257e     0x8  exit.o [3]
+  .text              ro code  0x08002586     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x08002588     0xa  cexit.o [4]
+  .text              ro code  0x08002592     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x08002594    0x14  exit.o [5]
+  Initializer bytes  const    0x080025a8    0x18  <for P2-1>
+  .text              ro code  0x080025c0     0xc  cstartup_M.o [4]
+  .text              ro code  0x080025cc     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025ce     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025d0     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025d2     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025d4     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025d6     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025d8     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025da     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025dc     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025de     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025e0     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025e2     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025e4     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025e6     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025e8     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025ea     0x2  startup_stm32f051.o [1]
+  .text              ro code  0x080025ec     0x2  startup_stm32f051.o [1]
+  .rodata            const    0x080025ee     0x0  zero_init3.o [4]
+  .rodata            const    0x080025ee     0x0  copy_init3.o [4]
+                            - 0x080025ee  0x252e
 
-"P2", part 1 of 3:                          0x1c
-  P2-1                        0x20000000    0x19  <Init block>
-    .data            inited   0x20000000     0x8  main.o [1]
-    .data            inited   0x20000008    0x10  stm32f0xx_rcc.o [1]
-    .data            inited   0x20000018     0x1  flexsea_board.o [1]
-                            - 0x20000019    0x19
+"P2", part 1 of 3:                          0x18
+  P2-1                        0x20000000    0x16  <Init block>
+    .data            inited   0x20000000     0x4  plan_state_system.o [1]
+    .data            inited   0x20000004    0x10  stm32f0xx_rcc.o [1]
+    .data            inited   0x20000014     0x1  flexsea_board.o [1]
+    .data            inited   0x20000015     0x1  main.o [1]
+                            - 0x20000016    0x16
 
 "P2", part 2 of 3:                         0x400
-  CSTACK                      0x20000020   0x400  <Block>
-    CSTACK           uninit   0x20000020   0x400  <Block tail>
-                            - 0x20000420   0x400
+  CSTACK                      0x20000018   0x400  <Block>
+    CSTACK           uninit   0x20000018   0x400  <Block tail>
+                            - 0x20000418   0x400
 
-"P2", part 3 of 3:                        0x1118
-  .bss               zero     0x20000420   0x9f0  flexsea_comm.o [1]
-  .bss               zero     0x20000e10   0x5f4  flexsea.o [1]
-  .bss               zero     0x20001404    0x34  flexsea_global_structs.o [1]
-  .bss               zero     0x20001438    0x30  flexsea_comm.o [1]
-  .bss               zero     0x20001468    0x30  flexsea_system.o [1]
-  .bss               zero     0x20001498    0x30  main.o [1]
-  .bss               zero     0x200014c8    0x24  flexsea_system.o [1]
-  .bss               zero     0x200014ec    0x20  flexsea_global_structs.o [1]
-  .bss               zero     0x2000150c    0x1c  main.o [1]
-  .bss               zero     0x20001528     0x8  flexsea_comm.o [1]
-  .bss               zero     0x20001530     0x2  flexsea_system.o [1]
-  .bss               zero     0x20001532     0x2  main.o [1]
-  .bss               zero     0x20001534     0x1  flexsea_system.o [1]
-  .bss               zero     0x20001535     0x1  flexsea_system.o [1]
-                            - 0x20001536  0x1116
+"P2", part 3 of 3:                        0x150c
+  .bss               zero     0x20000418   0x9f0  flexsea_comm.o [1]
+  .bss               zero     0x20000e08   0x5f4  flexsea.o [1]
+  .bss               zero     0x200013fc    0x34  flexsea_global_structs.o [1]
+  .bss               zero     0x20001430   0x3e8  flexsea_global_structs.o [1]
+  .bss               zero     0x20001818    0x30  flexsea_comm.o [1]
+  .bss               zero     0x20001848    0x30  flexsea_system.o [1]
+  .bss               zero     0x20001878    0x30  main.o [1]
+  .bss               zero     0x200018a8    0x24  flexsea_system.o [1]
+  .bss               zero     0x200018cc    0x20  flexsea_global_structs.o [1]
+  .bss               zero     0x200018ec    0x1c  main.o [1]
+  .bss               zero     0x20001908     0x8  flexsea_comm.o [1]
+  .bss               zero     0x20001910     0x4  main.o [1]
+  .bss               zero     0x20001914     0x4  plan_state_system.o [1]
+  .bss               zero     0x20001918     0x2  flexsea_system.o [1]
+  .bss               zero     0x2000191a     0x2  main.o [1]
+  .bss               zero     0x2000191c     0x2  main.o [1]
+  .bss               zero     0x2000191e     0x1  flexsea_system.o [1]
+  .bss               zero     0x2000191f     0x1  flexsea_system.o [1]
+  .bss               zero     0x20001920     0x1  main.o [1]
+                            - 0x20001921  0x1509
 
 
 *******************************************************************************
@@ -196,14 +204,14 @@ initialize by copy { rw };
           Address     Size
           -------     ----
 Zero (__iar_zero_init3)
-    1 destination range, total size 0x1116:
-          0x20000420  0x1116
+    1 destination range, total size 0x1509:
+          0x20000418  0x1509
 
 Copy (__iar_copy_init3)
-    1 source range, total size 0x1c (112% of destination):
-          0x080019ec    0x1c
-    1 destination range, total size 0x19:
-          0x20000000    0x19
+    1 source range, total size 0x18 (109% of destination):
+          0x080025a8    0x18
+    1 destination range, total size 0x16:
+          0x20000000    0x16
 
 
 
@@ -214,33 +222,34 @@ Copy (__iar_copy_init3)
     Module                    ro code  ro data  rw data
     ------                    -------  -------  -------
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj: [1]
-    cmd-RICNU_Knee_v1.o           736
-    flexsea.o                     114             1 524
+    cmd-RICNU_Knee_v1.o         1 064
+    flexsea.o                     162             1 524
     flexsea_board.o                16        1        1
-    flexsea_cmd_user.o             32
-    flexsea_comm.o                172             2 600
-    flexsea_global_structs.o                         84
-    flexsea_payload.o              22
-    flexsea_system.o              268                88
-    main.o                        356        8       86
-    plan_comm.o                   280
-    plan_config.o               1 006
-    plan_led.o                     44
-    plan_state_system.o            84
-    plan_utilities.o              272
+    flexsea_cmd_user.o             44
+    flexsea_comm.o                292             2 600
+    flexsea_global_structs.o                      1 084
+    flexsea_payload.o              30
+    flexsea_system.o              416                88
+    main.o                        456        1       86
+    plan_comm.o                   364
+    plan_config.o               1 308
+    plan_led.o                     60
+    plan_sd.o                     662
+    plan_state_system.o           104       48        8
+    plan_utilities.o              400
     startup_stm32f051.o           302
-    stm32f0xx_dma.o               348
-    stm32f0xx_exti.o              136
-    stm32f0xx_gpio.o              148
-    stm32f0xx_it.o                416
-    stm32f0xx_misc.o               84
-    stm32f0xx_rcc.o               452       16       16
-    stm32f0xx_spi.o               234
-    stm32f0xx_syscfg.o             68
-    stm32f0xx_usart.o             234
-    system_stm32f0xx.o            240
+    stm32f0xx_dma.o               536
+    stm32f0xx_exti.o              196
+    stm32f0xx_gpio.o              304
+    stm32f0xx_it.o                372
+    stm32f0xx_misc.o              120
+    stm32f0xx_rcc.o               728       16       16
+    stm32f0xx_spi.o               302
+    stm32f0xx_syscfg.o            128
+    stm32f0xx_usart.o             308
+    system_stm32f0xx.o            352
     ---------------------------------------------------
-    Total:                      6 064       25    4 399
+    Total:                      9 026       66    5 407
 
 command line: [2]
     ---------------------------------------------------
@@ -271,9 +280,9 @@ shb_l.a: [5]
     ---------------------------------------------------
     Total:                         20
 
-    Linker created                          39    1 024
+    Linker created                          38    1 024
 -------------------------------------------------------
-    Grand Total:                6 644       64    5 423
+    Grand Total:                9 606      104    6 431
 
 
 *******************************************************************************
@@ -282,149 +291,159 @@ shb_l.a: [5]
 
 Entry                      Address   Size  Type      Object
 -----                      -------   ----  ----      ------
-.iar.init_table$$Base   0x08001980          --   Gb  - Linker created -
-.iar.init_table$$Limit  0x080019a4          --   Gb  - Linker created -
-?main                   0x080019a5         Code  Gb  cmain.o [4]
-APBAHBPrescTable        0x20000008   0x10  Data  Lc  stm32f0xx_rcc.o [1]
-CSTACK$$Base            0x20000020          --   Gb  - Linker created -
-CSTACK$$Limit           0x20000420          --   Gb  - Linker created -
+.iar.init_table$$Base   0x0800253c          --   Gb  - Linker created -
+.iar.init_table$$Limit  0x08002560          --   Gb  - Linker created -
+?main                   0x08002561         Code  Gb  cmain.o [4]
+APBAHBPrescTable        0x20000004   0x10  Data  Lc  stm32f0xx_rcc.o [1]
+CSTACK$$Base            0x20000018          --   Gb  - Linker created -
+CSTACK$$Limit           0x20000418          --   Gb  - Linker created -
 DMA1_Channel2_3_IRQHandler
-                        0x0800130f   0x40  Code  Gb  stm32f0xx_it.o [1]
+                        0x08002237   0x44  Code  Gb  stm32f0xx_it.o [1]
 DMA1_Channel4_5_IRQHandler
-                        0x0800134f   0x3a  Code  Gb  stm32f0xx_it.o [1]
-DMA_ClearITPendingBit   0x08000a39    0x2  Code  Gb  stm32f0xx_dma.o [1]
-DMA_Cmd                 0x080009f9   0x14  Code  Gb  stm32f0xx_dma.o [1]
-DMA_DeInit              0x08000925   0x9e  Code  Gb  stm32f0xx_dma.o [1]
-DMA_GetITStatus         0x08000a1f    0x2  Code  Gb  stm32f0xx_dma.o [1]
-DMA_ITConfig            0x08000a0d   0x12  Code  Gb  stm32f0xx_dma.o [1]
-DMA_Init                0x080009c3   0x36  Code  Gb  stm32f0xx_dma.o [1]
-DMA_config              0x080002ed  0x104  Code  Gb  plan_config.o [1]
-EXTI0_1_IRQHandler      0x08001237   0xa0  Code  Gb  stm32f0xx_it.o [1]
-EXTI2_3_IRQHandler      0x080012d7   0x38  Code  Gb  stm32f0xx_it.o [1]
-EXTI_ClearITPendingBit  0x08000b4d    0x6  Code  Gb  stm32f0xx_exti.o [1]
-EXTI_GetITStatus        0x08000b3b    0x2  Code  Gb  stm32f0xx_exti.o [1]
-EXTI_Init               0x08000ad5   0x66  Code  Gb  stm32f0xx_exti.o [1]
-EXTI_config             0x0800046b   0x44  Code  Gb  plan_config.o [1]
-GPIO_Init               0x08000675   0x6a  Code  Gb  stm32f0xx_gpio.o [1]
-GPIO_PinAFConfig        0x080006e7   0x22  Code  Gb  stm32f0xx_gpio.o [1]
-GPIO_ResetBits          0x080006e3    0x4  Code  Gb  stm32f0xx_gpio.o [1]
-GPIO_SetBits            0x080006df    0x4  Code  Gb  stm32f0xx_gpio.o [1]
-GPIO_ToggleBits         0x080015a1    0x8  Code  Gb  plan_utilities.o [1]
-GPIO_config             0x080000c1  0x176  Code  Gb  plan_config.o [1]
-HardFault_Handler       0x08001217    0x2  Code  Gb  stm32f0xx_it.o [1]
-LED_config              0x08001795   0x2c  Code  Gb  plan_led.o [1]
-LED_err_count           0x20000004    0x4  Data  Gb  main.o [1]
-NMI_Handler             0x08001215    0x2  Code  Gb  stm32f0xx_it.o [1]
-NVIC_Init               0x08000a81   0x48  Code  Gb  stm32f0xx_misc.o [1]
-NVIC_SetPriority        0x0800156d   0x34  Code  Lc  plan_utilities.o [1]
-NVIC_config             0x08000425   0x44  Code  Gb  plan_config.o [1]
-PendSV_Handler          0x0800121b    0x2  Code  Gb  stm32f0xx_it.o [1]
-RCC_AHBPeriphClockCmd   0x08000601   0x14  Code  Gb  stm32f0xx_rcc.o [1]
-RCC_APB1PeriphResetCmd  0x0800063d   0x14  Code  Gb  stm32f0xx_rcc.o [1]
-RCC_APB2PeriphClockCmd  0x08000615   0x14  Code  Gb  stm32f0xx_rcc.o [1]
-RCC_APB2PeriphResetCmd  0x08000629   0x14  Code  Gb  stm32f0xx_rcc.o [1]
-RCC_GetClocksFreq       0x080004b1  0x14a  Code  Gb  stm32f0xx_rcc.o [1]
-REBUILD_UINT16          0x08000f09   0x14  Code  Gb  flexsea.o [1]
-REBUILD_UINT32          0x08000f43   0x20  Code  Gb  flexsea.o [1]
-RTC_config              0x08000469    0x2  Code  Gb  plan_config.o [1]
-Region$$Table$$Base     0x08001980          --   Gb  - Linker created -
-Region$$Table$$Limit    0x080019a4          --   Gb  - Linker created -
-SPI_Cmd                 0x08000787   0x14  Code  Gb  stm32f0xx_spi.o [1]
-SPI_I2S_DMACmd          0x080007c9    0xe  Code  Gb  stm32f0xx_spi.o [1]
-SPI_I2S_DeInit          0x08000709   0x36  Code  Gb  stm32f0xx_spi.o [1]
-SPI_I2S_GetFlagStatus   0x080007e5    0xe  Code  Gb  stm32f0xx_spi.o [1]
-SPI_Init                0x0800073f   0x48  Code  Gb  stm32f0xx_spi.o [1]
-SPI_ReceiveData8        0x080007a7    0x6  Code  Gb  stm32f0xx_spi.o [1]
+                        0x0800227b   0x3e  Code  Gb  stm32f0xx_it.o [1]
+DMA_ClearITPendingBit   0x08000e85   0x12  Code  Gb  stm32f0xx_dma.o [1]
+DMA_Cmd                 0x08000e25   0x1c  Code  Gb  stm32f0xx_dma.o [1]
+DMA_DeInit              0x08000cc9  0x11a  Code  Gb  stm32f0xx_dma.o [1]
+DMA_GetITStatus         0x08000e59   0x2c  Code  Gb  stm32f0xx_dma.o [1]
+DMA_ITConfig            0x08000e41   0x18  Code  Gb  stm32f0xx_dma.o [1]
+DMA_Init                0x08000de3   0x42  Code  Gb  stm32f0xx_dma.o [1]
+DMA_config              0x080003a7  0x144  Code  Gb  plan_config.o [1]
+EXTI0_1_IRQHandler      0x0800219d   0x58  Code  Gb  stm32f0xx_it.o [1]
+EXTI2_3_IRQHandler      0x080021f5   0x42  Code  Gb  stm32f0xx_it.o [1]
+EXTI_ClearITPendingBit  0x08001001    0x6  Code  Gb  stm32f0xx_exti.o [1]
+EXTI_GetITStatus        0x08000fe3   0x1e  Code  Gb  stm32f0xx_exti.o [1]
+EXTI_Init               0x08000f59   0x8a  Code  Gb  stm32f0xx_exti.o [1]
+EXTI_config             0x08000587   0x56  Code  Gb  plan_config.o [1]
+GPIO_Init               0x080008b5   0xbe  Code  Gb  stm32f0xx_gpio.o [1]
+GPIO_PinAFConfig        0x0800097d   0x68  Code  Gb  stm32f0xx_gpio.o [1]
+GPIO_ResetBits          0x08000979    0x4  Code  Gb  stm32f0xx_gpio.o [1]
+GPIO_SetBits            0x08000973    0x6  Code  Gb  stm32f0xx_gpio.o [1]
+GPIO_ToggleBits         0x08001cbb    0x8  Code  Gb  plan_utilities.o [1]
+GPIO_config             0x080000c1  0x228  Code  Gb  plan_config.o [1]
+HardFault_Handler       0x0800216f    0x4  Code  Gb  stm32f0xx_it.o [1]
+LED_config              0x08002131   0x3c  Code  Gb  plan_led.o [1]
+LED_err_count           0x20001910    0x4  Data  Gb  main.o [1]
+NMI_Handler             0x0800216d    0x2  Code  Gb  stm32f0xx_it.o [1]
+NVIC_Init               0x08000ee1   0x6a  Code  Gb  stm32f0xx_misc.o [1]
+NVIC_SetPriority        0x08001c05   0x84  Code  Lc  plan_utilities.o [1]
+NVIC_config             0x08000521   0x64  Code  Gb  plan_config.o [1]
+PendSV_Handler          0x08002175    0x2  Code  Gb  stm32f0xx_it.o [1]
+RCC_AHBPeriphClockCmd   0x08000805   0x20  Code  Gb  stm32f0xx_rcc.o [1]
+RCC_APB1PeriphResetCmd  0x08000875   0x20  Code  Gb  stm32f0xx_rcc.o [1]
+RCC_APB2PeriphClockCmd  0x08000825   0x20  Code  Gb  stm32f0xx_rcc.o [1]
+RCC_APB2PeriphResetCmd  0x08000851   0x20  Code  Gb  stm32f0xx_rcc.o [1]
+RCC_GetClocksFreq       0x080005dd  0x222  Code  Gb  stm32f0xx_rcc.o [1]
+REBUILD_UINT16          0x08001519   0x22  Code  Gb  flexsea.o [1]
+REBUILD_UINT32          0x08001567   0x34  Code  Gb  flexsea.o [1]
+RTC_config              0x08000585    0x2  Code  Gb  plan_config.o [1]
+Region$$Table$$Base     0x0800253c          --   Gb  - Linker created -
+Region$$Table$$Limit    0x08002560          --   Gb  - Linker created -
+SD_Init                 0x0800196d  0x15c  Code  Gb  plan_sd.o [1]
+SD_SendCmd              0x08001ac9   0xda  Code  Gb  plan_sd.o [1]
+SPI_Cmd                 0x08000a81   0x1c  Code  Gb  stm32f0xx_spi.o [1]
+SPI_I2S_DMACmd          0x08000acd   0x18  Code  Gb  stm32f0xx_spi.o [1]
+SPI_I2S_DeInit          0x080009e5   0x3c  Code  Gb  stm32f0xx_spi.o [1]
+SPI_I2S_GetFlagStatus   0x08000af9   0x1a  Code  Gb  stm32f0xx_spi.o [1]
+SPI_Init                0x08000a21   0x60  Code  Gb  stm32f0xx_spi.o [1]
+SPI_ReadByte            0x08001bf1   0x12  Code  Gb  plan_sd.o [1]
+SPI_ReceiveData8        0x08000ab7    0xc  Code  Gb  stm32f0xx_spi.o [1]
 SPI_RxFIFOThresholdConfig
-                        0x0800079b    0x6  Code  Gb  stm32f0xx_spi.o [1]
-SPI_SendData8           0x080007a1    0x6  Code  Gb  stm32f0xx_spi.o [1]
-SPI_config              0x08000237   0x6c  Code  Gb  plan_config.o [1]
-SPLIT_16                0x08000ef3   0x16  Code  Gb  flexsea.o [1]
-SPLIT_32                0x08000f1d   0x26  Code  Gb  flexsea.o [1]
-SVC_Handler             0x08001219    0x2  Code  Gb  stm32f0xx_it.o [1]
+                        0x08000a9d   0x10  Code  Gb  stm32f0xx_spi.o [1]
+SPI_SendData8           0x08000aad    0xa  Code  Gb  stm32f0xx_spi.o [1]
+SPI_WriteByte           0x08001ba3   0x36  Code  Gb  plan_sd.o [1]
+SPI_config              0x080002e9   0x6e  Code  Gb  plan_config.o [1]
+SPLIT_16                0x080014fb   0x1e  Code  Gb  flexsea.o [1]
+SPLIT_32                0x0800153b   0x2c  Code  Gb  flexsea.o [1]
+SVC_Handler             0x08002173    0x2  Code  Gb  stm32f0xx_it.o [1]
 SYSCFG_DMAChannelRemapConfig
-                        0x080008e1   0x14  Code  Gb  stm32f0xx_syscfg.o [1]
-SYSCFG_EXTILineConfig   0x080008f5   0x28  Code  Gb  stm32f0xx_syscfg.o [1]
-SysTick_Handler         0x0800121d   0x1a  Code  Gb  stm32f0xx_it.o [1]
-SystemInit              0x080017c1   0xd0  Code  Gb  system_stm32f0xx.o [1]
-USART_Cmd               0x08000891   0x16  Code  Gb  stm32f0xx_usart.o [1]
-USART_DMACmd            0x080008d1    0xe  Code  Gb  stm32f0xx_usart.o [1]
-USART_Init              0x080007f5   0x9c  Code  Gb  stm32f0xx_usart.o [1]
-USART_config            0x080002a3   0x4a  Code  Gb  plan_config.o [1]
+                        0x08000c49   0x20  Code  Gb  stm32f0xx_syscfg.o [1]
+SYSCFG_EXTILineConfig   0x08000c69   0x58  Code  Gb  stm32f0xx_syscfg.o [1]
+SetSysClock             0x0800234f   0xbe  Code  Lc  system_stm32f0xx.o [1]
+SysTick_Config          0x08001c89   0x32  Code  Lc  plan_utilities.o [1]
+SysTick_Handler         0x08002177   0x26  Code  Gb  stm32f0xx_it.o [1]
+SystemInit              0x080022e1   0x6e  Code  Gb  system_stm32f0xx.o [1]
+USART_Cmd               0x08000bf9   0x1c  Code  Gb  stm32f0xx_usart.o [1]
+USART_DMACmd            0x08000c31   0x18  Code  Gb  stm32f0xx_usart.o [1]
+USART_Init              0x08000b15   0xe4  Code  Gb  stm32f0xx_usart.o [1]
+USART_config            0x08000357   0x50  Code  Gb  plan_config.o [1]
 __ICFEDIT_region_RAM_end__ {Abs}
                         0x20001fff         Data  Gb  command line/config [2]
 __ICFEDIT_region_RAM_start__ {Abs}
                         0x20000000         Data  Gb  command line/config [2]
-__aeabi_idiv0           0x08000c0d         Code  Gb  IntDivZer.o [4]
-__aeabi_memclr          0x08001211         Code  Gb  ABImemset.o [4]
-__aeabi_memcpy          0x080010b9         Code  Gb  ABImemcpy.o [4]
-__aeabi_memset          0x080011c1         Code  Gb  ABImemset.o [4]
-__aeabi_uidiv           0x08000b5d         Code  Gb  I32DivModFast.o [4]
-__aeabi_uidivmod        0x08000b5d         Code  Gb  I32DivModFast.o [4]
-__cmain                 0x080019a5         Code  Gb  cmain.o [4]
-__exit                  0x080019d9   0x14  Code  Gb  exit.o [5]
-__iar_Memset4_word      0x080011e1         Code  Gb  ABImemset.o [4]
-__iar_Memset_word       0x080011cd         Code  Gb  ABImemset.o [4]
-__iar_copy_init3        0x08001929   0x30  Code  Gb  copy_init3.o [4]
-__iar_data_init3        0x08001959   0x28  Code  Gb  data_init.o [4]
-__iar_program_start     0x08001a09         Code  Gb  cstartup_M.o [4]
-__iar_zero_init3        0x080018ed   0x3c  Code  Gb  zero_init3.o [4]
-__low_level_init        0x080019bf    0x4  Code  Gb  low_level_init.o [3]
+__aeabi_idiv0           0x080010cd         Code  Gb  IntDivZer.o [4]
+__aeabi_memclr4         0x08001969         Code  Gb  ABImemset.o [4]
+__aeabi_memclr8         0x08001969         Code  Gb  ABImemset.o [4]
+__aeabi_memcpy          0x08001799         Code  Gb  ABImemcpy.o [4]
+__aeabi_memset          0x08001919         Code  Gb  ABImemset.o [4]
+__aeabi_uidiv           0x0800101d         Code  Gb  I32DivModFast.o [4]
+__aeabi_uidivmod        0x0800101d         Code  Gb  I32DivModFast.o [4]
+__cmain                 0x08002561         Code  Gb  cmain.o [4]
+__exit                  0x08002595   0x14  Code  Gb  exit.o [5]
+__iar_Memset4_word      0x08001939         Code  Gb  ABImemset.o [4]
+__iar_Memset_word       0x08001925         Code  Gb  ABImemset.o [4]
+__iar_copy_init3        0x080024b9   0x30  Code  Gb  copy_init3.o [4]
+__iar_data_init3        0x08002515   0x28  Code  Gb  data_init.o [4]
+__iar_program_start     0x080025c1         Code  Gb  cstartup_M.o [4]
+__iar_zero_init3        0x0800247d   0x3c  Code  Gb  zero_init3.o [4]
+__low_level_init        0x0800257b    0x4  Code  Gb  low_level_init.o [3]
 __vector_table          0x08000000         Data  Gb  startup_stm32f051.o [1]
-_call_main              0x080019b1         Code  Gb  cmain.o [4]
-_exit                   0x080019cd         Code  Gb  cexit.o [4]
-_main                   0x080019bb         Code  Gb  cmain.o [4]
-batt1                   0x200014ec   0x20  Data  Gb  flexsea_global_structs.o [1]
-board_id                0x20000018    0x1  Data  Gb  flexsea_board.o [1]
-change_spi_mode         0x080015ed   0x76  Code  Gb  plan_utilities.o [1]
-change_sys_state        0x080013b5   0x28  Code  Gb  plan_state_system.o [1]
-cmdCode                 0x20001534    0x1  Data  Gb  flexsea_system.o [1]
-cmdLen                  0x20001530    0x2  Data  Gb  flexsea_system.o [1]
-cmdType                 0x20001535    0x1  Data  Gb  flexsea_system.o [1]
-commSpy1                0x20001528    0x8  Data  Gb  flexsea_comm.o [1]
-comm_gen_str            0x08001115   0xa8  Code  Gb  flexsea_comm.o [1]
-comm_str_1              0x20001438   0x30  Data  Gb  flexsea_comm.o [1]
-exit                    0x080019c3    0x8  Code  Gb  exit.o [3]
-flexsea_error           0x08000ef1    0x2  Code  Gb  flexsea.o [1]
+_call_main              0x0800256d         Code  Gb  cmain.o [4]
+_exit                   0x08002589         Code  Gb  cexit.o [4]
+_main                   0x08002577         Code  Gb  cmain.o [4]
+batt1                   0x200018cc   0x20  Data  Gb  flexsea_global_structs.o [1]
+board_id                0x20000014    0x1  Data  Gb  flexsea_board.o [1]
+change_spi_mode         0x08001ceb   0x8a  Code  Gb  plan_utilities.o [1]
+change_sys_state        0x08001f5d   0x68  Code  Gb  plan_state_system.o [1]
+change_sys_state::i     0x20001914    0x4  Data  Lc  plan_state_system.o [1]
+cmdCode                 0x2000191e    0x1  Data  Gb  flexsea_system.o [1]
+cmdLen                  0x20001918    0x2  Data  Gb  flexsea_system.o [1]
+cmdType                 0x2000191f    0x1  Data  Gb  flexsea_system.o [1]
+commSpy1                0x20001908    0x8  Data  Gb  flexsea_comm.o [1]
+comm_gen_str            0x080017f5  0x120  Code  Gb  flexsea_comm.o [1]
+comm_str_1              0x20001818   0x30  Data  Gb  flexsea_comm.o [1]
+exec1                   0x20001430  0x3e8  Data  Gb  flexsea_global_structs.o [1]
+exit                    0x0800257f    0x8  Code  Gb  exit.o [3]
+flexsea_error           0x080014f9    0x2  Code  Gb  flexsea.o [1]
 flexsea_payload_catchall
-                        0x08000f85    0x2  Code  Gb  flexsea_system.o [1]
-flexsea_payload_ptr     0x20000e10  0x5f4  Data  Gb  flexsea.o [1]
+                        0x080015d5    0x2  Code  Gb  flexsea_system.o [1]
+flexsea_payload_ptr     0x20000e08  0x5f4  Data  Gb  flexsea.o [1]
 flexsea_send_serial_master
-                        0x08001093    0x2  Code  Gb  flexsea_board.o [1]
+                        0x0800176b    0x2  Code  Gb  flexsea_board.o [1]
 flexsea_send_serial_slave
-                        0x08001091    0x2  Code  Gb  flexsea_board.o [1]
-getBoardID              0x08001095    0x6  Code  Gb  flexsea_board.o [1]
+                        0x08001769    0x2  Code  Gb  flexsea_board.o [1]
+getBoardID              0x0800176d    0x6  Code  Gb  flexsea_board.o [1]
 init_flexsea_payload_ptr
-                        0x08000f65   0x20  Code  Gb  flexsea_system.o [1]
+                        0x0800159d   0x38  Code  Gb  flexsea_system.o [1]
 init_flexsea_payload_ptr_user
-                        0x08001071   0x20  Code  Gb  flexsea_cmd_user.o [1]
-initialize              0x080014c5   0x82  Code  Gb  main.o [1]
-main                    0x08001409   0xbc  Code  Gb  main.o [1]
-pack                    0x08000fd7   0x24  Code  Gb  flexsea_system.o [1]
-packAndSend             0x08000ffb   0x66  Code  Gb  flexsea_system.o [1]
-pack_P2U                0x080016c5   0x2a  Code  Gb  plan_comm.o [1]
-pack_U2P                0x080016ef   0x6e  Code  Gb  plan_comm.o [1]
-packet                  0x20000420  0x9f0  Data  Gb  flexsea_comm.o [1]
-prepare_empty_payload   0x080010a1   0x16  Code  Gb  flexsea_payload.o [1]
-ricnu_1                 0x20001404   0x34  Data  Gb  flexsea_global_structs.o [1]
-rx_cmd_ricnu_rr         0x08000d2b  0x1a0  Code  Gb  cmd-RICNU_Knee_v1.o [1]
-rx_cmd_ricnu_rw         0x08000caf   0x7c  Code  Gb  cmd-RICNU_Knee_v1.o [1]
-rx_cmd_ricnu_w          0x08000ee5    0xc  Code  Gb  cmd-RICNU_Knee_v1.o [1]
-set_tick                0x080015a9   0x44  Code  Gb  plan_utilities.o [1]
-spi_rx_buffer           0x20001498   0x30  Data  Gb  main.o [1]
-state_time_us           0x20000002    0x2  Data  Gb  main.o [1]
-sys_state               0x20000001    0x1  Data  Gb  main.o [1]
-systick_update          0x20000000    0x1  Data  Gb  main.o [1]
-tmpPayload              0x200014c8   0x24  Data  Gb  flexsea_system.o [1]
-tmp_comm_str            0x20001468   0x30  Data  Gb  flexsea_system.o [1]
-transitionTable         0x080013dc   0x2c  Data  Lc  plan_state_system.o [1]
-tx_cmd                  0x08000f87   0x50  Code  Gb  flexsea_system.o [1]
-tx_cmd_ricnu_rw         0x08000c11   0x8a  Code  Gb  cmd-RICNU_Knee_v1.o [1]
-tx_cmd_ricnu_w          0x08000c9b   0x14  Code  Gb  cmd-RICNU_Knee_v1.o [1]
-update_Manage           0x0800167d   0x34  Code  Gb  plan_comm.o [1]
-update_User             0x080016b1   0x14  Code  Gb  plan_comm.o [1]
-usart_rx_buffer         0x20001532    0x2  Data  Gb  main.o [1]
-usart_tx_buffer         0x2000150c   0x1c  Data  Gb  main.o [1]
+                        0x0800173d   0x2c  Code  Gb  flexsea_cmd_user.o [1]
+initialize              0x08001e9f   0x8c  Code  Gb  main.o [1]
+main                    0x08001d95  0x10a  Code  Gb  main.o [1]
+pack                    0x08001663   0x42  Code  Gb  flexsea_system.o [1]
+packAndSend             0x080016a5   0x86  Code  Gb  flexsea_system.o [1]
+pack_P2U                0x0800200b   0x42  Code  Gb  plan_comm.o [1]
+pack_U2P                0x0800204d   0xaa  Code  Gb  plan_comm.o [1]
+packet                  0x20000418  0x9f0  Data  Gb  flexsea_comm.o [1]
+prepare_empty_payload   0x08001779   0x1e  Code  Gb  flexsea_payload.o [1]
+ricnu_1                 0x200013fc   0x34  Data  Gb  flexsea_global_structs.o [1]
+rx_cmd_ricnu_rr         0x08001263  0x268  Code  Gb  cmd-RICNU_Knee_v1.o [1]
+rx_cmd_ricnu_rw         0x0800118d   0xd6  Code  Gb  cmd-RICNU_Knee_v1.o [1]
+rx_cmd_ricnu_w          0x080014e9   0x10  Code  Gb  cmd-RICNU_Knee_v1.o [1]
+set_tick                0x08001cc3   0x28  Code  Gb  plan_utilities.o [1]
+spi_rx_buffer           0x20001878   0x30  Data  Gb  main.o [1]
+state_time_us           0x2000191a    0x2  Data  Gb  main.o [1]
+sys_state               0x20000015    0x1  Data  Gb  main.o [1]
+systick_update          0x20001920    0x1  Data  Gb  main.o [1]
+table_size              0x20000000    0x4  Data  Lc  plan_state_system.o [1]
+tmpPayload              0x200018a8   0x24  Data  Gb  flexsea_system.o [1]
+tmp_comm_str            0x20001848   0x30  Data  Gb  flexsea_system.o [1]
+transitionTable         0x080024e8   0x2c  Data  Lc  plan_state_system.o [1]
+tx_cmd                  0x080015d7   0x8c  Code  Gb  flexsea_system.o [1]
+tx_cmd_ricnu_rw         0x080010d1   0xa2  Code  Gb  cmd-RICNU_Knee_v1.o [1]
+tx_cmd_ricnu_w          0x08001173   0x1a  Code  Gb  cmd-RICNU_Knee_v1.o [1]
+update_Manage           0x08001fc5   0x32  Code  Gb  plan_comm.o [1]
+update_User             0x08001ff7   0x14  Code  Gb  plan_comm.o [1]
+usart_rx_buffer         0x2000191c    0x2  Data  Gb  main.o [1]
+usart_tx_buffer         0x200018ec   0x1c  Data  Gb  main.o [1]
 
 
 [1] = C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\STM32F051\Obj
@@ -433,9 +452,9 @@ usart_tx_buffer         0x2000150c   0x1c  Data  Gb  main.o [1]
 [4] = rt6M_tl.a
 [5] = shb_l.a
 
-  6 644 bytes of readonly  code memory
-     64 bytes of readonly  data memory
-  5 423 bytes of readwrite data memory
+  9 606 bytes of readonly  code memory
+    104 bytes of readonly  data memory
+  6 431 bytes of readwrite data memory
 
 Errors: none
 Warnings: none

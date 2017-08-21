@@ -3,8 +3,56 @@
 
 #include "plan_include.h"
 
-#define SD_SPI          SPIx
+#define RESPONSE_TIMEOUT        0xFFF
 
-uint8_t SD_WriteByte(uint8_t Data);
+#define DUMMY_BYTE              (uint8_t) 0xFF
+
+
+// Response types and masks
+typedef enum
+{
+  RMask                 = 0xE00,         //0b 1110 0000 0000
+  R1                    = 1<<9,
+  R3                    = 1<<10,
+  R7                    = 1<<11
+} restype;
+
+typedef enum
+{
+  CMD0                  = 0 |R1,        // GO_IDLE_STATE
+  CMD8                  = 8 |R7,        // SEND_IF_COND
+  CMD55                 = 55|R1,        // APP_CMD
+  CMD58                 = 58|R3,        // READ_OCR
+  ACMDX                 = 1<<8,         // Mask specifying application command
+  ACMD41                = 41|R1|ACMDX   // (App command) APP_SEND_OP_COND
+} command;
+
+typedef enum
+{
+  // SD response codes
+  SD_RESPONSE_NO_ERROR          = (0x00),
+  SD_IN_IDLE_STATE              = (0x01),
+  SD_ERASE_RESET                = (0x02),
+  SD_ILLEGAL_COMMAND            = (0x04),
+  SD_COM_CRC_ERROR              = (0x08),
+  SD_ERASE_SEQUENCE_ERROR       = (0x10),
+  SD_ADDRESS_ERROR              = (0x20),
+  SD_PARAMETER_ERROR            = (0x40),
+  SD_RESPONSE_FAILURE           = (0xFF),
+  // SD Data response codes
+  SD_DATA_OK                    = (0x05),
+  SD_DATA_CRC_ERROR             = (0x0B),
+  SD_DATA_WRITE_ERROR           = (0x0D),
+  SD_DATA_OTHER_ERROR           = (0xFF)
+} SD_Error;
+
+
+#define SPI_SS_SD_SELECT() GPIO_ResetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN)
+#define SPI_SS_SD_DESELECT() GPIO_SetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN)
+
+void            SD_Init(void);
+void            SD_SendCmd(command cmd, uint32_t arg, uint32_t* r_val);
+uint8_t         SPI_WriteByte(uint8_t Data);
+uint8_t         SPI_ReadByte(void);
 
 #endif

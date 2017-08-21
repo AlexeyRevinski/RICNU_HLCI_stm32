@@ -114,23 +114,8 @@ void EXTI0_1_IRQHandler(void)
       
       if(sys_state==STATE_INITIALIZING_MEMORY)
       {
-        /* Set chip select high */
-        GPIO_ResetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN);
-        GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);
-        /* Send dummy byte 0xFF, 10 times with CS high */
-        /* Rise CS and MOSI for 80 clocks cycles */
-        for (int i = 0; i <= 9; i++)
-        {
-          /* Wait until the transmit buffer is empty */
-          while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET){;}
-          /* Send the byte */
-          SPI_SendData8(SPIx, 0xFF);
-          /* Wait to receive a byte*/
-          while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_RXNE) == RESET){;}
-          SPI_ReceiveData8(SPIx);
-        }
-        while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_BSY)== SET){;}
-        GPIO_SetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN);
+        GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN); // De-select manage
+        SD_Init();
         change_sys_state(&sys_state,EVENT_MEMORY_INITIALIZATION_SUCCESS);
       }
     }

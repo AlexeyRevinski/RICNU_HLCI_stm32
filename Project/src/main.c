@@ -34,7 +34,6 @@ int main(void)
       if ((GPIO_EXTI_CD_PORT->IDR & GPIO_EXTI_CD_PIN))
       {
         // Move up to STATE_READING_MANIFEST
-        
         change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DETECTED);
       }
       else //Do nothing; wait for the card to be put in

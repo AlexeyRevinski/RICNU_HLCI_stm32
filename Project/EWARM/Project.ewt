@@ -1089,11 +1089,11 @@
         <debug>1</debug>
         <option>
           <name>GenRtcDebugHeap</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GenRtcEnableBoundsChecking</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GenRtcCheckPtrsNonInstrMem</name>
@@ -1117,7 +1117,7 @@
         </option>
         <option>
           <name>GenRtcIntOverflow</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GenRtcIncUnsigned</name>
@@ -1125,7 +1125,7 @@
         </option>
         <option>
           <name>GenRtcIntConversion</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GenRtcInclExplicit</name>
@@ -1133,7 +1133,7 @@
         </option>
         <option>
           <name>GenRtcIntShiftOverflow</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GenRtcInclUnsignedShiftOverflow</name>
@@ -1141,11 +1141,11 @@
         </option>
         <option>
           <name>GenRtcUnhandledCase</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GenRtcDivByZero</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GenRtcEnable</name>
