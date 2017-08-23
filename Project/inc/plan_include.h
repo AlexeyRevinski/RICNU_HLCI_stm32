@@ -3,8 +3,16 @@
 
 // INCLUDES  ===================================================================
 
+// Standard C libraries
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 // External code
 #include "flexsea.h"            // FlexSEA protocol definitions 
+#include "diskio.h"             // FatFs low level I/O
+#include "ff.h"                 // FatFs
+#include "jsmn.h"               // JSMN library
 #include "flexsea_system.h"     // FlexSEA system definitions
 #include "cmd-RICNU_Knee_v1.h"  // RICNU Knee protocol
 #include "stm32f0xx_conf.h"     // STM32 library from STMicroelectronics

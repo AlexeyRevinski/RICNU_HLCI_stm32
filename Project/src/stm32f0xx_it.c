@@ -61,6 +61,7 @@ void HardFault_Handler(void)
   /* Go to infinite loop when Hard Fault exception occurs */
   while (1)
   {
+    GPIO_SetBits(LEDx_PORT, LED2_PIN);
   }
 }
 
@@ -104,6 +105,7 @@ void SysTick_Handler(void)
 // Handles Button press response (press and release)
 void EXTI0_1_IRQHandler(void)
 {
+  char line[TEXT_LENGTH]; /* Line buffer */
   if(EXTI_GetITStatus(EXTI_UB_LINE) != RESET)
   {
     // If button is pressed
@@ -115,7 +117,14 @@ void EXTI0_1_IRQHandler(void)
       if(sys_state==STATE_INITIALIZING_MEMORY)
       {
         GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN); // De-select manage
-        SD_Init();
+        
+        read_line(line);
+        jsmn_parser parser;
+        jsmntok_t tokens[20];
+        jsmn_init(&parser);
+        jsmn_parse(&parser, line, strlen(line), tokens, 20);
+        
+        
         change_sys_state(&sys_state,EVENT_MEMORY_INITIALIZATION_SUCCESS);
       }
     }

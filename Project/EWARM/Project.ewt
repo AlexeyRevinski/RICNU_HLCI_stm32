@@ -10416,37 +10416,28 @@
     </file>
   </group>
   <group>
-    <name>FATFS</name>
-    <group>
-      <name>inc</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\diskio.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffconf.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\integer.h</name>
-      </file>
-    </group>
-    <group>
-      <name>src</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\diskio.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffsystem.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffunicode.c</name>
-      </file>
-    </group>
+    <name>FatFs</name>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\diskio.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffconf.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffsystem.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffunicode.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\integer.h</name>
+    </file>
   </group>
   <group>
     <name>FLEXSEA</name>
@@ -10617,6 +10608,15 @@
     </group>
   </group>
   <group>
+    <name>jsmn</name>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\jsmn\jsmn.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\jsmn\jsmn.h</name>
+    </file>
+  </group>
+  <group>
     <name>StdPeriph_Driver</name>
     <file>
       <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_can.c</name>
@@ -10703,6 +10703,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\plan_config.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\src\plan_fatfs.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\plan_led.c</name>

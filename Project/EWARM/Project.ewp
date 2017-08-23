@@ -60,16 +60,16 @@
         <option>
           <name>GRuntimeLibSelect</name>
           <version>0</version>
-          <state>2</state>
+          <state>1</state>
         </option>
         <option>
           <name>GRuntimeLibSelectSlave</name>
           <version>0</version>
-          <state>2</state>
+          <state>1</state>
         </option>
         <option>
           <name>RTDescription</name>
-          <state>Use the full configuration of the C/C++ runtime library. Full locale interface, C locale, file descriptor support, multibytes in printf and scanf, and hex floats in strtod.</state>
+          <state>Use the normal configuration of the C/C++ runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
         </option>
         <option>
           <name>OGProductVersion</name>
@@ -123,7 +123,7 @@
         </option>
         <option>
           <name>RTConfigPath2</name>
-          <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Full.h</state>
+          <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Normal.h</state>
         </option>
         <option>
           <name>GBECoreSlave</name>
@@ -248,7 +248,7 @@
         <option>
           <name>CCAllowList</name>
           <version>1</version>
-          <state>00000000</state>
+          <state>11111110</state>
         </option>
         <option>
           <name>CCDebugInfo</name>
@@ -318,7 +318,8 @@
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F0xx\Include</state>
           <state>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc</state>
-          <state>$PROJ_DIR$\..\..\Libraries\FatFs</state>
+          <state>$PROJ_DIR$\..\..\Libraries\FatFs\source</state>
+          <state>$PROJ_DIR$\..\..\Libraries\jsmn</state>
           <state>$PROJ_DIR$\..\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\FlexSEA\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc</state>
@@ -344,7 +345,7 @@
         </option>
         <option>
           <name>CCOptLevel</name>
-          <state>0</state>
+          <state>3</state>
         </option>
         <option>
           <name>CCOptStrategy</name>
@@ -353,7 +354,7 @@
         </option>
         <option>
           <name>CCOptLevelSlave</name>
-          <state>0</state>
+          <state>3</state>
         </option>
         <option>
           <name>CompilerMisraRules98</name>
@@ -8732,37 +8733,28 @@
     </file>
   </group>
   <group>
-    <name>FATFS</name>
-    <group>
-      <name>inc</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\diskio.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffconf.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\integer.h</name>
-      </file>
-    </group>
-    <group>
-      <name>src</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\diskio.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffsystem.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffunicode.c</name>
-      </file>
-    </group>
+    <name>FatFs</name>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\diskio.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffconf.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffsystem.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffunicode.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\integer.h</name>
+    </file>
   </group>
   <group>
     <name>FLEXSEA</name>
@@ -8933,6 +8925,15 @@
     </group>
   </group>
   <group>
+    <name>jsmn</name>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\jsmn\jsmn.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\jsmn\jsmn.h</name>
+    </file>
+  </group>
+  <group>
     <name>StdPeriph_Driver</name>
     <file>
       <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_can.c</name>
@@ -9019,6 +9020,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\plan_config.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\src\plan_fatfs.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\plan_led.c</name>

@@ -1,4 +1,4 @@
-"C:\RICNU-Knee-HLCI\FlexSEA\flexsea-user\src\dynamic_user_structs_plan.c"
+"C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\jsmn\jsmn.c"
 -std=c99
 -ferror-limit=100
 -I
@@ -6,7 +6,9 @@ C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\Libraries\CMS
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc
 -I
-C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\Libraries\FatFs
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\Libraries\FatFs\source
+-I
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\Libraries\jsmn
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\inc
 -I
@@ -30,7 +32,9 @@ C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\CMSIS\Device\ST\STM32F0
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\STM32F0xx_StdPeriph_Driver\inc
 -I
-C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\FatFs
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\FatFs\source
+-I
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\jsmn
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\inc
 -I
@@ -278,8 +282,8 @@ C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\arm\CMSIS\Include
 -D__EDG_SYSV=0
 -D__EDG_ANSIC=1
 -D__EDG_CPP11_IL_EXTENSIONS_SUPPORTED=1
--D_DLIB_CONFIG_FILE_HEADER_NAME="C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\arm\INC\c\DLib_Config_Full.h"
--D_DLIB_CONFIG_FILE_STRING="C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.5\\arm\\INC\\c\\DLib_Config_Full.h"
+-D_DLIB_CONFIG_FILE_HEADER_NAME="C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\arm\INC\c\DLib_Config_Normal.h"
+-D_DLIB_CONFIG_FILE_STRING="C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.5\\arm\\INC\\c\\DLib_Config_Normal.h"
 -D__VERSION__="IAR ANSI C/C++ Compiler V7.80.4.12462/W32 for ARM"
 -D__CODE_MEMORY_LIST1__()=__CODE_MEM_HELPER1__(__code, 0 )
 -D__CODE_MEMORY_LIST2__(_P1)=__CODE_MEM_HELPER2__(__code, 0 ,  _P1 )

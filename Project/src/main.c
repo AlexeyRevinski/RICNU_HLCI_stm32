@@ -110,6 +110,8 @@ int main(void)
 //==============================================================================
 void initialize(void)
 {
+  
+  
   // Initialize FlexSEA pointer stack and initial message to Manage
   init_flexsea_payload_ptr();
   uint16_t numb = 0;
@@ -125,9 +127,8 @@ void initialize(void)
   DMA_config();         // Direct Memory Access Controller
   SPI_config();         // Serial Peripheral Interface Controller
   USART_config();       // Universal Synch/Asynch Receiver/Transmitter
-  
-  // Prepare to initialize the SD Card
-  change_spi_mode(SPI_MODE_SD_INIT);
+
+  //f_mount(0, "", 0);    // Unmount the default drive
   
   // Configure system state machine update rate
   set_tick(SYSTICK);
