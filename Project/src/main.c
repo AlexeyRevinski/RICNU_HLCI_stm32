@@ -110,8 +110,6 @@ int main(void)
 //==============================================================================
 void initialize(void)
 {
-  
-  
   // Initialize FlexSEA pointer stack and initial message to Manage
   init_flexsea_payload_ptr();
   uint16_t numb = 0;

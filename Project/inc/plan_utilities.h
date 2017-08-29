@@ -27,7 +27,7 @@ typedef enum
 
 // FUNCTION PROTOTYPES  ========================================================
 
-void GPIO_ToggleBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
+//void GPIO_ToggleBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin);
 void set_tick(uint32_t us);
 void change_spi_mode(spi_mode mode);
 void read_line(char* line);

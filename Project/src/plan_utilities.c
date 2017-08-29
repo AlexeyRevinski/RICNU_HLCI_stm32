@@ -1,5 +1,6 @@
 #include "plan_utilities.h"
 
+/*
 //==============================================================================
 // FUNCTION GPIO_ToggleBits()
 //      - Negates GPIO output data register
@@ -8,6 +9,7 @@ void GPIO_ToggleBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
 {
   GPIOx->ODR ^= GPIO_Pin;
 }
+*/
 
 //==============================================================================
 // FUNCTION set_tick()
@@ -37,7 +39,7 @@ void change_spi_mode(spi_mode mode)
     SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Tx, DISABLE);
     // SPI clock rate at 375kHz
     SPIx->CR1 &= ~SPI_CR1_BR;                   //Clear baud rate prescaler bits
-    SPIx->CR1 |= SPI_BaudRatePrescaler_128;     //Set baud rate prescaler
+    SPIx->CR1 |= SPI_BaudRatePrescaler_32;     //Set baud rate prescaler//M0:128
     SPI_Cmd(SPIx, ENABLE);
   }
   // SPI mode for communicating with Manage
@@ -49,7 +51,7 @@ void change_spi_mode(spi_mode mode)
     SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Tx, ENABLE);
     // SPI clock rate at 1.5MHz
     SPIx->CR1 &= ~SPI_CR1_BR;                   //Clear baud rate prescaler bits
-    SPIx->CR1 |= SPI_BaudRatePrescaler_32;      //Set baud rate prescaler
+    SPIx->CR1 |= SPI_BaudRatePrescaler_8;       //Set baud rate prescaler//M0:32
     SPI_Cmd(SPIx, ENABLE);
   }
 }

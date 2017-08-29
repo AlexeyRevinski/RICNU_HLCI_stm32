@@ -17,7 +17,7 @@ void LED_config(void)
   GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_Level_3;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_40MHz;
   GPIO_InitStructure.GPIO_Pin   = LED1_PIN|LED2_PIN;
   
   // Implement configurations (LED1 and LED2 are on the same port C)

@@ -240,9 +240,9 @@ uint8_t SPI_WriteByte(uint8_t data)
 {//Wait until tx not empty, send data, wait until rx not empty, read data
   uint8_t result = 0;
   while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET){;}
-  SPI_SendData8(SPIx, data);
+  SPI_I2S_SendData(SPIx, data);
   while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_RXNE) == RESET){;}
-  result = SPI_ReceiveData8(SPIx);
+  result = SPI_I2S_ReceiveData(SPIx);
   return result;
 }
 

@@ -7,10 +7,10 @@
 
 // NICKNAMES: LED  =============================================================
 
-#define LEDx_CLK                        RCC_AHBPeriph_GPIOC
-#define LEDx_PORT                       GPIOC
-#define LED1_PIN                        GPIO_Pin_8              //BLUE
-#define LED2_PIN                        GPIO_Pin_9              //GREEN
+#define LEDx_CLK                        RCC_AHBPeriph_GPIOB
+#define LEDx_PORT                       GPIOB
+#define LED1_PIN                        GPIO_Pin_6              //BLUE
+#define LED2_PIN                        GPIO_Pin_7              //GREEN
 
 // FUNCTION PROTOTYPES  ========================================================
 

@@ -15,7 +15,7 @@
 #include "jsmn.h"               // JSMN library
 #include "flexsea_system.h"     // FlexSEA system definitions
 #include "cmd-RICNU_Knee_v1.h"  // RICNU Knee protocol
-#include "stm32f0xx_conf.h"     // STM32 library from STMicroelectronics
+#include "stm32l1xx_conf.h"     // STM32 library from STMicroelectronics
 
 // FRICNU Plan
 #include "plan_comm.h"          // Communication code
