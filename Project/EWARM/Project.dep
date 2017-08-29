@@ -38,263 +38,262 @@
   <configuration>
     <name>STM32F051</name>
     <outputs>
-      <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffconf.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_comm.o</file>
-      <file>$TOOLKIT_DIR$\lib\m6M_tl.a</file>
       <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_it.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_usart.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\plan_led.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_data.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_control_1.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
       <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_misc.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_comm.o</file>
       <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_gpio.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_user.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_sensors.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\ffsystem.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_sensors.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_calibration.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
       <file>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F0xx\Include\stm32f0xx.h</file>
       <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_spi.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_buffers.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\plan_config.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_sensors.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_circular_buffer.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_control_1.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\plan_config.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\stddef.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\ffsystem.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_crs.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\dynamic_user_structs_plan.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\ff.o</file>
-      <file>$TOOLKIT_DIR$\lib\rt6M_tl.a</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_gpio.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_dma.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\system_stm32f0xx.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_buffers.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_global_structs.o</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_exti.h</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_dma.h</file>
-      <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffsystem.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.h</file>
-      <file>$PROJ_DIR$\..\src\system_stm32f0xx.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F0xx\Source\Templates\iar\startup_stm32f051.s</file>
-      <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\diskio.h</file>
-      <file>$PROJ_DIR$\..\src\flexsea_board.c</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_crs.pbi</file>
-      <file>$PROJ_DIR$\..\src\plan_sd.c</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_syscfg.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_can.o</file>
-      <file>$PROJ_DIR$\..\src\plan_utilities.c</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_data.o</file>
-      <file>$PROJ_DIR$\..\inc\stm32f0xx_conf.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_global_structs.pbi</file>
       <file>$PROJ_DIR$\STM32F051\Obj\main.o</file>
-      <file>$PROJ_DIR$\..\inc\plan_led.h</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_syscfg.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_in_control.pbi</file>
-      <file>$PROJ_DIR$\..\inc\stm32f0xx_it.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\Project.pbd</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_external.o</file>
-      <file>$PROJ_DIR$\..\inc\plan_utilities.h</file>
-      <file>$PROJ_DIR$\..\inc\plan_comm.h</file>
-      <file>$PROJ_DIR$\..\inc\plan_config.h</file>
-      <file>$PROJ_DIR$\..\src\plan_comm.c</file>
-      <file>$PROJ_DIR$\..\src\plan_fatfs.c</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_usart.o</file>
-      <file>$PROJ_DIR$\..\inc\plan_state_system.h</file>
-      <file>$PROJ_DIR$\..\src\plan_led.c</file>
-      <file>$PROJ_DIR$\..\src\main.c</file>
-      <file>$PROJ_DIR$\..\src\plan_state_system.c</file>
-      <file>$PROJ_DIR$\..\inc\plan_include.h</file>
-      <file>$PROJ_DIR$\..\inc\plan_sd.h</file>
-      <file>$PROJ_DIR$\..\src\plan_config.c</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_board.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_stream.pbi</file>
-      <file>$PROJ_DIR$\..\src\stm32f0xx_it.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_tim.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\inc\flexsea_cmd_user.h</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_usart.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\dynamic_user_structs_common.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\jsmn\jsmn.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_can.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_crs.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\flexsea_user_structs.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_gpio.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_misc.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_syscfg.c</file>
-      <file>$PROJ_DIR$\..\inc\flexsea_board.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\RICNU_Knee_v1\src\cmd-RICNU_Knee_v1.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\RICNU_Knee_v1\inc\cmd-RICNU_Knee_v1.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\dynamic_user_structs_plan.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\flexsea_cmd_user.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\inc\flexsea_user_structs.h</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_exti.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\jsmn\jsmn.h</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_pwr.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_rcc.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_dma.c</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_spi.c</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\plan_comm.pbi</file>
-      <file>$TOOLKIT_DIR$\CMSIS\Include\cmsis_compiler.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_board.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\cmd-RICNU_Knee_v1.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_data.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\plan_led.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\ffunicode.o</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_rcc.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\string.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\plan_utilities.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\plan_fatfs.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_payload.o</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\MotorTestBench\inc\cmd-MotorTestBench.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\dynamic_user_structs_common.o</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_spi.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\cmd-RICNU_Knee_v1.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\system_stm32f0xx.o</file>
-      <file>$PROJ_DIR$\STM32F051\List\Project.map</file>
-      <file>$PROJ_DIR$\STM32F051\Exe\STM32F0XX_MD.hex</file>
-      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_user_structs.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\dynamic_user_structs_common.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\dynamic_user_structs_plan.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
       <file>$PROJ_DIR$\STM32F051\Obj\ffsystem.pbi</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_usart.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\main.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\plan_led.pbi</file>
-      <file>$PROJ_DIR$\stm32f051_flash.icf</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_sensors.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_misc.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_system.pbi</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_tim.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\ffunicode.pbi</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_gpio.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_can.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_control_2.pbi</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_misc.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\plan_config.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_buffers.o</file>
       <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_external.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_user.o</file>
       <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_can.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_rcc.pbi</file>
-      <file>$TOOLKIT_DIR$\lib\dl6M_tln.a</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_user.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_comm.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_calibration.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Exe\Project.out</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\jsmn.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\plan_sd.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_tim.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_it.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_user_structs.o</file>
       <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_control_2.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_dma.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\ff.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_control_1.pbi</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_pwr.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_tim.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Product_string.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\jsmn.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_stream.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_payload.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_pwr.pbi</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\MIT_2DoF_Ankle_v1\inc\cmd-MIT_2DoF_Ankle_v1.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_usart.pbi</file>
-      <file>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_can.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_global_structs.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_control_2.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\stddef.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_global_structs.pbi</file>
       <file>$PROJ_DIR$\STM32F051\Obj\flexsea.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_pwr.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
       <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_tools.pbi</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\MIT_2DoF_Ankle_v1\inc\cmd-MIT_2DoF_Ankle_v1.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_pwr.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_user.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\jsmn.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_system.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_control_1.pbi</file>
       <file>$PROJ_DIR$\STM32F051\Obj\flexsea_system.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_exti.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_rcc.o</file>
-      <file>$TOOLKIT_DIR$\CMSIS\Include\core_cm0.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\plan_comm.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_spi.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\plan_sd.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_user_structs.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_can.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
       <file>$PROJ_DIR$\STM32F051\Obj\plan_state_system.o</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_gpio.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_tim.o</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_tim.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_comm.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_rcc.pbi</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_misc.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\jsmn.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Exe\Project.out</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_spi.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_it.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_dma.o</file>
       <file>$PROJ_DIR$\STM32F051\Obj\plan_utilities.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_pwr.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_usart.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\ffunicode.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_crs.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_pwr.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_rcc.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_exti.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_stream.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_tim.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_payload.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\ff.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_exti.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\plan_comm.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_tools.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_misc.pbi</file>
+      <file>$TOOLKIT_DIR$\CMSIS\Include\core_cm0.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_syscfg.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_calibration.o</file>
       <file>$PROJ_DIR$\STM32F051\Obj\plan_state_system.pbi</file>
       <file>$PROJ_DIR$\STM32F051\Obj\plan_fatfs.o</file>
-      <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_syscfg.pbi</file>
-      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_crs.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\plan_sd.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_circular_buffer.pbi</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_exti.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_in_control.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_misc.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\startup_stm32f051.o</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_calibration.o</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\inc\dynamic_user_structs.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_calibration.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_global_structs.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_system.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_calibration.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_tools.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_tools.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_global_structs.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_external.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_external.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_control_2.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_sensors.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_in_control.c</file>
-      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_tools.o</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_data.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_in_control.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_control.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_dataformats.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_control_1.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_data.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_sensors.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_stream.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_system.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_stream.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_sys_def.h</file>
       <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_buffers.c</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\plan_sd.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product_string.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_in_control.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_circular_buffer.pbi</file>
+      <file>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F0xx\Include\system_stm32f0xx.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\startup_stm32f051.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_control.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_calibration.h</file>
       <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_payload.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_external.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\diskio.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.c</file>
+      <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\ff.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffconf.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F0xx\Source\Templates\iar\startup_stm32f051.s</file>
+      <file>$PROJ_DIR$\..\src\system_stm32f0xx.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc\flexsea.h</file>
       <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\integer.h</file>
       <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc\flexsea_buffers.h</file>
-      <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffunicode.c</file>
       <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc\flexsea_comm.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc\flexsea_circular_buffer.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc\flexsea_comm_def.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffsystem.c</file>
       <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc\flexsea.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_comm.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_buffers.c</file>
       <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_circular_buffer.c</file>
+      <file>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffunicode.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc\flexsea_comm_def.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_data.h</file>
       <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc\flexsea_payload.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_comm.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\inc\flexsea_circular_buffer.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_crs.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\system_stm32f0xx.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_syscfg.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_circular_buffer.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\string.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\dynamic_user_structs_common.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\cmd-RICNU_Knee_v1.o</file>
+      <file>$PROJ_DIR$\STM32F051\Exe\STM32F0XX_MD.hex</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_usart.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\ff.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\plan_config.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_dma.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\dynamic_user_structs_plan.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\plan_fatfs.pbi</file>
+      <file>$TOOLKIT_DIR$\CMSIS\Include\cmsis_compiler.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_stream.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_user_structs.pbi</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_spi.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_buffers.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\plan_utilities.pbi</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\MotorTestBench\inc\cmd-MotorTestBench.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_data.pbi</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_rcc.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\dynamic_user_structs_plan.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_crs.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\system_stm32f0xx.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\stm32f0xx_gpio.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_exti.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_dma.h</file>
+      <file>$PROJ_DIR$\..\src\main.c</file>
+      <file>$PROJ_DIR$\..\src\plan_state_system.c</file>
+      <file>$PROJ_DIR$\..\src\plan_utilities.c</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_board.o</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\inc\stm32f0xx_syscfg.h</file>
+      <file>$PROJ_DIR$\..\src\plan_comm.c</file>
+      <file>$PROJ_DIR$\..\src\plan_led.c</file>
+      <file>$PROJ_DIR$\..\src\plan_sd.c</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\Project.pbd</file>
+      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
+      <file>$PROJ_DIR$\..\inc\plan_utilities.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_in_control.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\dynamic_user_structs_common.pbi</file>
+      <file>$PROJ_DIR$\..\inc\stm32f0xx_it.h</file>
+      <file>$PROJ_DIR$\..\src\stm32f0xx_it.c</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\ffunicode.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_board.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\cmd-RICNU_Knee_v1.pbi</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_payload.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\flexsea_cmd_external.o</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\plan_led.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+      <file>$PROJ_DIR$\STM32F051\Obj\plan_comm.pbi</file>
+      <file>$PROJ_DIR$\..\inc\stm32f0xx_conf.h</file>
+      <file>$PROJ_DIR$\..\src\flexsea_board.c</file>
+      <file>$PROJ_DIR$\..\src\plan_config.c</file>
+      <file>$PROJ_DIR$\..\src\plan_fatfs.c</file>
+      <file>$PROJ_DIR$\..\inc\plan_config.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_crs.c</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_exti.c</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_misc.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\inc\flexsea_user_structs.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_syscfg.c</file>
+      <file>$PROJ_DIR$\..\inc\plan_state_system.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\RICNU_Knee_v1\src\cmd-RICNU_Knee_v1.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\RICNU_Knee_v1\inc\cmd-RICNU_Knee_v1.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_pwr.c</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_rcc.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\dynamic_user_structs_common.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\flexsea_cmd_user.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\flexsea_user_structs.c</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_usart.c</file>
+      <file>$PROJ_DIR$\..\inc\plan_comm.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\inc\flexsea_cmd_user.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\dynamic_user_structs_plan.c</file>
+      <file>$PROJ_DIR$\..\..\Libraries\jsmn\jsmn.c</file>
+      <file>$PROJ_DIR$\..\..\Libraries\jsmn\jsmn.h</file>
+      <file>$PROJ_DIR$\..\inc\plan_include.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_spi.c</file>
+      <file>$PROJ_DIR$\..\inc\plan_led.h</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_dma.c</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_can.c</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_gpio.c</file>
+      <file>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_tim.c</file>
+      <file>$PROJ_DIR$\..\inc\flexsea_board.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_tools.h</file>
+      <file>$PROJ_DIR$\..\inc\plan_sd.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_stream.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_stream.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_tools.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_dataformats.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_global_structs.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_system.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_global_structs.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_control_2.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_data.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_sys_def.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_external.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_sensors.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_in_control.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_control_1.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\inc\flexsea_cmd_sensors.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_calibration.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_in_control.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\inc\dynamic_user_structs.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_system.c</file>
     </outputs>
     <file>
       <name>[ROOT_NODE]</name>
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 140 110</file>
+          <file> 54</file>
         </tool>
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffsystem.c</name>
+      <name>$PROJ_DIR$\STM32F051\Exe\Project.out</name>
+      <outputs>
+        <tool>
+          <name>OBJCOPY</name>
+          <file> 121</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_payload.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 117</file>
+          <file> 71</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 16</file>
+          <file> 163</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 216 0 32</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 32 216 0</file>
+          <file> 142 166 84 102 199 1 33 113 82 111 17 65 103 109 118 154 129 100</file>
         </tool>
       </inputs>
     </file>
@@ -303,44 +302,17 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 150</file>
+          <file> 72</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 19</file>
+          <file> 123</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 216 35 0 32</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 32 216 0 35</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\src\system_stm32f0xx.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 24</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 109</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 97 118 170 112 163 29 6 213 116 153 26 149 128 106 162 43 92 22 107 10 28 47 99 126 131</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 29 28 128 47 153 99 106 126 118 131</file>
+          <file> 101 94 97 96</file>
         </tool>
       </inputs>
     </file>
@@ -349,499 +321,16 @@
       <outputs>
         <tool>
           <name>AARM</name>
-          <file> 186</file>
+          <file> 88</file>
         </tool>
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\src\flexsea_board.c</name>
+      <name>$PROJ_DIR$\..\src\system_stm32f0xx.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 93</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 65</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 149 204 213 26 97 112 163 22 221 194 191 107 190 196 69 79 212 211 199 202 203</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 79 213 97 22 26 163 149 112 107 219 223 221 220 217 191 212 190 211 204 199 196 202 194 203 69</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\src\plan_sd.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 180</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 142</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 62 22 54 211 10 223 119 112 163 97 213 191 63 216 202 106 162 43 144 32 52 26 149 220 221 212 199 203 128 6 4 100 35 86 81 53 46 58 185 107 155 0 15 190 204 196 194 69 29 153 118 92 28 47 99 126 131 170 116</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 63 62 4 97 22 26 163 149 112 107 119 185 144 100 155 223 213 221 220 35 216 32 0 86 15 191 212 190 211 204 199 196 202 194 203 69 81 43 6 170 92 116 10 162 29 28 128 47 153 99 106 126 118 131 53 54 46 52 58</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\src\plan_utilities.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 101</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 174</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 126 213 6 211 54 22 223 119 112 163 97 92 191 63 216 202 47 62 144 32 43 52 26 149 220 221 212 199 203 28 99 131 170 4 100 35 86 81 53 46 58 185 107 155 0 15 190 204 196 194 69 29 128 153 106 118 162 10 116</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 52 62 4 97 22 26 163 149 112 107 119 185 144 100 155 223 213 221 220 35 216 32 0 86 15 191 212 190 211 204 199 196 202 194 203 69 81 43 6 170 92 116 10 162 29 28 128 47 153 99 106 126 118 131 53 54 46 58 63</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\src\plan_comm.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 91</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 171</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 97 196 58 6 86 128 100 53 22 107 119 213 190 69 106 162 62 4 35 81 46 185 155 221 216 0 15 204 194 29 153 118 92 144 223 32 191 43 54 52 63 26 112 163 149 220 212 211 199 202 203 28 47 99 126 131 170 10 116</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 53 62 4 97 22 26 163 149 112 107 119 185 144 100 155 223 213 221 220 35 216 32 0 86 15 191 212 190 211 204 199 196 202 194 203 69 81 43 6 170 92 116 10 162 29 28 128 47 153 99 106 126 118 131 54 46 52 58 63</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\src\plan_fatfs.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 102</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 176</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 149 220 28 32 213 52 199 131 6 144 43 97 26 112 22 221 212 203 99 170 62 223 191 54 63 119 163 216 211 202 47 126 92 4 100 35 86 81 53 46 58 185 107 155 0 15 190 204 196 194 69 29 128 153 106 118 162 10 116</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 62 4 97 22 26 163 149 112 107 119 185 144 100 155 223 213 221 220 35 216 32 0 86 15 191 212 190 211 204 199 196 202 194 203 69 81 43 6 170 92 116 10 162 29 28 128 47 153 99 106 126 118 131 53 54 46 52 58 63</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\src\plan_led.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 121</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 96</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 22 100 107 119 213 69 6 53 97 190 106 162 86 58 196 128 62 4 35 81 46 185 155 221 216 0 15 204 194 29 153 118 116 144 223 32 191 43 54 52 63 26 112 163 149 220 212 211 199 202 203 28 47 99 126 131 170 92 10</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 46 62 4 97 22 26 163 149 112 107 119 185 144 100 155 223 213 221 220 35 216 32 0 86 15 191 212 190 211 204 199 196 202 194 203 69 81 43 6 170 92 116 10 162 29 28 128 47 153 99 106 126 118 131 53 54 52 58 63</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\src\main.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 120</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 45</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 191 216 213 47 63 22 97 202 6 223 54 119 112 163 211 126 62 144 32 43 52 26 149 220 221 212 199 203 28 99 131 170 92 4 100 35 86 81 53 46 58 185 107 155 0 15 190 204 196 194 69 29 128 153 106 118 162 10 116</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 62 4 97 22 26 163 149 112 107 119 185 144 100 155 223 213 221 220 35 216 32 0 86 15 191 212 190 211 204 199 196 202 194 203 69 81 43 6 170 92 116 10 162 29 28 128 47 153 99 106 126 118 131 53 54 46 52 58 63</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\src\plan_state_system.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 175</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 173</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 6 216 81 0 221 153 4 119 97 22 194 213 62 35 46 185 155 15 204 29 118 100 86 53 58 107 190 196 69 128 106 162 144 223 32 191 43 54 52 63 26 112 163 149 220 212 211 199 202 203 28 47 99 126 131 170 116 92 10</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 58 62 4 97 22 26 163 149 112 107 119 185 144 100 155 223 213 221 220 35 216 32 0 86 15 191 212 190 211 204 199 196 202 194 203 69 81 43 6 170 92 116 10 162 29 28 128 47 153 99 106 126 118 131 53 54 46 52 63</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\src\plan_config.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 9</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 14</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 216 28 191 116 6 63 22 97 202 62 223 54 119 112 163 213 211 131 144 32 43 52 26 149 220 221 212 199 203 99 170 4 100 35 86 81 53 46 58 185 107 155 0 15 190 204 196 194 69 47 126 29 128 153 106 118 162 92 10</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 54 62 4 97 22 26 163 149 112 107 119 185 144 100 155 223 213 221 220 35 216 32 0 86 15 191 212 190 211 204 199 196 202 194 203 69 81 43 6 170 92 116 10 162 29 28 128 47 153 99 106 126 118 131 53 46 52 58 63</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\src\stm32f0xx_it.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 145</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 3</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 4 119 97 22 194 213 81 216 0 221 153 6 35 46 185 155 15 204 29 118 62 100 86 53 58 107 190 196 69 128 106 162 92 43 144 223 32 191 54 52 63 26 112 163 149 220 212 211 199 202 203 28 47 99 126 131 170 10 49 116</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 49 62 4 97 22 26 163 149 112 107 119 185 144 100 155 223 213 221 220 35 216 32 0 86 15 191 212 190 211 204 199 196 202 194 203 69 81 43 6 170 92 116 10 162 29 28 128 47 153 99 106 126 118 131 53 54 46 52 58 63</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_tim.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 154</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 143</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 97 118 26 213 149 29 6 170 112 163 116 153 99 162 43 92 22 107 10 128 106 126 28 47 131</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 126 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 29 28 128 47 153 99 106 118 131</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_usart.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 161</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 57</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 92 47 6 107 22 213 126 162 43 97 10 28 99 131 170 26 112 163 149 116 29 128 153 106 118</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 118 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 29 28 128 47 153 99 106 126 131</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\dynamic_user_structs_common.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 114</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 105</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 97 26 149 213 22 112 163 188 107</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 188 213 97 22 26 163 149 112 107</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\Libraries\jsmn\jsmn.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 141</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 156</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 97 15 107 22 119 86 26 112 163 149</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 86 15 97 22 26 163 149 112 107 119</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_can.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 129</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 40</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 6 213 99 170 22 97 10 28 131 162 43 92 107 47 126 134 26 112 163 149 116 29 128 153 106 118</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 134 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 29 28 128 47 153 99 106 126 118 131</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_crs.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 37</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 17</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 162 43 10 28 22 97 131 99 6 92 107 213 47 126 170 26 112 163 149 116 29 128 153 106 118 179</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 179 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 29 28 128 47 153 99 106 126 118 131</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\flexsea_user_structs.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 113</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 146</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 97 149 213 163 22 26 112 107 84</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 84 213 97 22 26 163 149 112 107</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_gpio.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 5</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 21</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 126 6 107 22 213 92 47 162 43 97 10 28 99 131 170 26 112 163 149 116 29 128 153 106 118</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 128 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 29 28 47 153 99 106 126 118 131</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_misc.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 184</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 124</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 97 22 131 162 43 10 28 99 6 92 107 213 47 126 170 26 112 163 149 116 29 128 153 106 118</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 131 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 29 28 128 47 153 99 106 126 118</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_syscfg.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 178</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 39</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 126 6 107 22 213 92 47 162 43 97 10 28 99 131 170 26 112 163 149 116 29 128 153 106 118</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 47 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 29 28 128 153 99 106 126 118 131</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\RICNU_Knee_v1\src\cmd-RICNU_Knee_v1.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 94</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 108</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 221 97 203 213 81 185 212 223 22 107 220 199 144 191 119 26 112 211 202 4 163 149 190 204 196 194 69</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 4 97 22 26 163 149 112 107 119 185 144 223 213 221 220 191 212 190 211 204 199 196 202 194 203 69 81</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\dynamic_user_structs_plan.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 18</file>
+          <file> 140</file>
         </tool>
         <tool>
           <name>ICCARM</name>
@@ -851,66 +340,206 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 4 190 191 119 221 69 213 223 100 97 107 22 220 196 144 188 205 112 204 194 26 163 149 212 211 199 202 203 155 185</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 144 97 22 26 163 149 112 107 119 223 213 221 220 188 191 212 190 211 204 199 196 202 194 203 69 205 100 155 4 185</file>
+          <file> 166 2 77 154 65 144 18 82 9 66 142 33 47 132 87 168 128 17 129 6 143 149 137 49 52</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\flexsea_cmd_user.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffsystem.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 137</file>
+          <file> 21</file>
         </tool>
         <tool>
           <name>ICCARM</name>
+          <file> 14</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 101 97 96</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 32</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 61</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 82 166 154 65 113 142 33 109 100 17 129</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_buffers.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
           <file> 133</file>
         </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 22 97 107 213 81 188 221 69 160 104 220 223 26 112 163 149</file>
-        </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 223 213 97 22 26 163 149 112 107 221 220 69 188 160 81 104</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_exti.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 168</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 182</file>
+          <file> 23</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 43 162 10 28 22 97 131 99 92 107 213 6 47 126 170 26 112 163 149 116 29 128 153 106 118</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 28 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 29 128 47 153 99 106 126 118 131</file>
+          <file> 154 65 100 166 109 113 82 17 142 33 102 129</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_pwr.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_circular_buffer.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 159</file>
+          <file> 86</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 117</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 166 17 82 33 118 109 142 154 65 113 129 1 84</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffunicode.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 62</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 160</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 97 96 101</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_comm.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 50</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 10</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 142 166 84 33 100 82 1 154 65 45 103 17 129 113 109 118 102</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\src\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 63</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 20</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 207 101 82 149 201 17 166 110 18 100 172 1 154 65 202 49 192 45 96 168 155 142 33 113 109 211 216 214 143 137 52 77 128 7 118 94 191 180 187 194 178 89 129 84 97 30 208 90 93 200 188 144 47 66 132 2 87 6 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\src\plan_state_system.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 80</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 46</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 18 101 180 97 109 66 7 1 166 17 200 82 192 94 194 89 84 30 90 144 2 118 191 187 178 129 208 93 188 47 132 87 45 100 96 207 168 172 155 201 142 154 65 33 113 211 202 216 110 214 143 149 137 49 52 77 9 128 6</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\src\plan_utilities.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 134</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 58</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 49 82 18 202 172 17 100 1 154 65 166 128 207 201 101 110 149 192 45 96 168 155 142 33 113 109 211 216 214 143 137 52 77 7 118 94 191 180 187 194 178 89 129 84 97 30 208 90 93 200 188 144 47 66 132 2 87 6 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\src\plan_comm.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 167</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 74</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 166 93 178 18 191 47 118 187 17 129 1 82 208 188 132 87 192 7 94 180 194 89 84 109 101 97 30 90 200 144 66 2 128 45 100 96 207 168 172 155 201 142 154 65 33 113 211 202 216 110 214 143 149 137 49 52 77 6 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\src\plan_led.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 3</file>
         </tool>
         <tool>
           <name>ICCARM</name>
@@ -920,43 +549,54 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 99 6 162 43 22 97 10 28 131 92 107 213 47 126 170 26 112 163 149 116 29 128 153 106 118</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 153 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 29 28 128 47 99 106 126 118 131</file>
+          <file> 17 118 129 1 82 188 18 187 166 208 132 87 191 178 93 47 192 7 94 180 194 89 84 109 101 97 30 90 200 144 66 2 9 45 100 96 207 168 172 155 201 142 154 65 33 113 211 202 216 110 214 143 149 137 49 52 77 128 6</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_rcc.c</name>
+      <name>$PROJ_DIR$\..\src\plan_sd.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 135</file>
+          <file> 83</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 169</file>
+          <file> 42</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 10 28 162 43 22 97 131 99 92 107 213 6 47 126 170 26 112 163 149 116 29 128 153 106 118</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 99 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 29 28 128 47 153 106 126 118 131</file>
+          <file> 192 17 172 202 6 100 1 154 65 166 82 207 201 101 110 132 87 168 45 96 155 142 33 113 109 211 216 214 47 18 7 118 94 191 180 187 194 178 89 129 84 97 30 208 90 93 200 188 144 66 2 128 143 149 137 49 52 77 9</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_dma.c</name>
+      <name>$PROJ_DIR$\..\src\stm32f0xx_it.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 23</file>
+          <file> 56</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 0</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 7 1 166 17 200 82 180 101 97 109 66 18 94 194 89 84 30 90 144 2 192 118 191 187 178 129 208 93 188 47 132 87 128 168 45 100 96 207 172 155 201 142 154 65 33 113 211 202 216 110 214 143 149 137 49 52 77 6 158 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\src\flexsea_board.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 161</file>
         </tool>
         <tool>
           <name>ICCARM</name>
@@ -966,11 +606,292 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 6 213 116 153 170 97 112 163 29 118 26 149 128 106 162 43 92 22 107 10 28 47 99 126 131</file>
+          <file> 33 90 82 142 166 154 65 17 109 200 207 129 208 93 188 199 211 202 216 110 214</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\src\plan_config.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 22</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 29 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 28 128 47 153 99 106 126 118 131</file>
+          <file> 124</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 101 143 207 9 18 201 17 166 110 192 100 172 1 154 65 82 202 52 45 96 168 155 142 33 113 109 211 216 214 137 77 7 118 94 191 180 187 194 178 89 129 84 97 30 208 90 93 200 188 149 49 144 47 66 132 2 87 128 6</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\src\plan_fatfs.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 127</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 81</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 33 113 143 96 82 155 216 52 18 45 168 166 142 154 17 109 211 214 137 77 192 100 207 172 201 1 65 101 202 110 149 49 128 7 118 94 191 180 187 194 178 89 129 84 97 30 208 90 93 200 188 144 47 66 132 2 87 6 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_crs.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 114</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 139</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 87 168 6 143 17 166 52 137 18 128 129 82 149 49 77 142 154 65 33 9 144 47 66 132 2 64</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_exti.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 73</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 68</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 168 87 6 143 17 166 52 137 128 129 82 18 149 49 77 142 154 65 33 9 144 47 66 132 2</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_misc.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 76</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 8</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 166 17 52 87 168 6 143 137 18 128 129 82 149 49 77 142 154 65 33 9 144 47 66 132 2</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_syscfg.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 78</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 116</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 49 18 129 17 82 128 149 87 168 166 6 143 137 52 77 142 154 65 33 9 144 47 66 132 2</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\RICNU_Knee_v1\src\cmd-RICNU_Knee_v1.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 162</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 120</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 109 166 214 82 180 89 211 100 17 129 113 216 45 207 1 142 154 202 110 7 65 33 208 90 93 200 188</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_pwr.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 59</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 36</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 137 18 87 168 17 166 6 143 52 128 129 82 149 49 77 142 154 65 33 9 144 47 66 132 2</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_rcc.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 51</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 67</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 6 143 87 168 17 166 52 137 128 129 82 18 149 49 77 142 154 65 33 9 144 47 66 132 2</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\dynamic_user_structs_common.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 157</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 119</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 166 142 33 82 17 154 65 219 129</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\flexsea_cmd_user.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 12</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 37</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 17 166 129 82 180 219 109 188 35 135 113 100 142 154 65 33</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\flexsea_user_structs.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 131</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 43</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 166 33 82 65 17 142 154 129 176</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_usart.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 60</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 122</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 128 149 18 129 17 82 49 87 168 166 6 143 137 52 77 142 154 65 33 9 144 47 66 132 2</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\src\dynamic_user_structs_plan.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 126</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 138</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 7 208 207 1 109 188 82 100 118 166 129 17 113 93 45 219 205 154 90 200 142 65 33 211 202 216 110 214 84 89</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\jsmn\jsmn.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 53</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 38</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 166 30 129 17 1 191 142 154 65 33</file>
         </tool>
       </inputs>
     </file>
@@ -979,91 +900,41 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 172</file>
+          <file> 55</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 7</file>
+          <file> 19</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 126 6 107 22 213 92 47 162 43 97 10 28 99 131 170 26 112 163 149 116 29 128 153 106 118</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 106 6 170 213 97 22 26 163 149 112 107 92 116 10 162 43 29 28 128 47 153 99 126 118 131</file>
+          <file> 49 18 129 17 82 128 149 87 168 166 6 143 137 52 77 142 154 65 33 9 144 47 66 132 2</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\STM32F051\Exe\Project.out</name>
-      <outputs>
-        <tool>
-          <name>ILINK</name>
-          <file> 110</file>
-        </tool>
-        <tool>
-          <name>OBJCOPY</name>
-          <file> 111</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ILINK</name>
-          <file> 122 108 105 115 19 16 98 151 65 8 12 187 13 147 42 51 183 123 157 201 133 1 27 103 167 146 156 45 171 14 176 96 142 173 174 186 40 17 148 182 21 3 124 165 169 7 39 143 57 109 177 20 2 136</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_calibration.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_dma.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 139</file>
+          <file> 125</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 187</file>
+          <file> 57</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 69 213 149 190 191 22 97 26 196 223 79 112 163 221 204 194 189 107 220 212 211 199 202 203</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 189 213 97 22 26 163 149 112 107 223 221 220 191 212 190 211 204 199 196 202 194 203 69 79 219 217</file>
+          <file> 18 82 9 66 77 166 154 65 144 2 142 33 47 132 87 168 128 17 129 6 143 149 137 49 52</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_tools.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 166</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 201</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 199 213 220 119 112 163 22 221 212 203 191 97 155 26 149 211 202 223 79 107 190 204 196 194 69 100</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 100 97 22 26 163 149 112 107 119 155 223 213 221 220 191 212 190 211 204 199 196 202 194 203 69 79 219 217</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_global_structs.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_can.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -1077,34 +948,102 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 79 22 97 190 107 213 26 112 163 149</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 213 97 22 26 163 149 112 107 79 219 223 221 220 217 190</file>
+          <file> 18 82 137 77 17 166 6 143 52 87 168 128 129 149 49 25 142 154 65 33 9 144 47 66 132 2</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_external.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_gpio.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 132</file>
+          <file> 11</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 51</file>
+          <file> 141</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 107 220 22 69 213 190 79 97 196 191 221 204 194 223 26 112 163 149 212 211 199 202 203</file>
+          <file> 49 18 129 17 82 128 149 87 168 166 6 143 137 52 77 142 154 65 33 9 144 47 66 132 2</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F0xx_StdPeriph_Driver\src\stm32f0xx_tim.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 70</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 223 213 97 22 26 163 149 112 107 221 220 191 212 190 211 204 199 196 202 194 203 69 79 219 217</file>
+          <file> 48</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 166 2 142 82 33 144 18 77 154 65 9 66 137 87 168 128 17 129 6 47 132 49 143 149 52</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_stream.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 130</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 69</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 166 33 17 82 208 188 207 93 100 199 142 154 65 109 90 200 202 129 113 211 216 110 214</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_tools.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 34</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 75</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 216 82 113 1 154 65 17 109 211 214 207 166 84 142 33 202 110 100 199 129 208 90 93 200 188 118</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_global_structs.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 31</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 28</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 199 17 166 208 129 82 142 154 65 33</file>
         </tool>
       </inputs>
     </file>
@@ -1113,53 +1052,64 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 130</file>
+          <file> 29</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 147</file>
+          <file> 26</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 211 213 22 204 119 112 163 97 223 26 149 221 202 144 191 79 185 107 220 212 199 203 4 190 196 194 69</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 4 97 22 26 163 149 112 107 119 185 144 223 213 221 220 191 212 190 211 204 199 196 202 194 203 69 79 219 217</file>
+          <file> 202 82 17 90 1 154 65 166 100 142 33 109 110 45 207 199 89 129 113 211 216 214 7 208 93 200 188</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_in_control.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_data.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 48</file>
+          <file> 136</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 183</file>
+          <file> 4</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 22 97 213 119 202 223 211 144 107 112 212 199 203 4 191 79 26 163 149 185 221 190 204 196 194 69 220</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 203 213 97 22 26 163 149 112 107 4 119 185 144 191 221 212 190 211 204 199 196 202 194 69 223 220 79 219 217</file>
+          <file> 1 154 202 110 82 100 166 142 17 45 207 199 89 129 113 109 211 216 214 7 65 33 208 90 93 200 188</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_control_1.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_external.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 152</file>
+          <file> 24</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 164</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 129 113 17 188 82 208 199 166 93 207 109 90 200 100 142 154 65 33 211 202 216 110 214</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_sensors.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 15</file>
         </tool>
         <tool>
           <name>ICCARM</name>
@@ -1169,80 +1119,64 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 119 112 163 97 211 223 22 202 213 191 26 149 212 199 203 144 204 79 185 107 221 190 196 194 69 4 220</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 4 97 22 26 163 149 112 107 119 185 144 191 221 212 190 213 211 204 199 196 202 194 203 69 223 220 79 219 217</file>
+          <file> 17 129 208 188 199 166 93 82 207 89 1 109 90 200 45 100 142 154 65 33 211 202 216 110 214 7 113</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_data.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_control_1.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 95</file>
+          <file> 40</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 42</file>
+          <file> 5</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 119 112 211 202 213 223 97 26 22 144 191 79 185 107 220 221 212 199 203 4 163 149 190 204 196 194 69</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 4 97 22 26 163 149 112 107 119 185 144 223 213 221 220 191 212 190 211 204 199 196 202 194 203 69 79 219 217</file>
+          <file> 1 154 65 166 202 100 17 110 82 207 142 33 211 216 214 45 90 199 89 129 109 208 93 200 188 7 113</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_sensors.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_calibration.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 11</file>
+          <file> 16</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 123</file>
+          <file> 79</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 22 107 190 69 79 97 196 213 191 185 119 221 204 194 144 223 26 112 163 149 212 211 199 202 203 4 220</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 4 97 22 26 163 149 112 107 119 185 144 191 221 212 190 213 211 204 199 196 202 194 203 69 223 220 79 219 217</file>
+          <file> 188 82 33 208 207 17 166 142 93 100 199 154 65 109 90 200 91 129 113 211 202 216 110 214</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_stream.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-system\src\flexsea_cmd_in_control.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 66</file>
+          <file> 156</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 157</file>
+          <file> 85</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 97 149 22 213 190 69 191 196 223 79 26 112 163 221 204 194 211 107 220 212 199 202 203</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 211 213 97 22 26 163 149 112 107 223 221 220 191 212 190 204 199 196 202 194 203 69 79 219 217</file>
+          <file> 17 166 82 1 110 100 202 45 129 154 211 216 214 7 207 199 142 65 33 89 109 208 90 93 200 188 113</file>
         </tool>
       </inputs>
     </file>
@@ -1251,159 +1185,17 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 125</file>
+          <file> 39</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 167</file>
+          <file> 41</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 213 220 217 212 203 191 119 112 163 22 221 219 199 226 189 97 155 26 149 211 202 223 79 107 190 204 196 194 69 100</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 100 97 22 26 163 149 112 107 119 155 223 213 221 220 226 219 217 211 191 212 190 204 199 196 202 194 203 69 79 189</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_buffers.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 25</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 8</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 112 163 223 97 221 220 213 22 26 149 217 107</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 217 223 213 97 22 26 163 149 112 107 221 220</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_payload.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 158</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 103</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 26 97 155 217 79 119 149 220 213 226 22 163 219 221 100 112 107 223</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 100 97 22 26 163 149 112 107 119 155 226 213 219 223 221 220 217 79</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\Libraries\FatFs\source\ffunicode.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 127</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 98</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 0 32 216</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 32 216 0</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 164</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 151</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 213 97 112 163 220 26 149 221 223 22 107</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 223 213 97 22 26 163 149 112 107 221 220</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_comm.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 138</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 1</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 26 97 155 149 223 213 119 112 163 144 219 22 107 220 221 100 217</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 100 97 22 26 163 149 112 107 119 155 144 213 219 223 221 220 217</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-comm\src\flexsea_circular_buffer.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 181</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 12</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 97 22 213 149 100 221 26 112 163 220 107 119 155</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 220 221 213 97 22 26 163 149 112 107 100 119 155</file>
+          <file> 82 113 102 211 214 207 1 154 65 17 109 103 216 111 91 166 84 142 33 202 110 100 199 129 208 90 93 200 188 118</file>
         </tool>
       </inputs>
     </file>
