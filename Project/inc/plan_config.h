@@ -26,6 +26,24 @@
 
 // GPIO PINS  ------------------------------------------------------------------
 
+// PB0 SPI SD ENABLE (TEMPORARY)                                                // TODO remove
+#define GPIO_SPIx_EN_SD_PORT            GPIOB
+#define GPIO_SPIx_EN_SD_PIN             GPIO_Pin_0
+#define GPIO_SPIx_EN_SD_CLK             RCC_AHBPeriph_GPIOB
+#define GPIO_SPIx_EN_SD_MODE            GPIO_Mode_OUT
+#define GPIO_SPIx_EN_SD_OTYPE           GPIO_OType_PP
+#define GPIO_SPIx_EN_SD_PUPD            GPIO_PuPd_NOPULL
+#define GPIO_SPIx_EN_SD_SPEED           GPIO_Speed_Level_3
+
+// PB1 SPI MANAGE ENABLE (TEMPORARY)                                            //TODO remove
+#define GPIO_SPIx_EN_MN_PORT            GPIOB
+#define GPIO_SPIx_EN_MN_PIN             GPIO_Pin_1
+#define GPIO_SPIx_EN_MN_CLK             RCC_AHBPeriph_GPIOB
+#define GPIO_SPIx_EN_MN_MODE            GPIO_Mode_OUT
+#define GPIO_SPIx_EN_MN_OTYPE           GPIO_OType_PP
+#define GPIO_SPIx_EN_MN_PUPD            GPIO_PuPd_NOPULL
+#define GPIO_SPIx_EN_MN_SPEED           GPIO_Speed_Level_3
+
 // PA5  SPI Clock pin                   //AF Output, push-pull, 50Mhz,
 #define GPIO_SPIx_SCK_PORT              GPIOA
 #define GPIO_SPIx_SCK_PIN               GPIO_Pin_5
@@ -99,14 +117,14 @@
 #define GPIO_USARTx_RX_SOURCE           GPIO_PinSource10
 #define GPIO_USARTx_RX_AF               GPIO_AF_1
 
-// PA2  Card detect pin                 // Input, 50Mhz, pull-up
+// PA2  Card detect pin                 // Input, 50Mhz
 #define GPIO_EXTI_CD_PORT               GPIOA
 #define GPIO_EXTI_CD_PIN                GPIO_Pin_2
 #define GPIO_EXTI_CD_CLK                RCC_AHBPeriph_GPIOA
 #define GPIO_EXTI_CD_MODE               GPIO_Mode_IN
 #define GPIO_EXTI_CD_PUPD               GPIO_PuPd_UP
 
-// PA0  User button pin                 // Input, 50Mhz, pull-up
+// PA0  User button pin                 // Input, 50Mhz
 #define GPIO_EXTI_UB_PORT               GPIOA
 #define GPIO_EXTI_UB_PIN                GPIO_Pin_0
 #define GPIO_EXTI_UB_CLK                RCC_AHBPeriph_GPIOA

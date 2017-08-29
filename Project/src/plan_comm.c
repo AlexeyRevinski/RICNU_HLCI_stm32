@@ -16,6 +16,7 @@ void update_Manage(void)
   while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_RXNE) == SET){SPI_ReceiveData8(SPIx);}
   // Start packet transmission sequence - drive chip select low
   GPIO_ResetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);
+  GPIO_SetBits(GPIO_SPIx_EN_MN_PORT,GPIO_SPIx_EN_MN_PIN);
   // Start DMA transfer from memory to SPI->DR
   DMA_Cmd(SPIx_DMA_RX_CHANNEL, ENABLE);
   DMA_Cmd(SPIx_DMA_TX_CHANNEL, ENABLE);

@@ -83,6 +83,24 @@ void GPIO_config(void)
   GPIO_InitStructure.GPIO_Pin   = GPIO_SPIx_SS_SD_PIN;
   GPIO_Init(GPIO_SPIx_SS_SD_PORT, &GPIO_InitStructure);
   
+  // SPI EN MANAGE PIN  --------------------------------------------------------//TODO remove
+  RCC_AHBPeriphClockCmd(GPIO_SPIx_EN_MN_CLK, ENABLE);
+  GPIO_InitStructure.GPIO_Mode  = GPIO_SPIx_EN_MN_MODE;
+  GPIO_InitStructure.GPIO_OType = GPIO_SPIx_EN_MN_OTYPE;
+  GPIO_InitStructure.GPIO_PuPd  = GPIO_SPIx_EN_MN_PUPD;
+  GPIO_InitStructure.GPIO_Speed = GPIO_SPIx_EN_MN_SPEED;
+  GPIO_InitStructure.GPIO_Pin   = GPIO_SPIx_EN_MN_PIN;
+  GPIO_Init(GPIO_SPIx_EN_MN_PORT, &GPIO_InitStructure);
+  
+  // SPI EN SD CARD PIN  -------------------------------------------------------//TODO remove
+  RCC_AHBPeriphClockCmd(GPIO_SPIx_EN_SD_CLK, ENABLE);
+  GPIO_InitStructure.GPIO_Mode  = GPIO_SPIx_EN_SD_MODE;
+  GPIO_InitStructure.GPIO_OType = GPIO_SPIx_EN_SD_OTYPE;
+  GPIO_InitStructure.GPIO_PuPd  = GPIO_SPIx_EN_SD_PUPD;
+  GPIO_InitStructure.GPIO_Speed = GPIO_SPIx_EN_SD_SPEED;
+  GPIO_InitStructure.GPIO_Pin   = GPIO_SPIx_EN_SD_PIN;
+  GPIO_Init(GPIO_SPIx_EN_SD_PORT, &GPIO_InitStructure);
+  
   // USART TX PIN  -------------------------------------------------------------
   RCC_AHBPeriphClockCmd(GPIO_USARTx_TX_CLK, ENABLE);
   GPIO_InitStructure.GPIO_Mode  = GPIO_USARTx_TX_MODE;
@@ -114,6 +132,8 @@ void GPIO_config(void)
   GPIO_SetBits(GPIO_SPIx_MISO_PORT,GPIO_SPIx_MISO_PIN);   // SPI MISO high
   GPIO_SetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN); // SPI SS SD high
   GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN); // SPI SS MN high
+  GPIO_ResetBits(GPIO_SPIx_EN_SD_PORT,GPIO_SPIx_EN_SD_PIN); // SPI EN SD low
+  GPIO_ResetBits(GPIO_SPIx_EN_MN_PORT,GPIO_SPIx_EN_MN_PIN); // SPI EN MN low
   GPIO_SetBits(GPIO_USARTx_TX_PORT,GPIO_USARTx_TX_PIN);   // USART TX high
   GPIO_SetBits(GPIO_USARTx_RX_PORT,GPIO_USARTx_RX_PIN);   // USART RX high
 }

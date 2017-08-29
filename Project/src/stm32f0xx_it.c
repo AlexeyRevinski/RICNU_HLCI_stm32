@@ -117,6 +117,7 @@ void EXTI0_1_IRQHandler(void)
       if(sys_state==STATE_INITIALIZING_MEMORY)
       {
         GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN); // De-select manage
+        GPIO_ResetBits(GPIO_SPIx_EN_MN_PORT,GPIO_SPIx_EN_MN_PIN); // De-select manage
         
         read_line(line);
         jsmn_parser parser;
@@ -178,6 +179,7 @@ void DMA1_Channel2_3_IRQHandler(void)
     // Stop packet transmission sequence - drive chip select high
     DMA_Cmd(SPIx_DMA_RX_CHANNEL, DISABLE);
     GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);
+    GPIO_ResetBits(GPIO_SPIx_EN_MN_PORT,GPIO_SPIx_EN_MN_PIN);
     // Clear all channel 2 IT requests
     DMA_ClearITPendingBit(DMA1_IT_GL2);
   }
