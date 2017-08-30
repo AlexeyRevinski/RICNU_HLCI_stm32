@@ -225,20 +225,22 @@ void DMA1_Channel5_IRQHandler(void)
 // DMA USART RX Handler
 void DMA1_Channel6_IRQHandler(void)
 {
-  // DMA is in circular mode - will keep writing to USART->TDR unless stopped
-  //  by disabling the DMA channel
-  DMA_Cmd(USARTx_DMA_TX_CHANNEL, DISABLE);
-  // Clear all channel 4 IT requests
+  DMA_Cmd(USARTx_DMA_RX_CHANNEL, DISABLE);
+  // Clear all channel 5 IT requests
   DMA_ClearITPendingBit(DMA1_IT_GL6);
 }
 
 // DMA USART TX Handler
 void DMA1_Channel7_IRQHandler(void)
 {
-  DMA_Cmd(USARTx_DMA_RX_CHANNEL, DISABLE);
-  // Clear all channel 5 IT requests
+  // DMA is in circular mode - will keep writing to USART->TDR unless stopped
+  //  by disabling the DMA channel
+  DMA_Cmd(USARTx_DMA_TX_CHANNEL, DISABLE);
+  // Clear all channel 4 IT requests
   DMA_ClearITPendingBit(DMA1_IT_GL7);
 }
+
+
 
 
 /*

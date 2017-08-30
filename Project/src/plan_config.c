@@ -378,3 +378,4 @@ void EXTI_config(void)
   EXTI_InitStructure.EXTI_LineCmd = ENABLE;
   EXTI_Init(&EXTI_InitStructure);
 }
+

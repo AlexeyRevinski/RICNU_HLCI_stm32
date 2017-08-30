@@ -1,4 +1,4 @@
-"C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\src\plan_comm.c"
+"C:\RICNU-Knee-HLCI\FlexSEA\flexsea-user\MotorTestBench\src\cmd-MotorTestBench.c"
 -std=c99
 -ferror-limit=100
 -I

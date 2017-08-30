@@ -22,12 +22,28 @@
 
 #define SYSTEM_PERIOD_US (FACTOR_us_PER_s/UPDATE_RATE)
 
+
 // NICKNAMES  ==================================================================
 
 // GPIO PINS  ------------------------------------------------------------------
+//
+//      ----------------------------
+//      FUNCTION        F0      L1
+//      ----------------------------
+//      SPI SCK         PA5     PB13
+//      SPI MISO        PA6     PB14
+//      SPI MOSI        PA7     PB15
+//      SPI SS MN       PA4     PA5     //TODO CHANGE TO PA4 (used on discovery board)
+//      SPI SS SD       PA3     PB13
+//      SPI EN MN       PB0     PB10    //TODO REMOVE (only need to invert SS pins)
+//      SPI EN SD       PB1     PB11    //TODO REMOVE (only need to invert SS pins)
+//      USART Tx        PA9     PA2
+//      USART Rx        PA10    PA3
+//      USER BUTTON     PA0     PA0
+//      CARD DETECT     PA2     PA1
+//      ----------------------------
 
 #define GPIO_SPEED_FAST                 GPIO_Speed_40MHz
-
 
 // PB10 SPI SD ENABLE (TEMPORARY)                                                // TODO remove
 #define GPIO_SPIx_EN_SD_PORT            GPIOB                   //M0: GPIOB
@@ -47,9 +63,9 @@
 #define GPIO_SPIx_EN_MN_PUPD            GPIO_PuPd_NOPULL
 #define GPIO_SPIx_EN_MN_SPEED           GPIO_SPEED_FAST
 
-// PA4  SPI Slave Select Manage pin     // Output, 50Mhz, push-pull
+// PA5  SPI Slave Select Manage pin     // Output, 50Mhz, push-pull             //TODO CHANGE TO PA4 MAYBE
 #define GPIO_SPIx_SS_MN_PORT            GPIOA
-#define GPIO_SPIx_SS_MN_PIN             GPIO_Pin_4
+#define GPIO_SPIx_SS_MN_PIN             GPIO_Pin_5
 #define GPIO_SPIx_SS_MN_CLK             RCC_AHBPeriph_GPIOA
 #define GPIO_SPIx_SS_MN_MODE            GPIO_Mode_OUT
 #define GPIO_SPIx_SS_MN_OTYPE           GPIO_OType_PP
@@ -141,7 +157,7 @@
 #define GPIO_USARTx_TX_OTYPE            GPIO_OType_PP
 #define GPIO_USARTx_TX_PUPD             GPIO_PuPd_NOPULL
 #define GPIO_USARTx_TX_SPEED            GPIO_SPEED_FAST 
-#define GPIO_USARTx_TX_SOURCE           GPIO_PinSource9
+#define GPIO_USARTx_TX_SOURCE           GPIO_PinSource2
 #define GPIO_USARTx_TX_AF               GPIO_AF_USART2          //M0: GPIO_AF_1
 
 // PA3 USART Rx pin                     //AF Output, push-pull, 40Mhz,
@@ -152,7 +168,7 @@
 #define GPIO_USARTx_RX_OTYPE            GPIO_OType_PP
 #define GPIO_USARTx_RX_PUPD             GPIO_PuPd_NOPULL
 #define GPIO_USARTx_RX_SPEED            GPIO_SPEED_FAST 
-#define GPIO_USARTx_RX_SOURCE           GPIO_PinSource10
+#define GPIO_USARTx_RX_SOURCE           GPIO_PinSource3
 #define GPIO_USARTx_RX_AF               GPIO_AF_USART2          //M0: GPIO_AF_1
 
 // PA1  Card detect pin                 // Input
@@ -204,8 +220,8 @@
 
 #define USARTx                          USART2
 #define USARTx_CLK                      RCC_APB1Periph_USART2
-#define USARTx_DMA_TX_CHANNEL           DMA1_Channel6           //M0: 4
-#define USARTx_DMA_RX_CHANNEL           DMA1_Channel7           //M0: 5
+#define USARTx_DMA_RX_CHANNEL           DMA1_Channel6           //M0: 5
+#define USARTx_DMA_TX_CHANNEL           DMA1_Channel7           //M0: 4
 //#define USARTx_TDR_ADDRESS              0x40013828            //M0
 //#define USARTx_RDR_ADDRESS              0x40013824            //M0
 #define USARTx_DR_ADDRESS               0x40004404

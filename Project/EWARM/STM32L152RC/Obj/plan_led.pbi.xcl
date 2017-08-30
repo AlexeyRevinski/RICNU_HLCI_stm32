@@ -22,6 +22,10 @@ C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\..\..\FlexSEA
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\..\..\FlexSEA\flexsea-user\RICNU_Knee_v1\inc
 -I
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\..\..\FlexSEA\flexsea-user\MIT_2DoF_Ankle_v1\inc
+-I
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\..\..\FlexSEA\flexsea-user\MotorTestBench\inc
+-I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\arm\CMSIS\Include
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\arm\inc
@@ -47,6 +51,10 @@ C:\RICNU-Knee-HLCI\FlexSEA\flexsea-system\inc
 C:\RICNU-Knee-HLCI\FlexSEA\flexsea-user\inc
 -I
 C:\RICNU-Knee-HLCI\FlexSEA\flexsea-user\RICNU_Knee_v1\inc
+-I
+C:\RICNU-Knee-HLCI\FlexSEA\flexsea-user\MIT_2DoF_Ankle_v1\inc
+-I
+C:\RICNU-Knee-HLCI\FlexSEA\flexsea-user\MotorTestBench\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\arm\CMSIS\Include
 -DUSE_STDPERIPH_DRIVER=1

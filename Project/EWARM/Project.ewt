@@ -11735,6 +11735,36 @@
         </file>
       </group>
       <group>
+        <name>MIT_2DoF_Ankle_v1</name>
+        <group>
+          <name>inc</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\MIT_2DoF_Ankle_v1\inc\cmd-MIT_2DoF_Ankle_v1.h</name>
+          </file>
+        </group>
+        <group>
+          <name>src</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\MIT_2DoF_Ankle_v1\src\cmd-MIT_2DoF_Ankle_v1.c</name>
+          </file>
+        </group>
+      </group>
+      <group>
+        <name>MotorTestBench</name>
+        <group>
+          <name>inc</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\MotorTestBench\inc\cmd-MotorTestBench.h</name>
+          </file>
+        </group>
+        <group>
+          <name>src</name>
+          <file>
+            <name>$PROJ_DIR$\..\..\..\..\FlexSEA\flexsea-user\MotorTestBench\src\cmd-MotorTestBench.c</name>
+          </file>
+        </group>
+      </group>
+      <group>
         <name>RICNU_Knee_v1</name>
         <group>
           <name>inc</name>
