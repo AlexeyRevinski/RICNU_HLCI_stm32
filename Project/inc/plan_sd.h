@@ -33,6 +33,7 @@ typedef enum
   CMD0                  = 0 |R1,        // GO_IDLE_STATE
   CMD1                  = 1 |R1,        // SEND_OP_COND
   CMD8                  = 8 |R7,        // SEND_IF_COND
+  CMD12                 = 12|R1,        // STOP_TRANSMISSION
   CMD16                 = 16|R1,        // SET_BLOCKLEN
   CMD17                 = 17|R1,        // READ_SINGLE_BLOCK
   CMD18                 = 18|R1,        // READ_MULTIPLE_BLOCK
@@ -73,7 +74,7 @@ typedef struct
 uint8_t         SD_Detect(void);
 MEMTYPE         SD_Init(void);
 RESPONSE        SD_SendCmd(command cmd, uint32_t arg);
-void            SD_ReadData(uint8_t* buff, uint32_t count);
+void            SD_ReadBlock(uint8_t* buff);
 uint8_t         SPI_WriteByte(uint8_t Data);
 uint8_t         SPI_ReadByte(void);
 

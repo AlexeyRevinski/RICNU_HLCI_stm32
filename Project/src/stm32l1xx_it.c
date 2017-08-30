@@ -147,7 +147,7 @@ void SysTick_Handler(void)
 // User Button Handler
 void EXTI0_IRQHandler(void)
 {
-  char line[TEXT_LENGTH];
+  
   if(EXTI_GetITStatus(EXTI_UB_LINE) != RESET)
   {
     // If button is pressed
@@ -161,11 +161,7 @@ void EXTI0_IRQHandler(void)
         GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN); // De-select manage
         GPIO_ResetBits(GPIO_SPIx_EN_MN_PORT,GPIO_SPIx_EN_MN_PIN); // De-select manage
         
-        read_line(line);
-        jsmn_parser parser;
-        jsmntok_t tokens[20];
-        jsmn_init(&parser);
-        jsmn_parse(&parser, line, strlen(line), tokens, 20);
+        build_fsm();
         
         change_sys_state(&sys_state,EVENT_MEMORY_INITIALIZATION_SUCCESS);
       }

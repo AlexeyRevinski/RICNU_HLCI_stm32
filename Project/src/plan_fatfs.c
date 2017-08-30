@@ -29,7 +29,7 @@ DRESULT disk_read (BYTE drv, BYTE* buff, DWORD sector, UINT count)
   if (diskstat & STA_NOINIT) return RES_NOTRDY;	// Check drive status
 
   command CMDxx = CMD17;
-  int timeout = 10;
+  int timeout = 100;
   RESPONSE rval;
   
   change_spi_mode(SPI_MODE_SD_DATA);
@@ -45,9 +45,32 @@ DRESULT disk_read (BYTE drv, BYTE* buff, DWORD sector, UINT count)
   }while((rval.R1!=0x00) && timeout); // Until first valid response
   if(timeout==0){return RES_NOTRDY;} // If timed out - card is broken
   
-  // Read data based on number of sectors
-  SD_ReadData(buff, count);
-  
+  for (int i=0;i<count;i++)
+  {
+    // Read data based on number of sectors
+    SD_ReadBlock(buff+(i*512));
+  }
+  if(count>1) // If multiple blocks, send CMD12 to finish
+  {
+    do // Send CMD12 until valid response
+    {
+      rval = SD_SendCmd(CMD12,(uint32_t)0x0000);
+       // First byte is garbage; clock more for one byte
+      SPI_SS_SD_SELECT();
+      rval.R1 = SPI_ReadByte();
+      SPI_SS_SD_DESELECT();
+      timeout--;
+    }while((rval.R1!=0x00) && timeout); // Until first valid response
+    if(timeout==0){return RES_NOTRDY;} // If timed out - card is broken
+    
+    /*
+    do // Poll until not busy
+    {
+      rval.R1 = SPI_ReadByte();
+    }while((rval.R1==0x00) && timeout);
+    if(timeout==0){return RES_NOTRDY;} // If timed out - card is broken
+    */
+  }
   return RES_OK;                                                                // TODO CHECK IF ACTUALLY OKAY
 }
 

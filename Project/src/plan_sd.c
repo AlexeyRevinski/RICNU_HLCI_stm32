@@ -206,19 +206,17 @@ RESPONSE    SD_SendCmd(command cmd, uint32_t arg)
 // FUNCTION SD_ReadData()
 //      - reads data and fills up a provided buffer
 //==============================================================================
-void SD_ReadData(uint8_t* buff, uint32_t count)
+void SD_ReadBlock(uint8_t* buff)
 {
   // Select SD card
   SPI_SS_SD_SELECT();
   
   // Clock until SD card ready to send data
-  while(SPI_ReadByte()!=0xFE);    //do{token = SPI_ReadByte();}while(token!=0xFE);
+  while(SPI_ReadByte()!=0xFE);  //do{token = SPI_ReadByte();}while(token!=0xFE);
   
   // Read data bytes
   for (int i=0;i<512;i++)
   { // Fill buffer with desired data; skip the rest
-    //if((i >= offset) && ((i-offset)<count)){buff[i-offset] = SPI_ReadByte();}
-    //else SPI_ReadByte();
     buff[i] = SPI_ReadByte();
   }
   

@@ -12,7 +12,7 @@
 #include "flexsea.h"            // FlexSEA protocol definitions 
 #include "diskio.h"             // FatFs low level I/O
 #include "ff.h"                 // FatFs
-#include "jsmn.h"               // JSMN library
+#include "jsmn.h"               // JSMN - JSON parsing library
 #include "flexsea_system.h"     // FlexSEA system definitions
 #include "cmd-RICNU_Knee_v1.h"  // RICNU Knee protocol
 #include "stm32l1xx_conf.h"     // STM32 library from STMicroelectronics
@@ -23,6 +23,7 @@
 #include "plan_led.h"           // LED add-on
 #include "plan_utilities.h"     // Utility code
 #include "plan_state_system.h"  // System state machine
+#include "plan_fsm_builder.h"
 #include "plan_sd.h"
 
 #endif //PLAN_INCLUDE_H

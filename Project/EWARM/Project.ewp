@@ -244,7 +244,7 @@
         <option>
           <name>CCAllowList</name>
           <version>1</version>
-          <state>11111110</state>
+          <state>00000000</state>
         </option>
         <option>
           <name>CCDebugInfo</name>
@@ -315,6 +315,7 @@
           <state>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Include</state>
           <state>$PROJ_DIR$\..\..\Libraries\STM32L1xx_StdPeriph_Driver\inc</state>
           <state>$PROJ_DIR$\..\..\Libraries\FatFs\source</state>
+          <state>$PROJ_DIR$\..\..\Libraries\cJSON</state>
           <state>$PROJ_DIR$\..\..\Libraries\jsmn</state>
           <state>$PROJ_DIR$\..\inc</state>
           <state>$PROJ_DIR$\..\..\..\..\FlexSEA\inc</state>
@@ -343,7 +344,7 @@
         </option>
         <option>
           <name>CCOptLevel</name>
-          <state>3</state>
+          <state>1</state>
         </option>
         <option>
           <name>CCOptStrategy</name>
@@ -352,7 +353,7 @@
         </option>
         <option>
           <name>CCOptLevelSlave</name>
-          <state>3</state>
+          <state>1</state>
         </option>
         <option>
           <name>CompilerMisraRules98</name>
@@ -734,11 +735,11 @@
         </option>
         <option>
           <name>IlinkIcfOverride</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$TOOLKIT_DIR$\config\linker\ST\stm32l152xC.icf</state>
+          <state>$PROJ_DIR$\Project.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -1268,6 +1269,9 @@
         <name>$PROJ_DIR$\..\inc\plan_config.h</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\inc\plan_fsm_builder.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\inc\plan_include.h</name>
       </file>
       <file>
@@ -1305,6 +1309,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\plan_fatfs.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\src\plan_fsm_builder.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\plan_led.c</name>

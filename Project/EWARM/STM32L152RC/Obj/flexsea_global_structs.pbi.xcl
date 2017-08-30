@@ -8,6 +8,8 @@ C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\Libraries\STM
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\Libraries\FatFs\source
 -I
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\Libraries\cJSON
+-I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\..\Libraries\jsmn
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Project\EWARM\..\inc
@@ -37,6 +39,8 @@ C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\CMSIS\Device\ST\STM32L1
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\STM32L1xx_StdPeriph_Driver\inc
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\FatFs\source
+-I
+C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\cJSON
 -I
 C:\RICNU-Knee-HLCI\RICNU-Plan\RICNU-Plan-STM32\Libraries\jsmn
 -I
