@@ -24,6 +24,7 @@
 #include "plan_utilities.h"     // Utility code
 #include "plan_state_system.h"  // System state machine
 #include "plan_fsm_builder.h"
+#include "plan_fsm_structures.h"
 #include "plan_sd.h"
 
 #endif //PLAN_INCLUDE_H

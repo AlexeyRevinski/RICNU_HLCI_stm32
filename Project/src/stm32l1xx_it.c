@@ -161,7 +161,7 @@ void EXTI0_IRQHandler(void)
         GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN); // De-select manage
         GPIO_ResetBits(GPIO_SPIx_EN_MN_PORT,GPIO_SPIx_EN_MN_PIN); // De-select manage
         
-        build_fsm();
+        fsm_build();
         
         change_sys_state(&sys_state,EVENT_MEMORY_INITIALIZATION_SUCCESS);
       }

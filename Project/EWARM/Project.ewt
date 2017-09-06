@@ -1451,6 +1451,9 @@
         <name>$PROJ_DIR$\..\inc\plan_fsm_builder.h</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\inc\plan_fsm_structures.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\inc\plan_include.h</name>
       </file>
       <file>
