@@ -6,13 +6,13 @@
 #define FILENAME "fsm.json"
 #define MAX_FSM_FILE_LENGTH 8192
 
-
 typedef enum
 {
+  CTRL_NON = 0,
   CTRL_POS = 1,
   CTRL_CUR = 2,
   CTRL_IMP = 3,
-} ctrl;
+} fsm_ctrl;
 
 typedef enum
 {
@@ -23,10 +23,8 @@ typedef enum
 // ERROR CODES
 typedef enum
 {
-  FB_NOT_FOUND = 0,
+  FB_ERR = 0,
   FB_OK = 1,
-  FB_ERR_BUILD = 1,
-  FB_ERR_MEM = 2,
 } errcode;
 
 #define STACK_SIZE 50

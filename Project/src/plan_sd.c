@@ -1,6 +1,8 @@
 #include "plan_sd.h"
 
 RESPONSE        resp;
+extern state    sys_state;
+extern mstate   mem_state;
 
 //==============================================================================
 // FUNCTION SD_Detect()
@@ -8,8 +10,20 @@ RESPONSE        resp;
 //==============================================================================
 uint8_t SD_Detect(void)
 {
-  if ((GPIO_EXTI_CD_PORT->IDR & GPIO_EXTI_CD_PIN)){return 1;}   // Detected
-  return 0;                                                     // Not detected
+  // If card is detected in the socket
+    if ((GPIO_EXTI_CD_PORT->IDR & GPIO_EXTI_CD_PIN))
+    {
+      mem_state = MEM_IN;
+      change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DETECTED);
+      return 1;
+    }
+    else // If card was taken out of the socket
+    {
+      mem_state = MEM_OUT;
+      change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DISCONNECTED);
+      //change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DETECTED);
+      return 0;
+    }
 }
 
 //==============================================================================
@@ -24,7 +38,7 @@ MEMTYPE SD_Init(void)
   // LOW LEVEL INITIALIZATION STEPS  -------------------------------------------
   //    Slow down SPI, pull CS high, clock for 80 cycles
   //----------------------------------------------------------------------------
-  change_spi_mode(SPI_MODE_SD_INIT);            // SPI to 375kHz
+  spi_change_mode(SPI_MODE_SD_INIT);            // SPI to 375kHz
   SPI_SS_SD_DESELECT();                         // Pull CS high
   for (int i=0;i<10;i++){SPI_ReadByte();}       // Clock for 80 cycles 
   
@@ -33,7 +47,7 @@ MEMTYPE SD_Init(void)
   //    Send CMD0 until the card is in idle state.
   //    If timed out - card is broken
   //----------------------------------------------------------------------------
-  timeout = 10;
+  timeout = 100;
   // Send CMD0 until idle state or timeout
   do{resp = SD_SendCmd(CMD0,(uint32_t)0x00000000);timeout--;
   }while(!(resp.R1&SD_IN_IDLE_STATE) && timeout);
@@ -42,7 +56,7 @@ MEMTYPE SD_Init(void)
   
   // CMD8 TRANSACTION  ---------------------------------------------------------
   //    Send CMD8 until illegal command or valid response without illegal flag.
-  //    If illegal - card is SD1.x/MMC/Unknown. If timed out - card is broken
+  //    If illegal - card is SD1.x or MMC. If timed out - card is broken
   //----------------------------------------------------------------------------
   timeout = 10;
   // Send CMD8 until illegal, proper, or timeout
@@ -161,7 +175,7 @@ RESPONSE    SD_SendCmd(command cmd, uint32_t arg)
     }
   }
   
-  // If CMD0 or CMD8, specific CRC; otherwise ignored by SD card, so send 0xFF
+  // If CMD0 or CMD8, specific CRC; otherwise CRC is ignored by SD card, so send 0xFF
   uint8_t crc = 0xff;
   if            (cmd == CMD0) {crc = 0x95;}
   else if       (cmd == CMD8) {crc = 0x87;}

@@ -9,9 +9,10 @@ const char* tag_fsm             = "fsm\0";
 const char* tag_mode            = "mode\0";
 const char* tag_state           = "state\0";
 const char* tag_ctrl            = "control\0";
-const char* tag_ctrl_imp        = "control_imp\0";
+const char* tag_ctrl_non        = "control_non\0";
 const char* tag_ctrl_pos        = "control_pos\0";
 const char* tag_ctrl_cur        = "control_cur\0";
+const char* tag_ctrl_imp        = "control_imp\0";
 const char* tag_k               = "k\0";
 const char* tag_b               = "b\0";
 const char* tag_e               = "e\0";
@@ -35,11 +36,29 @@ const char* att_val             = "value\0";
 const char* att_dst             = "defstate\0";
 const char* att_dmd             = "defmode\0";
 
+// VALUE STRINGS  ==============================================================
+const char* val_ax              = "ax\0";
+const char* val_ay              = "ay\0";
+const char* val_az              = "az\0";
+const char* val_gx              = "gx\0";
+const char* val_gy              = "gy\0";
+const char* val_gz              = "gz\0";
+const char* val_em              = "em\0";
+const char* val_ej              = "ej\0";
+const char* val_cm              = "cm\0";
+
+const char* val_mr              = "mr\0";
+const char* val_ls              = "ls\0";
+const char* val_me              = "me\0";
+const char* val_le              = "le\0";
+const char* val_eq              = "eq\0";
+
 // GLOBAL VARIABLES  ===========================================================
 static  fsm_stack       fst     = NULL;
 static  fsm_stack       *fstp   = &fst; // Initialize ptr to fsm ptr stack
-static  fsm             FSM_s   = NULL;
-static  fsm             *FSM    = &FSM_s; // Initialize pointer to fsm structure
+extern  fsm             *FSM;
+extern  fsm_tracker     TR;
+extern  state           sys_state;
 
 // HEAP POINTERS  ==============================================================
 static  jsmntok_t       *tkns   = NULL; // Initialize tokens pointer
@@ -50,15 +69,18 @@ static  char            *fstr   = NULL; // Initialize fsm string pointer
 //      - builds fsm from a JSON file stored on the SD card
 //==============================================================================
 errcode fsm_build(void)
-{
+{  
+  // Select SD Card and de-select Manage Board  ================================
+  spi_select(SDCARD);
+  
   // Get FSM file string  ======================================================
   FATFS fs; FIL fil; UINT br;                   // Declare FatFs variables
   f_mount(&fs,"", 0);                           // Mount the default drive
   f_open(&fil,FILENAME, FA_READ);               // Open fsm file
   int str_size = fil.obj.objsize;               // Get file size
-  if(str_size>MAX_FSM_FILE_LENGTH){return FB_ERR_MEM;} // If too large ==> error
+  if(str_size>MAX_FSM_FILE_LENGTH){return FB_ERR;} // If too large ==> error
   fstr = (char *)malloc(sizeof(*fstr)*str_size);// Allocate memory for fstr
-  if(!fstr){fsm_mem_free(); return FB_ERR_MEM;} // If didn't allocate ==> error
+  if(!fstr){fsm_mem_free(); return FB_ERR;} // If didn't allocate ==> error
   f_read(&fil,fstr,str_size,&br);               // Populate the string
   f_close(&fil);                                // Close the file
   f_mount(0,"", 0);                             // Unmount the default drive
@@ -71,7 +93,7 @@ errcode fsm_build(void)
   jsmn_init(&parser);                           // Reset parser
   tkns =                                        // Allocate mem for tokens array
     (jsmntok_t *)malloc(sizeof(jsmntok_t)*num_tkns);
-  if(!tkns){fsm_mem_free();return FB_ERR_MEM;}  // If didn't allocate ==> error
+  if(!tkns){fsm_mem_free();return FB_ERR;}  // If didn't allocate ==> error
   jsmn_parse(&parser,fstr,str_size,tkns,num_tkns); // Parse string 
   
   // Populate FSM structure from FSM string and jsmn tokens  ===================
@@ -177,7 +199,14 @@ int fsm_populate_structure(void)
           // Move to control tag
           fsm_move_to(fstp,TAG,tag_ctrl,1);                                     // root/fsm/mode/state/control
           
+          
           // Move to specific control tag                                       //TODO IMPLEMENT "NO CONTROL" ROUTINE
+          if (fsm_move_in(fstp,TAG,tag_ctrl_non,1))                             // root/fsm/mode/state/control/control_non
+          {
+            // Set control type to position
+            FSM->m[nm].s[ns].ctrl = CTRL_NON;
+            // get e, kp, ki
+          }
           if (fsm_move_in(fstp,TAG,tag_ctrl_pos,1))                             // root/fsm/mode/state/control/control_pos
           {
             // Set control type to position
@@ -255,9 +284,21 @@ int fsm_populate_structure(void)
               // Get event information
               fsm_move_to(fstp,TAG,tag_event,1);                                // root/fsm/mode/state/transition/event
               fsm_move_in(fstp,ATT,att_chan,1);                                 // root/fsm/mode/state/transition/next_state/channel
-              fsm_get_i(fstp,&FSM->m[nm].s[ns].t[nt].chan);
+              if     (fsm_str_cmp(fstp->arr[fstp->top]+1,val_ax))FSM->m[nm].s[ns].t[nt].chan = AX;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_ay))FSM->m[nm].s[ns].t[nt].chan = AY;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_az))FSM->m[nm].s[ns].t[nt].chan = AZ;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_gx))FSM->m[nm].s[ns].t[nt].chan = GX;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_gy))FSM->m[nm].s[ns].t[nt].chan = GY;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_gz))FSM->m[nm].s[ns].t[nt].chan = GZ;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_em))FSM->m[nm].s[ns].t[nt].chan = EM;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_ej))FSM->m[nm].s[ns].t[nt].chan = EJ;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_cm))FSM->m[nm].s[ns].t[nt].chan = CM;
               fsm_move_to(fstp,ATT,att_func,1);                                 // root/fsm/mode/state/transition/next_state/function
-              fsm_get_i(fstp,&FSM->m[nm].s[ns].t[nt].cond);
+              if     (fsm_str_cmp(fstp->arr[fstp->top]+1,val_mr))FSM->m[nm].s[ns].t[nt].cond = MR;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_ls))FSM->m[nm].s[ns].t[nt].cond = LS;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_me))FSM->m[nm].s[ns].t[nt].cond = ME;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_le))FSM->m[nm].s[ns].t[nt].cond = LE;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_eq))FSM->m[nm].s[ns].t[nt].cond = EQ;
               fsm_move_to(fstp,ATT,att_val,1);                                  // root/fsm/mode/state/transition/next_state/value
               fsm_get_f(fstp,&FSM->m[nm].s[ns].t[nt].thres);
               fsm_move_up(fstp,1);                                              // root/fsm/mode/state/transition/next_state
@@ -286,6 +327,23 @@ int fsm_populate_structure(void)
       // Move back up to root/fsm
       fsm_move_up(fstp,1);                                                      // root/fsm
     }
+  }
+  
+  // Set default state of default mode as starting state
+  TR.cm = 0; TR.cs = 0;
+  for(int mcnt=0;mcnt<(FSM->num_m);mcnt++)
+  {
+    for(int scnt=0;scnt<(FSM->m[mcnt].num_s);scnt++)
+    {
+      if(FSM->m[mcnt].id_self==FSM->id_defmode&&
+         FSM->m[mcnt].s[scnt].id_self==FSM->m[mcnt].id_defstate)
+      {
+        TR.cm = mcnt;
+        TR.cs = scnt;
+        break;
+      }
+    }
+    if(TR.cm&&TR.cs) break;
   }
   return FB_OK;
 }
@@ -319,8 +377,8 @@ int fsm_move_in(fsm_stack* s, xmltype type, const char *str, int inst)
   if(type==TAG){ptr = fsm_get_tag(s->arr[s->top],str,inst);}
   // If attribute, get attribute inside current head object
   else if (type==ATT){ptr = fsm_get_att(s->arr[s->top],str);}
-  // If unsuccessful, return NOT FOUND
-  if(!ptr){return FB_NOT_FOUND;}
+  // If unsuccessful, return error
+  if(!ptr){return FB_ERR;}
   // Add pointer to stack
   fsm_stack_put(s, ptr);
   return ptr;
@@ -469,7 +527,7 @@ int fsm_get_elm(int ptr, int inst)
     }
     ptr++;
   }
-  if(inst>0) return FB_NOT_FOUND; //No such element found
+  if(inst>0) return FB_ERR; //No such element found
   return ptr;
 }
 
@@ -513,7 +571,7 @@ int fsm_get_tkn(int ptr, const char* name, xmltype type, int inst)
   {
     prnt_end = tkns[ptr].end;
   }
-  else {return FB_NOT_FOUND;}
+  else {return FB_ERR;}
   
   // Get into the object (point to next token)
   chld_end = tkns[(++ptr)+1].end;
@@ -531,6 +589,8 @@ int fsm_get_tkn(int ptr, const char* name, xmltype type, int inst)
           if((type==TAG&&fsm_is_tag(ptr))||
              (type==ATT&&fsm_is_att(ptr)))
           {
+            // If this is not an array and instance is larger than 1, return error
+            if(!fsm_is_arr(ptr+1)&&inst>1){return FB_ERR;}
             // If this is an array, return the requested element
             if(fsm_is_arr(ptr+1)){ptr = fsm_get_elm(ptr,inst);}
             return ptr;
@@ -542,7 +602,7 @@ int fsm_get_tkn(int ptr, const char* name, xmltype type, int inst)
     ptr++; //Go to the next token
   }
   // If didn't find token, return error
-  return FB_NOT_FOUND;
+  return FB_ERR;
 }
 
 //==============================================================================
@@ -654,7 +714,7 @@ errcode fsm_mem_free(void)
   // Free char array if allocated
   if(fstr){free(fstr);fstr=NULL;}
   // If free was not successful for one of them, return error flag
-  if(tkns||fstr){return FB_ERR_MEM;}
+  if(tkns||fstr){return FB_ERR;}
   // Otherwise, return ok
   return FB_OK;
 }

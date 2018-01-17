@@ -39,7 +39,7 @@ typedef enum
   CMD18                 = 18|R1,        // READ_MULTIPLE_BLOCK
   CMD55                 = 55|R1,        // APP_CMD
   CMD58                 = 58|R3,        // READ_OCR
-  ACMDX                 = 1<<8,         // Mask specifying application command
+  ACMDX                 = 1<<8,         // Mask that specifes app command
   ACMD41                = 41|R1|ACMDX   // (App command) APP_SEND_OP_COND
 } command;
 

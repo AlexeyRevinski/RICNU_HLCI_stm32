@@ -3,7 +3,6 @@
 extern uint8_t spi_rx_buffer[DATA_SIZE_FLEXSEA];
 extern uint8_t usart_tx_buffer[DATA_SIZE_P2U];
 extern uint8_t usart_rx_buffer[DATA_SIZE_U2P];
-
 extern uint8_t comm_str_1[COMM_STR_BUF_LEN];
 
 //==============================================================================
@@ -17,10 +16,11 @@ void update_Manage(void)
   {
     //SPI_ReceiveData8(SPIx);
     SPI_I2S_ReceiveData(SPIx);
-  }
-  // Start packet transmission sequence - drive chip select low
-  GPIO_ResetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);
-  GPIO_SetBits(GPIO_SPIx_EN_MN_PORT,GPIO_SPIx_EN_MN_PIN);
+  }  
+  // Change SPI speed
+  spi_change_mode(SPI_MODE_MANAGE);
+  // Select Manage Board
+  spi_select(MANAGE);
   // Start DMA transfer from memory to SPI->DR
   DMA_Cmd(SPIx_DMA_RX_CHANNEL, ENABLE);
   DMA_Cmd(SPIx_DMA_TX_CHANNEL, ENABLE);
@@ -46,12 +46,10 @@ void update_User(void)
 void pack_P2U(void)
 {
   int i=0;
-  if(spi_rx_buffer[1]==0x1D)
-  {  
-    for(i=0;i<=22;i++)
-    {
-      usart_tx_buffer[i]=spi_rx_buffer[i+6];
-    }
+  if(spi_rx_buffer[1]==0x1D) // If SPI packet contains the right-size data
+  {
+    // Isolate data and pack into USART buffer
+    for(i=0;i<=22;i++){usart_tx_buffer[i]=spi_rx_buffer[i+6];}    
   }
   if(usart_tx_buffer[23]==0){usart_tx_buffer[23]=1;}
   else if(usart_tx_buffer[23]==1){usart_tx_buffer[23]=0;}

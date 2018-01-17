@@ -153,22 +153,15 @@ void EXTI0_IRQHandler(void)
     // If button is pressed
     if ((GPIO_EXTI_UB_PORT->IDR & GPIO_EXTI_UB_PIN))
     {
-      change_sys_state(&sys_state,EVENT_MANIFEST_READ_SUCCESS);
-      GPIO_ResetBits(LEDx_PORT,LED1_PIN);
-      
-      if(sys_state==STATE_INITIALIZING_MEMORY)
+      GPIO_ResetBits(LEDx_PORT,LED2_PIN);
+      if(sys_state==STATE_WAIT_FOR_USER)
       {
-        GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN); // De-select manage
-        GPIO_ResetBits(GPIO_SPIx_EN_MN_PORT,GPIO_SPIx_EN_MN_PIN); // De-select manage
-        
-        fsm_build();
-        
-        change_sys_state(&sys_state,EVENT_MEMORY_INITIALIZATION_SUCCESS);
+        change_sys_state(&sys_state,EVENT_USER_INPUT_RECEIVED);
       }
-    }
-    else // If button is not pressed
-    {
-      GPIO_SetBits(LEDx_PORT,LED1_PIN);
+      else if(sys_state==STATE_ERROR)
+      {
+        change_sys_state(&sys_state,EVENT_RESET_REQUEST);
+      }
     }
     
     // Clear the interrupt pending bit
@@ -181,19 +174,10 @@ void EXTI1_IRQHandler(void)
 {
   if(EXTI_GetITStatus(EXTI_CD_LINE) != RESET)
   {
-    // If card is detected in the socket
-    if ((GPIO_EXTI_CD_PORT->IDR & GPIO_EXTI_CD_PIN))
-    {
-      GPIO_ResetBits(LEDx_PORT,LED2_PIN);
-      change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DETECTED);
-    }
-    else // If card was taken out of the socket
-    {
-      GPIO_SetBits(LEDx_PORT,LED2_PIN);
-      change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DISCONNECTED);
-    }
+    // See if the card is in or not
+    SD_Detect();
     // Clear the interrupt pending bit
-    EXTI_ClearITPendingBit(EXTI_UB_LINE);
+    EXTI_ClearITPendingBit(EXTI_CD_LINE);
   }
 }
 

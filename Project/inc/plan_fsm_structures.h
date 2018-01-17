@@ -8,7 +8,7 @@
 #define MAX_GAINS               5
 
 // ENUMS
-typedef enum {M,L,ME,LE,E} fsm_condition;
+typedef enum {MR,LS,ME,LE,EQ} fsm_condition;
 typedef enum {AX,AY,AZ,GX,GY,GZ,EM,EJ,CM,STRAIN} fsm_channel;
 
 // OTHER TYPES
@@ -61,5 +61,11 @@ typedef struct
   int           num_m;
   fsm_mode      m[MAX_MODES_PER_FSM];
 } fsm;
+
+typedef struct
+{
+  int   cm;
+  int   cs;
+} fsm_tracker;
 
 #endif //PLAN_FSM_STRUCTURES_H
