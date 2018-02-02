@@ -56,8 +56,12 @@ const char* val_eq              = "eq\0";
 // GLOBAL VARIABLES  ===========================================================
 static  fsm_stack       fst     = NULL;
 static  fsm_stack       *fstp   = &fst; // Initialize ptr to fsm ptr stack
-extern  fsm             *FSM;
-extern  fsm_tracker     TR;
+
+fsm             FSM_s   = NULL;                                                 // ALL OF THIS CAN GO INTO FSM BUILDER
+fsm             *FSM    = &FSM_s; // Initialize pointer to fsm structure
+fsm_tracker     TR;
+
+
 extern  state           sys_state;
 
 // HEAP POINTERS  ==============================================================
@@ -70,13 +74,13 @@ static  char            *fstr   = NULL; // Initialize fsm string pointer
 //==============================================================================
 errcode fsm_build(void)
 {  
-  // Select SD Card and de-select Manage Board  ================================
-  spi_select(SDCARD);
+  // Select SD Card for SPI communication  =====================================
+  GPIO_ResetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);
   
   // Get FSM file string  ======================================================
   FATFS fs; FIL fil; UINT br;                   // Declare FatFs variables
   f_mount(&fs,"", 0);                           // Mount the default drive
-  f_open(&fil,FILENAME, FA_READ);               // Open fsm file
+  if(f_open(&fil,FILENAME, FA_READ)!=FR_OK) return FB_ERR;               // Open fsm file
   int str_size = fil.obj.objsize;               // Get file size
   if(str_size>MAX_FSM_FILE_LENGTH){return FB_ERR;} // If too large ==> error
   fstr = (char *)malloc(sizeof(*fstr)*str_size);// Allocate memory for fstr
@@ -97,14 +101,8 @@ errcode fsm_build(void)
   jsmn_parse(&parser,fstr,str_size,tkns,num_tkns); // Parse string 
   
   // Populate FSM structure from FSM string and jsmn tokens  ===================
-  fsm_populate_structure();
-        
-  // Free Memory  ==============================================================
-  fsm_mem_free();
-  
-  // Check build process  ======================================================
-  //if(!fsm_stack_get(fstp)==-1){return FB_ERR_BUILD;}
-  return FB_OK;
+  if(!fsm_populate_structure()) {fsm_mem_free();return FB_ERR;}
+  else                          {fsm_mem_free();return FB_OK;}
 }
 
 //==============================================================================
@@ -126,34 +124,34 @@ int fsm_populate_structure(void)
   fsm_stack_init(fstp);                                                         // root
   
   // Populate "user"  ==========================================================
-  fsm_move_in(fstp,TAG,tag_user,1);                                             // root/user
-  fsm_move_in(fstp,ATT,att_fname,1);                                            // root/user/firstname
-  fsm_get_str(fstp,FSM->user.fn);
-  fsm_move_to(fstp,ATT,att_lname,1);                                            // root/user/lastname
-  fsm_get_str(fstp,FSM->user.ln);
-  fsm_move_to(fstp,ATT,att_id,1);                                               // root/user/id
-  fsm_get_i(fstp,&FSM->user.id);
-  fsm_move_up(fstp,2);                                                          // root
+  if(!fsm_move_in(fstp,TAG,tag_user,1))         return FB_ERR;                          // root/user
+  if(!fsm_move_in(fstp,ATT,att_fname,1))        return FB_ERR;                                            // root/user/firstname
+  if(!fsm_get_str(fstp,FSM->user.fn))           return FB_ERR;
+  if(!fsm_move_to(fstp,ATT,att_lname,1))        return FB_ERR;                                            // root/user/lastname
+  if(!fsm_get_str(fstp,FSM->user.ln))           return FB_ERR;
+  if(!fsm_move_to(fstp,ATT,att_id,1))           return FB_ERR;                                               // root/user/id
+  if(!fsm_get_i(fstp,&FSM->user.id))            return FB_ERR;
+  if(!fsm_move_up(fstp,2))                      return FB_ERR;                                                          // root
       
   // Populate "patient"  =======================================================
-  fsm_move_in(fstp,TAG,tag_patient,1);                                          // root/patient
-  fsm_move_in(fstp,ATT,att_fname,1);                                            // root/patient/firstname
-  fsm_get_str(fstp,FSM->patient.fn);
-  fsm_move_to(fstp,ATT,att_lname,1);                                            // root/patient/lastname
-  fsm_get_str(fstp,FSM->patient.ln);
-  fsm_move_to(fstp,ATT,att_id,1);                                               // root/patient/id
-  fsm_get_i(fstp,&FSM->patient.id);
-  fsm_move_up(fstp,2);                                                          // root
+  if(!fsm_move_in(fstp,TAG,tag_patient,1))      return FB_ERR;                                          // root/patient
+  if(!fsm_move_in(fstp,ATT,att_fname,1))        return FB_ERR;                                            // root/patient/firstname
+  if(!fsm_get_str(fstp,FSM->patient.fn))        return FB_ERR;
+  if(!fsm_move_to(fstp,ATT,att_lname,1))        return FB_ERR;                                            // root/patient/lastname
+  if(!fsm_get_str(fstp,FSM->patient.ln))        return FB_ERR;
+  if(!fsm_move_to(fstp,ATT,att_id,1))           return FB_ERR;                                               // root/patient/id
+  if(!fsm_get_i(fstp,&FSM->patient.id))         return FB_ERR;
+  if(!fsm_move_up(fstp,2))                      return FB_ERR;                                                          // root
   
   // Populate the state machine  ===============================================
-  fsm_move_in(fstp,TAG,tag_fsm,1);                                              // root/fsm
+  if(!fsm_move_in(fstp,TAG,tag_fsm,1))          return FB_ERR;                                              // root/fsm
   
   // Get default mode id 
-  fsm_move_in(fstp,ATT,att_dmd,1);                                              // root/fsm/defmode
-  fsm_get_i(fstp,&FSM->id_defmode);
+  if(!fsm_move_in(fstp,ATT,att_dmd,1))          return FB_ERR;                                              // root/fsm/defmode
+  if(!fsm_get_i(fstp,&FSM->id_defmode))         return FB_ERR;
   
   // Move up to root/fsm
-  fsm_move_up(fstp,1);                                                          // root/fsm
+  if(!fsm_move_up(fstp,1))                      return FB_ERR;                                                          // root/fsm
   
   // Populate each mode  =======================================================
   while(mode_ptr)       // While successfully getting new modes

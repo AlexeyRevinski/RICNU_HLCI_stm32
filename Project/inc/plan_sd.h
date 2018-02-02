@@ -68,14 +68,14 @@ typedef struct
   uint32_t      extra;          // Used only for R3 and R7
 } RESPONSE;
 
-#define SPI_SS_SD_SELECT() GPIO_ResetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN); GPIO_SetBits(GPIO_SPIx_EN_SD_PORT,GPIO_SPIx_EN_SD_PIN)
-#define SPI_SS_SD_DESELECT() GPIO_SetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN); GPIO_ResetBits(GPIO_SPIx_EN_SD_PORT,GPIO_SPIx_EN_SD_PIN)
+#define SPI_SS_SD_SELECT() GPIO_ResetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);//GPIO_ResetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN);// GPIO_SetBits(GPIO_SPIx_EN_SD_PORT,GPIO_SPIx_EN_SD_PIN)
+#define SPI_SS_SD_DESELECT() GPIO_SetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);//GPIO_SetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN);// GPIO_ResetBits(GPIO_SPIx_EN_SD_PORT,GPIO_SPIx_EN_SD_PIN)
 
 uint8_t         SD_Detect(void);
 MEMTYPE         SD_Init(void);
 RESPONSE        SD_SendCmd(command cmd, uint32_t arg);
 void            SD_ReadBlock(uint8_t* buff);
-uint8_t         SPI_WriteByte(uint8_t Data);
-uint8_t         SPI_ReadByte(void);
+uint8_t         SPI_WriteByte(SPI_TypeDef * SPIx, uint8_t data);
+uint8_t         SPI_ReadByte(SPI_TypeDef * SPIx);
 
 #endif

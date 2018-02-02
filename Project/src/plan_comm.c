@@ -1,9 +1,19 @@
 #include "plan_comm.h"
 
-extern uint8_t spi_rx_buffer[DATA_SIZE_FLEXSEA];
-extern uint8_t usart_tx_buffer[DATA_SIZE_P2U];
-extern uint8_t usart_rx_buffer[DATA_SIZE_U2P];
-extern uint8_t comm_str_1[COMM_STR_BUF_LEN];
+uint8_t         spi_rx_buffer[DATA_SIZE_FLEXSEA];       // Used for SPI MN rx   // ALL OF THIS SHOULD GO TO COMM
+extern uint8_t  comm_str_1[COMM_STR_BUF_LEN];           // Used for SPI MN tx
+uint8_t         usart_tx_buffer[DATA_SIZE_P2U];         // Used for UART tx
+uint8_t         usart_rx_buffer[DATA_SIZE_U2P];         // Used for UART rx
+uint8_t         spi_payload[DATA_SIZE_FLEXSEA];
+uint8_t         spi_rx_tmp[DATA_SIZE_FLEXSEA];
+
+void prep_packet(uint8_t offset, uint8_t ctrl, int32_t sp, int16_t gain0, \
+                 int16_t gain1, int16_t gain2, int16_t gain3)
+{
+  tx_cmd_ricnu_rw(TX_N_DEFAULT, offset, ctrl, sp,
+                  CHANGE, gain0, gain1, gain2, gain3);
+  pack(P_AND_S_DEFAULT, FLEXSEA_EXECUTE_1, 0, 0, comm_str_1);
+}
 
 //==============================================================================
 // FUNCTION update_Manage()
@@ -11,19 +21,16 @@ extern uint8_t comm_str_1[COMM_STR_BUF_LEN];
 //==============================================================================
 void update_Manage(void)
 {
-  // Clear data register
-  while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_RXNE) == SET)
+  // Clear data register by reading data until none left
+  while(SPI_I2S_GetFlagStatus(SPI_MN, SPI_I2S_FLAG_RXNE) == SET)
   {
-    //SPI_ReceiveData8(SPIx);
-    SPI_I2S_ReceiveData(SPIx);
+    SPI_I2S_ReceiveData(SPI_MN);
   }  
-  // Change SPI speed
-  spi_change_mode(SPI_MODE_MANAGE);
-  // Select Manage Board
-  spi_select(MANAGE);
+  GPIO_ResetBits(GPIO_MN_NSS_PORT,GPIO_MN_NSS_PIN);     // Select Manage Board
+  
   // Start DMA transfer from memory to SPI->DR
-  DMA_Cmd(SPIx_DMA_RX_CHANNEL, ENABLE);
-  DMA_Cmd(SPIx_DMA_TX_CHANNEL, ENABLE);
+  DMA_Cmd(SPI_MN_DMA_RX_CHAN, ENABLE);
+  DMA_Cmd(SPI_MN_DMA_TX_CHAN, ENABLE);
 }
 
 
@@ -34,8 +41,8 @@ void update_Manage(void)
 void update_User(void)
 {
   // Start DMA transfer from memory to USART->TDR
-  DMA_Cmd(USARTx_DMA_RX_CHANNEL, ENABLE);
-  DMA_Cmd(USARTx_DMA_TX_CHANNEL, ENABLE);
+  DMA_Cmd(USART_BT_DMA_RX_CHAN, ENABLE);
+  DMA_Cmd(USART_BT_DMA_TX_CHAN, ENABLE);
 }
 
 
@@ -43,16 +50,22 @@ void update_User(void)
 // FUNCTION pack_P2U()
 //      - packs data to send to User over UART
 //==============================================================================
-void pack_P2U(void)
+int pack_P2U(void)                                                             // BUILD IN A ROBUST CHECKING MECHANISM
 {
-  int i=0;
-  if(spi_rx_buffer[1]==0x1D) // If SPI packet contains the right-size data
+  if(unpack_payload(spi_rx_buffer,spi_rx_tmp,spi_payload)>0)
   {
-    // Isolate data and pack into USART buffer
-    for(i=0;i<=22;i++){usart_tx_buffer[i]=spi_rx_buffer[i+6];}    
+    struct execute_s ex2; ricnu_1.ex = &ex2; // set rn->ex to point to declared structure
+    struct strain_s  st2; ricnu_1.st = &st2; // set rn->st to point to declared structure
+    rx_cmd_ricnu_rr(spi_payload,0);
+    int i=0;
+    //if(spi_rx_tmp[1]==0x1D) // If SPI packet contains the right-size data
+    //{
+      // Isolate data and pack into USART buffer
+      for(i=0;i<=24;i++){usart_tx_buffer[i]=spi_payload[i+4];}    
+    //}
+    return COMM_OK;
   }
-  if(usart_tx_buffer[23]==0){usart_tx_buffer[23]=1;}
-  else if(usart_tx_buffer[23]==1){usart_tx_buffer[23]=0;}
+  return COMM_ERR;
 }
 
 
@@ -81,8 +94,12 @@ void pack_U2P(void)
   {
     pwm = 800;
   }
-  uint16_t numb = 0;
-  tx_cmd_ricnu_rw(TX_N_DEFAULT, 0, ctrl, pwm, CHANGE, 0, 0, 0, 0);
-  pack(P_AND_S_DEFAULT, FLEXSEA_EXECUTE_1, 0, &numb, comm_str_1);
+  
+  //uint16_t numb = 0;
+  //prep_packet(0,ctrl,pwm,0,0,0,0);
+  //tx_cmd_ricnu_rw(TX_N_DEFAULT, 0, ctrl, pwm, CHANGE, 0, 0, 0, 0);
+  //pack(P_AND_S_DEFAULT, FLEXSEA_EXECUTE_1, 0, &numb, comm_str_1);
+  (void) ctrl;
+  (void) pwm;
 }
 

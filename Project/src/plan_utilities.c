@@ -5,83 +5,13 @@ extern uint8_t          comm_str_1[COMM_STR_BUF_LEN];
 extern fsm              *FSM;
 extern fsm_tracker      TR;
 
-extern int32_t         setpoint;
-extern int16_t         g0,g1,g2,g3;
+int32_t setpoint = -1;
+int16_t g0=-1,g1=-1,g2=-1,g3=-1;
 
 
-//==============================================================================
-// FUNCTION set_tick()
-//      - Sets SysTick to set an interrupt request after specified
-//        number of microseconds
-//==============================================================================
-void set_tick(uint32_t us)
-{
-  RCC_ClocksTypeDef RCC_Clocks;
-  RCC_GetClocksFreq(&RCC_Clocks);
-  SysTick_Config((RCC_Clocks.HCLK_Frequency/FACTOR_us_PER_s)*us);
-  NVIC_SetPriority(SysTick_IRQn, 0x0);
-}
 
-//==============================================================================
-// FUNCTION spi_change_mode()
-//      - Changes SPI configuration based on SPI mode requested
-//==============================================================================
-void spi_change_mode(spi_mode mode)
-{
-  // SPI mode for initializing the SD card in SPI mode
-  if(mode==SPI_MODE_SD_INIT)
-  {
-    SPI_Cmd(SPIx, DISABLE);
-    // Disable interactions with DMA
-    SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Rx, DISABLE);
-    SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Tx, DISABLE);
-    // SPI clock rate at 375kHz
-    SPIx->CR1 &= ~SPI_CR1_BR;                   //Clear baud rate prescaler bits
-    SPIx->CR1 |= SPI_BaudRatePrescaler_32;     //Set baud rate prescaler//M0:128
-    SPI_Cmd(SPIx, ENABLE);
-  }
-  // SPI mode for communicating with Manage and SD data exchanges
-  if(mode==SPI_MODE_MANAGE||mode==SPI_MODE_SD_DATA)
-  {
-    SPI_Cmd(SPIx, DISABLE);
-    // Enable SPI interrupts for DMA
-    SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Rx, ENABLE);
-    SPI_I2S_DMACmd(SPIx, SPI_I2S_DMAReq_Tx, ENABLE);
-    // SPI clock rate at 1.5MHz
-    SPIx->CR1 &= ~SPI_CR1_BR;                   //Clear baud rate prescaler bits
-    SPIx->CR1 |= SPI_BaudRatePrescaler_8;       //Set baud rate prescaler//M0:32
-    SPI_Cmd(SPIx, ENABLE);
-  }
-}
 
-//==============================================================================
-// FUNCTION spi_select()
-//      - manages the GPIO to select either the Manage Board or the SD card
-//==============================================================================
-void spi_select(int dev)
-{
-  switch(dev)
-  {
-  case MANAGE:
-    // Disable SD card
-    GPIO_SetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN);
-    GPIO_ResetBits(GPIO_SPIx_EN_SD_PORT,GPIO_SPIx_EN_SD_PIN);
-    // Enable Manage
-    GPIO_ResetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);
-    GPIO_SetBits(GPIO_SPIx_EN_MN_PORT,GPIO_SPIx_EN_MN_PIN);
-    break;
-  case SDCARD:
-    // Disable Manage
-    GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);
-    GPIO_ResetBits(GPIO_SPIx_EN_MN_PORT,GPIO_SPIx_EN_MN_PIN);
-    // Enable SD card
-    GPIO_ResetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN);
-    GPIO_SetBits(GPIO_SPIx_EN_SD_PORT,GPIO_SPIx_EN_SD_PIN);
-    break;
-  }
-}
-
-//==============================================================================
+//==============================================================================        // Perhaps will move to fsm
 // FUNCTION update_fsm()
 //      - processes data from Manage
 //      - catches events based on current state
@@ -93,7 +23,7 @@ void update_fsm(void)
   uint8_t d[22];
   
   // Check data packet  ========================================================
-  if(!(spi_rx_buffer[1]==(uint8_t)0x1D)) return; // If SPI packet contains the right-size data
+  if(!(spi_rx_buffer[1]==(uint8_t)0x1D)) return; // Check if SPI packet contains the right-size data
   
   // Interpret data  ===========================================================
   for(i=0;i<=22;i++){d[i]=spi_rx_buffer[i+7];} // Isolate data and pack into a data buffer
@@ -198,8 +128,26 @@ void update_fsm(void)
 //==============================================================================
 void calculate_gains(void)
 {
-  uint16_t numb = 0;
+  //uint16_t numb = 0;
   uint8_t control = 0;
+  (void) control;
+  
+  if(TR.cs==1)
+  {
+    LED_state(LED_YEL,ON,CON);
+    LED_state(LED_BLU,OFF,CON);
+  }
+  else if(TR.cs==2)
+  {
+    LED_state(LED_YEL,OFF,CON);
+    LED_state(LED_BLU,ON,CON);
+  }
+  else
+  {
+    LED_state(LED_YEL,OFF,CON);
+    LED_state(LED_BLU,OFF,CON);
+  }
+  
   
   switch(FSM->m[TR.cm].s[TR.cs].ctrl)
   {
@@ -219,22 +167,11 @@ void calculate_gains(void)
     g1 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[1];
     g2 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[3];
     g3 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[4];
-    /*
-    if (TR.cs==1)
-    {
-      control = CTRL_IMPEDANCE;
-      setpoint = 4050; g0 = 5;  g1 = 3;  g2 = 10; g3 = 1;
-    }
-    else if(TR.cs==2)
-    {
-      control = CTRL_IMPEDANCE;
-      setpoint = 8100; g0 = 20; g1 = 18; g2 = 10; g3 = 1;
-    }
-    */
     break; 
   }
-  tx_cmd_ricnu_rw(TX_N_DEFAULT,0,control,setpoint,CHANGE,g0,g1,g2,g3);
-  pack(P_AND_S_DEFAULT, FLEXSEA_EXECUTE_1, 0, &numb, comm_str_1);
+  //prep_packet(0,control,setpoint,g0,g1,g2,g3);
+  //tx_cmd_ricnu_rw(TX_N_DEFAULT,0,control,setpoint,CHANGE,g0,g1,g2,g3);
+  //pack(P_AND_S_DEFAULT, FLEXSEA_EXECUTE_1, 0, &numb, comm_str_1);
 }
 
 
@@ -248,6 +185,30 @@ int u2s(int data, int size)
   if(data>thres) return (data-((thres<<1)-1));
   return data;
 }
+
+
+//==============================================================================
+// FUNCTION GPIO_ToggleBits()
+//      - toggles a GPIO output
+//==============================================================================
+void GPIO_ToggleBits(GPIO_TypeDef * GPIOx, uint16_t GPIO_Pin)
+{
+  /* Check the parameters */
+  assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+  assert_param(IS_GPIO_PIN(GPIO_Pin));
+  
+  if((GPIOx->ODR&GPIO_Pin)!=Bit_RESET) //If output register bit is set
+  {
+    GPIOx->BRR = GPIO_Pin;      //Reset output pin bit
+  }
+  else
+  {
+    GPIOx->BSRR = GPIO_Pin;     //Set output pin bit
+  }
+  
+}
+
+
 
 
 

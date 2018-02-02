@@ -2,45 +2,44 @@
 #define PLAN_STATE_SYSTEM_H
 
 #include "plan_include.h"
-#include <stddef.h>
+//#include <stddef.h>
 
+// EVENTS ----------------------------------------------------------------------
 typedef enum
 {
-  EVENT_EXTERNAL_MEMORY_DETECTED,
-  EVENT_EXTERNAL_MEMORY_DISCONNECTED,
-  EVENT_FSM_BUILD_SUCCESS,
-  EVENT_FSM_BUILD_FAIL,
-  EVENT_USER_INPUT_RECEIVED,
-  EVENT_RESET_REQUEST,
-  EVENT_FLEXSEA_ERROR = 0xFF,
+  EVENT_INITIALIZED,            // Occurs at the end of initialization seq
+  EVENT_SDCARD_IN,              // Occurs when SD Card is inserted
+  EVENT_SDCARD_OUT,             // Occurs when SD Card is taken out
+  EVENT_START,                  // Occurs when START command received from app
+  EVENT_STOP,                   // Occurs when STOP command received from app
+  EVENT_FLEXSEA_ERROR = 0xFF,   // Occurs upon error in FlexSEA communication
 } event;
 
+// SYSTEM STATES ---------------------------------------------------------------
 typedef enum
 {
-  STATE_ERROR,
-  STATE_INITIALIZING,
-  STATE_WAITING_FOR_MEMORY,
-  STATE_BUILDING_FSM,
-  STATE_WAIT_FOR_USER,
-  STATE_ACTIVE_CONTROL,
+  STATE_ERROR,                  // Error state
+  STATE_INITIALIZING,           // Initial state
+  STATE_ACTIVE,                 // Active control/logging/streaming
+  STATE_INACTIVE,               // Idle state; waiting for command from app
 } state;
 
-
+// EXTERNAL MEMORY STATES ------------------------------------------------------
 typedef enum
 {
-  MEM_OUT,
-  MEM_IN,
+  MEM_OUT,                      // When SD Card is taken out
+  MEM_IN,                       // When SD Card is inserted
 } mstate;
 
+// TRANSITION STRUCTURE --------------------------------------------------------
 typedef struct 
 {
-  state source;
-  event event;
-  state destination;
+  state source;                 // Original state
+  event event;                  // Event upon which to transition
+  state destination;            // Final state
 } transition;
 
-#define ENTRY_STATE     STATE_INITIALIZING
-
+// FUNCTION PROTOTYPES =========================================================
 void change_sys_state(state* curstate_p, event curevent);
 
 #endif //PLAN_STATE_SYSTEM_H

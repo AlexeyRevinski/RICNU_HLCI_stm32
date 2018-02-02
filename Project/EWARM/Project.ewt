@@ -1161,13 +1161,16 @@
   <group>
     <name>CMSIS</name>
     <file>
-      <name>$PROJ_DIR$\..\src\system_stm32l1xx.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F10x\startup\iar\startup_stm32f10x_hd.s</name>
     </file>
-  </group>
-  <group>
-    <name>EWARM</name>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32L1xx\Source\Templates\iar\startup_stm32l1xx_mdp.s</name>
+      <name>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F10x\stm32f10x.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F10x\system_stm32f10x.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Libraries\CMSIS\Device\ST\STM32F10x\system_stm32f10x.h</name>
     </file>
   </group>
   <group>
@@ -1402,36 +1405,36 @@
     </file>
   </group>
   <group>
-    <name>StdPeriph_Driver</name>
+    <name>STM32F10x_StdPeriph_Driver</name>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32L1xx_StdPeriph_Driver\src\misc.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F10x_StdPeriph_Driver\src\misc.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32L1xx_StdPeriph_Driver\src\stm32l1xx_dma.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_dma.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32L1xx_StdPeriph_Driver\src\stm32l1xx_exti.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_exti.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32L1xx_StdPeriph_Driver\src\stm32l1xx_gpio.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_flash.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32L1xx_StdPeriph_Driver\src\stm32l1xx_pwr.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_gpio.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32L1xx_StdPeriph_Driver\src\stm32l1xx_rcc.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_pwr.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32L1xx_StdPeriph_Driver\src\stm32l1xx_spi.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32L1xx_StdPeriph_Driver\src\stm32l1xx_syscfg.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_spi.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32L1xx_StdPeriph_Driver\src\stm32l1xx_tim.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_tim.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\Libraries\STM32L1xx_StdPeriph_Driver\src\stm32l1xx_usart.c</name>
+      <name>$PROJ_DIR$\..\..\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_usart.c</name>
     </file>
   </group>
   <group>
@@ -1451,9 +1454,6 @@
         <name>$PROJ_DIR$\..\inc\plan_fsm_builder.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\inc\plan_fsm_structures.h</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$\..\inc\plan_include.h</name>
       </file>
       <file>
@@ -1469,10 +1469,10 @@
         <name>$PROJ_DIR$\..\inc\plan_utilities.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\inc\stm32l1xx_conf.h</name>
+        <name>$PROJ_DIR$\..\inc\stm32f10x_conf.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\inc\stm32l1xx_it.h</name>
+        <name>$PROJ_DIR$\..\inc\stm32f10x_it.h</name>
       </file>
     </group>
     <group>
@@ -1508,7 +1508,7 @@
         <name>$PROJ_DIR$\..\src\plan_utilities.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\src\stm32l1xx_it.c</name>
+        <name>$PROJ_DIR$\..\src\stm32f10x_it.c</name>
       </file>
     </group>
   </group>

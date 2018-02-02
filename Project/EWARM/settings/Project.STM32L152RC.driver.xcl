@@ -6,11 +6,11 @@
 
 "-p" 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\arm\CONFIG\debugger\ST\STM32L152RC.ddf" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\arm\CONFIG\debugger\ST\STM32F103RD.ddf" 
 
 "--semihosting" 
 
-"--device=STM32L152RC" 
+"--device=STM32F103RD" 
 
 "--drv_interface=SWD" 
 

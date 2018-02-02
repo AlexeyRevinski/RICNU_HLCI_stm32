@@ -5,7 +5,13 @@
 
 #define FILENAME "fsm.json"
 #define MAX_FSM_FILE_LENGTH 8192
+#define STACK_SIZE 50
+#define MAX_STATES_PER_MODE     5
+#define MAX_TRAN_PER_STATE      4
+#define MAX_MODES_PER_FSM       4
+#define MAX_GAINS               5
 
+// TYPE OF CONTROL ENUM
 typedef enum
 {
   CTRL_NON = 0,
@@ -14,6 +20,7 @@ typedef enum
   CTRL_IMP = 3,
 } fsm_ctrl;
 
+// XML MEMBER TYPE ENUM
 typedef enum
 {
   TAG,
@@ -26,14 +33,76 @@ typedef enum
   FB_ERR = 0,
   FB_OK = 1,
 } errcode;
-
-#define STACK_SIZE 50
  
 // STACK STRUCTURE
 typedef struct {
    int  arr[STACK_SIZE];
    int  top;
 }fsm_stack;
+
+// ENUMS
+typedef enum {MR,LS,ME,LE,EQ} fsm_condition;
+typedef enum {AX,AY,AZ,GX,GY,GZ,EM,EJ,CM,STRAIN} fsm_channel;
+
+// OTHER TYPES
+typedef int fsm_id;
+typedef float fsm_gain;
+
+// PERSON STRUCT
+typedef struct
+{
+  char fn[20];
+  char ln[20];
+  int id;
+} person;
+
+// TRANSITION STRUCT
+typedef struct
+{
+  fsm_id        id_self;
+  fsm_id        id_next;
+  int           chan;
+  int           cond;
+  float         thres;
+} fsm_tran;
+
+// STATE STRUCT
+typedef struct
+{
+  fsm_id        id_self;
+  int           ctrl;
+  fsm_gain      g[MAX_GAINS];
+  int           num_t;
+  fsm_tran      t[MAX_TRAN_PER_STATE];
+} fsm_state;
+
+// MODE STRUCT
+typedef struct
+{
+  fsm_id        id_self;
+  fsm_id        id_defstate;
+  int           num_s;
+  fsm_state     s[MAX_STATES_PER_MODE];
+} fsm_mode;
+
+// MAIN FSM STRUCT
+typedef struct
+{
+  fsm_id        id_defmode;
+  person        user;
+  person        patient;
+  int           num_m;
+  fsm_mode      m[MAX_MODES_PER_FSM];
+} fsm;
+
+// TRACKER STRUCT
+typedef struct
+{
+  int   cm;
+  int   cs;
+} fsm_tracker;
+
+
 
 // FUNCTION PROTOTYPES
 errcode         fsm_build(void);

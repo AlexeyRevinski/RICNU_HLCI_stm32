@@ -29,7 +29,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l1xx_it.h"
-#include "stm32l1xx_conf.h"
+//#include "stm32l1xx_conf.h"
 #include "plan_include.h"
 
 extern uint16_t state_time_us;
@@ -61,7 +61,7 @@ void HardFault_Handler(void)
   /* Go to infinite loop when Hard Fault exception occurs */
   while (1)
   {
-    GPIO_SetBits(LEDx_PORT, LED2_PIN);
+    //GPIO_SetBits(LEDx_PORT, LED2_PIN);
   }
 }
 
@@ -153,7 +153,7 @@ void EXTI0_IRQHandler(void)
     // If button is pressed
     if ((GPIO_EXTI_UB_PORT->IDR & GPIO_EXTI_UB_PIN))
     {
-      GPIO_ResetBits(LEDx_PORT,LED2_PIN);
+      //GPIO_ResetBits(LEDx_PORT,LED2_PIN);
       if(sys_state==STATE_WAIT_FOR_USER)
       {
         change_sys_state(&sys_state,EVENT_USER_INPUT_RECEIVED);

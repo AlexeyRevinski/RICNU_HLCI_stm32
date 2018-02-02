@@ -32,7 +32,14 @@ DRESULT disk_read (BYTE drv, BYTE* buff, DWORD sector, UINT count)
   int timeout = 1000;
   RESPONSE rval;
   
-  spi_change_mode(SPI_MODE_SD_DATA);
+  SPI_Cmd(SPI_SD, DISABLE);
+  // Enable SPI interrupts for DMA
+  SPI_I2S_DMACmd(SPI_SD, SPI_I2S_DMAReq_Rx, ENABLE);
+  SPI_I2S_DMACmd(SPI_SD, SPI_I2S_DMAReq_Tx, ENABLE);
+  // SPI clock rate at 1.5MHz
+  SPI_SD->CR1 &= ~SPI_CR1_BR;                   //Clear baud rate prescaler bits
+  SPI_SD->CR1 |= SPI_BaudRatePrescaler_16;       //Set baud rate prescaler//M0:32
+  SPI_Cmd(SPI_SD, ENABLE);
 
   // Send read data request (multiplying sector by 512 to get byte address)
   if (count==1)         {CMDxx = CMD17;} //Single block read
@@ -59,7 +66,7 @@ DRESULT disk_read (BYTE drv, BYTE* buff, DWORD sector, UINT count)
       if(rval.R1!=0x00)
       {
         SPI_SS_SD_SELECT();
-        rval.R1 = SPI_ReadByte();
+        rval.R1 = SPI_ReadByte(SPI_SD);
         SPI_SS_SD_DESELECT();
       }
       timeout--;

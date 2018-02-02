@@ -4,140 +4,163 @@ extern uint8_t spi_rx_buffer[DATA_SIZE_FLEXSEA];
 extern uint8_t spi_tx_buffer[DATA_SIZE_FLEXSEA];
 extern uint8_t usart_tx_buffer[DATA_SIZE_P2U];
 extern uint8_t usart_rx_buffer[DATA_SIZE_U2P];
-extern uint8_t comm_str_1[COMM_STR_BUF_LEN];
+extern uint8_t comm_str_1[DATA_SIZE_FLEXSEA];
+
+
+void hardware_config(void)
+{
+  RCC_config();         // Clock configuration
+  GPIO_config();        // GPIOs - for SPI, USART, etc.
+  SPI_config();         // Serial Peripheral Interface Controller
+  USART_config();       // Universal Synch/Asynch Receiver/Transmitter
+  DMA_config();         // Direct Memory Access Controller
+  EXTI_config();        // External Interrupt Controller
+  NVIC_config();        // Nested Vector Interrupt Controller
+  
+  RTC_config();         // Real Time Clock configuration
+  TIM_config();         // Configuring timers
+  
+  RCC_ClocksTypeDef RCC_Clocks;
+  RCC_GetClocksFreq(&RCC_Clocks);
+  SysTick_Config((RCC_Clocks.HCLK_Frequency/FACTOR_us_PER_s)*SYS_TICK_US);
+  NVIC_SetPriority(SysTick_IRQn, 0x0);
+}
 
 
 //==============================================================================
 // FUNCTION GPIO_config()
 //      - Configures GPIO pins for: SPI, USART
 //==============================================================================
+
 void GPIO_config(void)
 {
-  // Declare the GPIO initialization structure
-  GPIO_InitTypeDef GPIO_InitStructure;
+  // Enable GPIO and altenate function I/O clocks
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOB|
+                         RCC_APB2Periph_GPIOC|RCC_APB2Periph_GPIOD|
+                         RCC_APB2Periph_AFIO, ENABLE);
   
-  //============================================================================
-  // INPUT PINS
-  //============================================================================
+  // PIN CONFIGURATION ==========================================================
   
-  // EXTI CARD DETECT PIN  -----------------------------------------------------
-  RCC_AHBPeriphClockCmd(GPIO_EXTI_CD_CLK, ENABLE);
-  GPIO_InitStructure.GPIO_Mode  = GPIO_EXTI_CD_MODE;
-  GPIO_InitStructure.GPIO_PuPd  = GPIO_EXTI_CD_PUPD;
-  GPIO_InitStructure.GPIO_Pin   = GPIO_EXTI_CD_PIN;
-  GPIO_Init(GPIO_EXTI_CD_PORT, &GPIO_InitStructure);
+  GPIO_PinConfig(GPIO_CAN_SHDN_PORT,    GPIO_CAN_SHDN_PIN,
+                 GPIO_CAN_SHDN_SPEED,   GPIO_CAN_SHDN_MODE);    //CAN SHDN
+  GPIO_PinConfig(GPIO_CAN_STBY_PORT,    GPIO_CAN_STBY_PIN,
+                 GPIO_CAN_STBY_SPEED,   GPIO_CAN_STBY_MODE);    //CAN STBY
+  GPIO_PinConfig(GPIO_CAN_RX_PORT,      GPIO_CAN_RX_PIN,
+                 GPIO_CAN_RX_SPEED,     GPIO_CAN_RX_MODE);      //CAN RX
+  GPIO_PinConfig(GPIO_CAN_TX_PORT,      GPIO_CAN_TX_PIN,
+                 GPIO_CAN_TX_SPEED,     GPIO_CAN_TX_MODE);      //CAN TX 
+  GPIO_PinConfig(GPIO_LED_1_PORT,       GPIO_LED_1_PIN,
+                 GPIO_LED_1_SPEED,      GPIO_LED_1_MODE);       //LED 1 (R)
+  GPIO_PinConfig(GPIO_LED_2_PORT,       GPIO_LED_2_PIN,
+                 GPIO_LED_2_SPEED,      GPIO_LED_2_MODE);       //LED 2 (Y)
+  GPIO_PinConfig(GPIO_LED_3_PORT,       GPIO_LED_3_PIN,
+                 GPIO_LED_3_SPEED,      GPIO_LED_3_MODE);       //LED 3 (G)
+  GPIO_PinConfig(GPIO_LED_4_PORT,       GPIO_LED_4_PIN,
+                 GPIO_LED_4_SPEED,      GPIO_LED_4_MODE);       //LED 4 (B)
+  GPIO_PinConfig(GPIO_BT_TX_PORT,       GPIO_BT_TX_PIN,
+                 GPIO_BT_TX_SPEED,      GPIO_BT_TX_MODE);       //BTMOD TX
+  GPIO_PinConfig(GPIO_BT_RX_PORT,       GPIO_BT_RX_PIN,
+                 GPIO_BT_RX_SPEED,      GPIO_BT_RX_MODE);       //BTMOD RX
+  GPIO_PinConfig(GPIO_SD_NSS_PORT,      GPIO_SD_NSS_PIN,
+                 GPIO_SD_NSS_SPEED,     GPIO_SD_NSS_MODE);      //SD NSS
+  GPIO_PinConfig(GPIO_SD_SCK_PORT,      GPIO_SD_SCK_PIN,
+                 GPIO_SD_SCK_SPEED,     GPIO_SD_SCK_MODE);      //SD SCK
+  GPIO_PinConfig(GPIO_SD_MISO_PORT,     GPIO_SD_MISO_PIN,
+                 GPIO_SD_MISO_SPEED,    GPIO_SD_MISO_MODE);     //SD MISO
+  GPIO_PinConfig(GPIO_SD_MOSI_PORT,     GPIO_SD_MOSI_PIN,
+                 GPIO_SD_MOSI_SPEED,    GPIO_SD_MOSI_MODE);     //SD MOSI
+  GPIO_PinConfig(GPIO_SD_CD_PORT,       GPIO_SD_CD_PIN,
+                 GPIO_SD_CD_SPEED,      GPIO_SD_CD_MODE);       //SD CD
+  GPIO_PinConfig(GPIO_MN_NSS_PORT,      GPIO_MN_NSS_PIN,
+                 GPIO_MN_NSS_SPEED,     GPIO_MN_NSS_MODE);      //MN NSS
+  GPIO_PinConfig(GPIO_MN_SCK_PORT,      GPIO_MN_SCK_PIN,
+                 GPIO_MN_SCK_SPEED,     GPIO_MN_SCK_MODE);      //MN SCK
+  GPIO_PinConfig(GPIO_MN_MISO_PORT,     GPIO_MN_MISO_PIN,
+                 GPIO_MN_MISO_SPEED,    GPIO_MN_MISO_MODE);     //MN MISO
+  GPIO_PinConfig(GPIO_MN_MOSI_PORT,     GPIO_MN_MOSI_PIN,
+                 GPIO_MN_MOSI_SPEED,    GPIO_MN_MOSI_MODE);     //MN MOSI
+  GPIO_PinConfig(GPIO_FTDI_ENUM_PORT,   GPIO_FTDI_ENUM_PIN,
+                 GPIO_FTDI_ENUM_SPEED,  GPIO_FTDI_ENUM_MODE);   //FTDI ENUM
+  GPIO_PinConfig(GPIO_FTDI_PWR_PORT,    GPIO_FTDI_PWR_PIN,
+                 GPIO_FTDI_PWR_SPEED,   GPIO_FTDI_PWR_MODE);    //FTDI PWR
+  GPIO_PinConfig(GPIO_RS485_REN_PORT,   GPIO_RS485_REN_PIN,
+                 GPIO_RS485_REN_SPEED,  GPIO_RS485_REN_MODE);   //RS485 REN
+  GPIO_PinConfig(GPIO_RS485_TX_PORT,    GPIO_RS485_TX_PIN,
+                 GPIO_RS485_TX_SPEED,   GPIO_RS485_TX_MODE);    //RS485 TX
+  GPIO_PinConfig(GPIO_RS485_RX_PORT,    GPIO_RS485_RX_PIN,
+                 GPIO_RS485_RX_SPEED,   GPIO_RS485_RX_MODE);    //RS485 RX
+  GPIO_PinConfig(GPIO_RS485_DEN_PORT,   GPIO_RS485_DEN_PIN,
+                 GPIO_RS485_DEN_SPEED,  GPIO_RS485_DEN_MODE);   //RS485 DEN
+  GPIO_PinConfig(GPIO_DIO_01_PORT,      GPIO_DIO_01_PIN,
+                 GPIO_DIO_01_SPEED,     GPIO_DIO_01_MODE);      //DIO1
+  GPIO_PinConfig(GPIO_DIO_02_PORT,      GPIO_DIO_02_PIN,
+                 GPIO_DIO_02_SPEED,     GPIO_DIO_02_MODE);      //DIO2
+  GPIO_PinConfig(GPIO_DIO_03_PORT,      GPIO_DIO_03_PIN,
+                 GPIO_DIO_03_SPEED,     GPIO_DIO_03_MODE);      //DIO3
+  GPIO_PinConfig(GPIO_DIO_04_PORT,      GPIO_DIO_04_PIN,
+                 GPIO_DIO_04_SPEED,     GPIO_DIO_04_MODE);      //DIO4
+  GPIO_PinConfig(GPIO_DIO_05_PORT,      GPIO_DIO_05_PIN,
+                 GPIO_DIO_05_SPEED,     GPIO_DIO_05_MODE);      //DIO5
+  GPIO_PinConfig(GPIO_DIO_06_PORT,      GPIO_DIO_06_PIN,
+                 GPIO_DIO_06_SPEED,     GPIO_DIO_06_MODE);      //DIO6
+  GPIO_PinConfig(GPIO_DIO_07_PORT,      GPIO_DIO_07_PIN,
+                 GPIO_DIO_07_SPEED,     GPIO_DIO_07_MODE);      //DIO7
+  GPIO_PinConfig(GPIO_DIO_08_PORT,      GPIO_DIO_08_PIN,
+                 GPIO_DIO_08_SPEED,     GPIO_DIO_08_MODE);      //DIO8
+  GPIO_PinConfig(GPIO_DIO_09_PORT,      GPIO_DIO_09_PIN,
+                 GPIO_DIO_09_SPEED,     GPIO_DIO_09_MODE);      //DIO9
+  GPIO_PinConfig(GPIO_DIO_10_PORT,      GPIO_DIO_10_PIN,
+                 GPIO_DIO_10_SPEED,     GPIO_DIO_10_MODE);      //DIO10
+  GPIO_PinConfig(GPIO_DIO_11_PORT,      GPIO_DIO_11_PIN,
+                 GPIO_DIO_11_SPEED,     GPIO_DIO_11_MODE);      //DIO11
+  GPIO_PinConfig(GPIO_DIO_12_PORT,      GPIO_DIO_12_PIN,
+                 GPIO_DIO_12_SPEED,     GPIO_DIO_12_MODE);      //DIO12
+  GPIO_PinConfig(GPIO_DIO_13_PORT,      GPIO_DIO_13_PIN,
+                 GPIO_DIO_13_SPEED,     GPIO_DIO_13_MODE);      //DIO13
+  GPIO_PinConfig(GPIO_DIO_14_PORT,      GPIO_DIO_14_PIN,
+                 GPIO_DIO_14_SPEED,     GPIO_DIO_14_MODE);      //DIO14
+  GPIO_PinConfig(GPIO_DIO_15_PORT,      GPIO_DIO_15_PIN,
+                 GPIO_DIO_15_SPEED,     GPIO_DIO_15_MODE);      //DIO15
+  GPIO_PinConfig(GPIO_DIO_16_PORT,      GPIO_DIO_16_PIN,
+                 GPIO_DIO_16_SPEED,     GPIO_DIO_16_MODE);      //DIO16
   
-  // EXTI USER BUTTON PIN  -----------------------------------------------------
-  RCC_AHBPeriphClockCmd(GPIO_EXTI_UB_CLK, ENABLE);
-  GPIO_InitStructure.GPIO_Mode  = GPIO_EXTI_UB_MODE;
-  GPIO_InitStructure.GPIO_PuPd  = GPIO_EXTI_UB_PUPD;
-  GPIO_InitStructure.GPIO_Pin   = GPIO_EXTI_UB_PIN;
-  GPIO_Init(GPIO_EXTI_UB_PORT, &GPIO_InitStructure);
   
-  //============================================================================
-  // OUTPUT PINS
-  //============================================================================
+  // PIN REMAPS ================================================================
+  GPIO_PinRemapConfig(GPIO_Remap1_CAN1, ENABLE);
+  //RCC_MCOConfig(RCC_MCO_HSI);
   
-  // SPI SCK PIN  --------------------------------------------------------------
-  RCC_AHBPeriphClockCmd(GPIO_SPIx_SCK_CLK, ENABLE);
-  GPIO_InitStructure.GPIO_Mode  = GPIO_SPIx_SCK_MODE;
-  GPIO_InitStructure.GPIO_OType = GPIO_SPIx_SCK_OTYPE;
-  GPIO_InitStructure.GPIO_Speed = GPIO_SPIx_SCK_SPEED;
-  GPIO_InitStructure.GPIO_PuPd  = GPIO_SPIx_SCK_PUPD;
-  GPIO_InitStructure.GPIO_Pin   = GPIO_SPIx_SCK_PIN;
-  GPIO_Init(GPIO_SPIx_SCK_PORT, &GPIO_InitStructure);
   
-  // SPI MOSI PIN  -------------------------------------------------------------
-  RCC_AHBPeriphClockCmd(GPIO_SPIx_MOSI_CLK, ENABLE);
-  GPIO_InitStructure.GPIO_Mode  = GPIO_SPIx_MOSI_MODE;
-  GPIO_InitStructure.GPIO_OType = GPIO_SPIx_MOSI_OTYPE;
-  GPIO_InitStructure.GPIO_Speed = GPIO_SPIx_MOSI_SPEED;
-  GPIO_InitStructure.GPIO_PuPd  = GPIO_SPIx_MOSI_PUPD;
-  GPIO_InitStructure.GPIO_Pin   = GPIO_SPIx_MOSI_PIN;
-  GPIO_Init(GPIO_SPIx_MOSI_PORT, &GPIO_InitStructure);
+  // INITIAL OUTPUT LEVELS =====================================================
+  GPIO_SetBits(GPIO_LED_1_PORT,GPIO_LED_1_PIN);           // LED RED OFF
+  GPIO_SetBits(GPIO_LED_2_PORT,GPIO_LED_2_PIN);           // LED YEL OFF
+  GPIO_SetBits(GPIO_LED_3_PORT,GPIO_LED_3_PIN);           // LED GRN OFF
+  GPIO_SetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN);           // LED BLU OFF
+  GPIO_ResetBits(GPIO_RS485_DEN_PORT,GPIO_RS485_DEN_PIN); // RS485DEN OFF
+  GPIO_SetBits(GPIO_RS485_DEN_PORT,GPIO_RS485_DEN_PIN);   // RS485REN OFF
+  GPIO_SetBits(GPIO_MN_NSS_PORT,GPIO_MN_NSS_PIN);         // Manage unselected
+  GPIO_SetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);         // SD Card unselected
+  GPIO_SetBits(GPIO_CAN_SHDN_PORT,GPIO_CAN_SHDN_PIN);     // CAN SHUTDOWN MODE
+  GPIO_SetBits(GPIO_CAN_STBY_PORT,GPIO_CAN_STBY_PIN);     // CAN STANDBY MODE
   
-  // SPI MISO PIN  -------------------------------------------------------------
-  RCC_AHBPeriphClockCmd(GPIO_SPIx_MISO_CLK, ENABLE);
-  GPIO_InitStructure.GPIO_Mode  = GPIO_SPIx_MISO_MODE;
-  GPIO_InitStructure.GPIO_OType = GPIO_SPIx_MISO_OTYPE;
-  GPIO_InitStructure.GPIO_Speed = GPIO_SPIx_MISO_SPEED;
-  GPIO_InitStructure.GPIO_PuPd  = GPIO_SPIx_MISO_PUPD;
-  GPIO_InitStructure.GPIO_Pin   = GPIO_SPIx_MISO_PIN;
-  GPIO_Init(GPIO_SPIx_MISO_PORT, &GPIO_InitStructure);
-  
-  // SPI SS MANAGE PIN  --------------------------------------------------------
-  RCC_AHBPeriphClockCmd(GPIO_SPIx_SS_MN_CLK, ENABLE);
-  GPIO_InitStructure.GPIO_Mode  = GPIO_SPIx_SS_MN_MODE;
-  GPIO_InitStructure.GPIO_OType = GPIO_SPIx_SS_MN_OTYPE;
-  GPIO_InitStructure.GPIO_PuPd  = GPIO_SPIx_SS_MN_PUPD;
-  GPIO_InitStructure.GPIO_Speed = GPIO_SPIx_SS_MN_SPEED;
-  GPIO_InitStructure.GPIO_Pin   = GPIO_SPIx_SS_MN_PIN;
-  GPIO_Init(GPIO_SPIx_SS_MN_PORT, &GPIO_InitStructure);
-  
-  // SPI SS SD CARD PIN  -------------------------------------------------------
-  RCC_AHBPeriphClockCmd(GPIO_SPIx_SS_SD_CLK, ENABLE);
-  GPIO_InitStructure.GPIO_Mode  = GPIO_SPIx_SS_SD_MODE;
-  GPIO_InitStructure.GPIO_OType = GPIO_SPIx_SS_SD_OTYPE;
-  GPIO_InitStructure.GPIO_PuPd  = GPIO_SPIx_SS_SD_PUPD;
-  GPIO_InitStructure.GPIO_Speed = GPIO_SPIx_SS_SD_SPEED;
-  GPIO_InitStructure.GPIO_Pin   = GPIO_SPIx_SS_SD_PIN;
-  GPIO_Init(GPIO_SPIx_SS_SD_PORT, &GPIO_InitStructure);
-  
-  // SPI EN MANAGE PIN  --------------------------------------------------------//TODO remove
-  RCC_AHBPeriphClockCmd(GPIO_SPIx_EN_MN_CLK, ENABLE);
-  GPIO_InitStructure.GPIO_Mode  = GPIO_SPIx_EN_MN_MODE;
-  GPIO_InitStructure.GPIO_OType = GPIO_SPIx_EN_MN_OTYPE;
-  GPIO_InitStructure.GPIO_PuPd  = GPIO_SPIx_EN_MN_PUPD;
-  GPIO_InitStructure.GPIO_Speed = GPIO_SPIx_EN_MN_SPEED;
-  GPIO_InitStructure.GPIO_Pin   = GPIO_SPIx_EN_MN_PIN;
-  GPIO_Init(GPIO_SPIx_EN_MN_PORT, &GPIO_InitStructure);
-  
-  // SPI EN SD CARD PIN  -------------------------------------------------------//TODO remove
-  RCC_AHBPeriphClockCmd(GPIO_SPIx_EN_SD_CLK, ENABLE);
-  GPIO_InitStructure.GPIO_Mode  = GPIO_SPIx_EN_SD_MODE;
-  GPIO_InitStructure.GPIO_OType = GPIO_SPIx_EN_SD_OTYPE;
-  GPIO_InitStructure.GPIO_PuPd  = GPIO_SPIx_EN_SD_PUPD;
-  GPIO_InitStructure.GPIO_Speed = GPIO_SPIx_EN_SD_SPEED;
-  GPIO_InitStructure.GPIO_Pin   = GPIO_SPIx_EN_SD_PIN;
-  GPIO_Init(GPIO_SPIx_EN_SD_PORT, &GPIO_InitStructure);
-  
-  // USART TX PIN  -------------------------------------------------------------
-  RCC_AHBPeriphClockCmd(GPIO_USARTx_TX_CLK, ENABLE);
-  GPIO_InitStructure.GPIO_Mode  = GPIO_USARTx_TX_MODE;
-  GPIO_InitStructure.GPIO_OType = GPIO_USARTx_TX_OTYPE;
-  GPIO_InitStructure.GPIO_PuPd  = GPIO_USARTx_TX_PUPD;
-  GPIO_InitStructure.GPIO_Speed = GPIO_USARTx_TX_SPEED;
-  GPIO_InitStructure.GPIO_Pin   = GPIO_USARTx_TX_PIN;
-  GPIO_Init(GPIO_USARTx_TX_PORT, &GPIO_InitStructure);
-  
-  // USART RX PIN  -------------------------------------------------------------
-  RCC_AHBPeriphClockCmd(GPIO_USARTx_RX_CLK, ENABLE);
-  GPIO_InitStructure.GPIO_Mode  = GPIO_USARTx_RX_MODE;
-  GPIO_InitStructure.GPIO_OType = GPIO_USARTx_RX_OTYPE;
-  GPIO_InitStructure.GPIO_PuPd  = GPIO_USARTx_RX_PUPD;
-  GPIO_InitStructure.GPIO_Speed = GPIO_USARTx_RX_SPEED;
-  GPIO_InitStructure.GPIO_Pin   = GPIO_USARTx_RX_PIN;
-  GPIO_Init(GPIO_USARTx_RX_PORT, &GPIO_InitStructure);
-  
-  // ALTERNATE FUNCTION PIN CONFIGURATIONS
-  GPIO_PinAFConfig(GPIO_SPIx_SCK_PORT ,GPIO_SPIx_SCK_SOURCE ,GPIO_SPIx_SCK_AF );
-  GPIO_PinAFConfig(GPIO_SPIx_MOSI_PORT,GPIO_SPIx_MOSI_SOURCE,GPIO_SPIx_MOSI_AF);
-  GPIO_PinAFConfig(GPIO_SPIx_MISO_PORT,GPIO_SPIx_MISO_SOURCE,GPIO_SPIx_MISO_AF);
-  GPIO_PinAFConfig(GPIO_USARTx_TX_PORT,GPIO_USARTx_TX_SOURCE,GPIO_USARTx_TX_AF);
-  GPIO_PinAFConfig(GPIO_USARTx_RX_PORT,GPIO_USARTx_RX_SOURCE,GPIO_USARTx_RX_AF);
-  
-  // INITIAL OUTPUT LOGIC LEVELS  ----------------------------------------------
-  GPIO_ResetBits(GPIO_SPIx_SCK_PORT,GPIO_SPIx_SCK_PIN);         // SPI CLK low
-  GPIO_SetBits(GPIO_SPIx_MOSI_PORT,GPIO_SPIx_MOSI_PIN);         // SPI MOSI high
-  GPIO_SetBits(GPIO_SPIx_MISO_PORT,GPIO_SPIx_MISO_PIN);         // SPI MISO high
-  GPIO_SetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN);       // SPI SSSD high
-  GPIO_SetBits(GPIO_SPIx_SS_MN_PORT,GPIO_SPIx_SS_MN_PIN);       // SPI SSMN high
-  GPIO_ResetBits(GPIO_SPIx_EN_SD_PORT,GPIO_SPIx_EN_SD_PIN);     // SPI ENSD low
-  GPIO_ResetBits(GPIO_SPIx_EN_MN_PORT,GPIO_SPIx_EN_MN_PIN);     // SPI ENMN low
-  GPIO_SetBits(GPIO_USARTx_TX_PORT,GPIO_USARTx_TX_PIN);         // USART TX high
-  GPIO_SetBits(GPIO_USARTx_RX_PORT,GPIO_USARTx_RX_PIN);         // USART RX high
 }
 
+
+//==============================================================================
+// FUNCTION GPIO_PinConfig()
+//      - Configures a GPIO pin based on given peripheral, pin number, speed,
+//              and mode
+//==============================================================================
+void GPIO_PinConfig(GPIO_TypeDef*       port,
+                    uint16_t            pin, 
+                    GPIOSpeed_TypeDef   speed,
+                    GPIOMode_TypeDef    mode)
+{
+  GPIO_InitTypeDef GPIO_InitStructure;  
+  GPIO_InitStructure.GPIO_Pin   = pin;
+  GPIO_InitStructure.GPIO_Speed = speed;
+  GPIO_InitStructure.GPIO_Mode  = mode;
+  GPIO_Init(port, &GPIO_InitStructure);
+}
 
 //==============================================================================
 // FUNCTION SPI_config()
@@ -149,58 +172,70 @@ void SPI_config(void)
   // Declare SPI initialization structure 
   SPI_InitTypeDef  SPI_InitStructure;
   
-  // Start SPI 2 clock   // APB2 and USART1 for M0
-  RCC_APB1PeriphClockCmd(SPIx_CLK,ENABLE);
-  
-  // SPI configuration
-  SPI_I2S_DeInit(SPIx);
+  // SD CARD
+  RCC_APB2PeriphClockCmd(SPI_SD_CLK,ENABLE);
+  SPI_I2S_DeInit(SPI_SD);
   SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
   SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
-  SPI_InitStructure.SPI_DataSize = SPI_DATASIZE;
+  SPI_InitStructure.SPI_DataSize = SPI_SD_DATASIZE;
   SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
   SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_32;
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_32; // 48/32 = 1.5
   SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
   SPI_InitStructure.SPI_CRCPolynomial = 7;
-  SPI_Init(SPIx, &SPI_InitStructure);
+  SPI_Init(SPI_SD, &SPI_InitStructure);
+  SPI_Cmd(SPI_SD, ENABLE);
   
-  // Set FIFO threshold to
-  //SPI_RxFIFOThresholdConfig(SPIx, SPI_RxFIFOThreshold_QF);    //M0
-  
-  // Enable SPI peripheral
-  SPI_Cmd(SPIx, ENABLE);
+  // MANAGE
+  RCC_APB1PeriphClockCmd(SPI_MN_CLK,ENABLE);
+  SPI_I2S_DeInit(SPI_MN);
+  SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+  SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+  SPI_InitStructure.SPI_DataSize = SPI_MN_DATASIZE;
+  SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
+  SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
+  SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_32;// 24MHz/16=1.5MHz
+  SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+  SPI_InitStructure.SPI_CRCPolynomial = 7;
+  SPI_Init(SPI_MN, &SPI_InitStructure);
+  SPI_I2S_DMACmd(SPI_MN, SPI_I2S_DMAReq_Tx, ENABLE);
+  SPI_I2S_DMACmd(SPI_MN, SPI_I2S_DMAReq_Rx, ENABLE);
+  SPI_Cmd(SPI_MN, ENABLE);
 }
 
 
 //==============================================================================
-// FUNCTION SPI_config()
+// FUNCTION USART_config()
 //      - Configures STM32's USART peripheral
 //      - 115200 Baud rate
 //==============================================================================
 void USART_config(void)
 {
+  USART_DeInit(USART_BT);
+  
   // Declare USART initialization structure
   USART_InitTypeDef USART_InitStructure;
   
-  // Start USART clock    // APB2 and USART1 for M0
-  RCC_APB1PeriphClockCmd(USARTx_CLK, ENABLE);
+  // Start USART clock
+  RCC_APB1PeriphClockCmd(USART_BT_CLK, ENABLE);
   
   // USART configuration
-  USART_InitStructure.USART_BaudRate = 230400;
+  USART_InitStructure.USART_BaudRate = USART_BT_BAUDRATE;
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;
   USART_InitStructure.USART_StopBits = USART_StopBits_1;
   USART_InitStructure.USART_Parity = USART_Parity_No;
   USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-  USART_Init(USARTx, &USART_InitStructure);
+  USART_Init(USART_BT, &USART_InitStructure);
   
   // Enable USART TX and RX interrupts for DMA
-  USART_DMACmd(USARTx,USART_DMAReq_Tx, ENABLE);
-  USART_DMACmd(USARTx,USART_DMAReq_Rx, ENABLE);
+  USART_DMACmd(USART_BT,USART_DMAReq_Tx, ENABLE);
+  USART_DMACmd(USART_BT,USART_DMAReq_Rx, ENABLE);
     
   // Enable USART peripheral
-  USART_Cmd(USARTx, ENABLE);
+  USART_Cmd(USART_BT, ENABLE);
 }
 
 
@@ -219,18 +254,45 @@ void DMA_config(void)
   // Start DMA clock
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);
   
-  /* M0
-  // Start SYSCFG clock
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
-  // Remap USART1 Tx DMA requests from channel2 to channel4 (2 used by SPI RX)
-  //SYSCFG_DMAChannelRemapConfig(SYSCFG_DMARemap_USART1Rx, ENABLE);
-  // Remap USART1 Rx DMA requests from channel3 to channel5 (3 used by SPI TX)
-  //SYSCFG_DMAChannelRemapConfig(SYSCFG_DMARemap_USART1Tx, ENABLE);
-  */
+  // SD =====================================================
   
   // SPI RECEIVE CHANNEL -------------------------------------------------------
-  DMA_DeInit(SPIx_DMA_RX_CHANNEL);
-  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPIx_DR_ADDRESS;
+  DMA_DeInit(SPI_SD_DMA_RX_CHAN);
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPI_SD_DR;
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)spi_rx_buffer;               // CHANGE
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
+  DMA_InitStructure.DMA_BufferSize = DATA_SIZE_FLEXSEA;                         // CHANGE
+  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+  DMA_InitStructure.DMA_PeripheralDataSize = DMA_MemoryDataSize_Byte;
+  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+  DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+  DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
+  DMA_Init(SPI_SD_DMA_RX_CHAN, &DMA_InitStructure);
+  //DMA_ITConfig(SPI_SD_DMA_RX_CHAN, DMA_IT_TC, ENABLE);
+  
+   // SPI TRANSMIT CHANNEL -----------------------------------------------------
+  DMA_DeInit(SPI_SD_DMA_TX_CHAN);
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPI_SD_DR;
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)comm_str_1;                  // CHANGE
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
+  DMA_InitStructure.DMA_BufferSize = DATA_SIZE_FLEXSEA;                         // CHANGE
+  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+  DMA_InitStructure.DMA_PeripheralDataSize = DMA_MemoryDataSize_Byte;
+  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+  DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+  DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
+  DMA_Init(SPI_SD_DMA_TX_CHAN, &DMA_InitStructure);
+  //DMA_ITConfig(SPI_SD_DMA_TX_CHAN, DMA_IT_TC, ENABLE);
+  
+  
+  // MANAGE ====================================================================
+  // SPI RECEIVE CHANNEL -------------------------------------------------------
+  DMA_DeInit(SPI_MN_DMA_RX_CHAN);
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPI_MN_DR;
   DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)spi_rx_buffer;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
   DMA_InitStructure.DMA_BufferSize = DATA_SIZE_FLEXSEA;
@@ -241,12 +303,12 @@ void DMA_config(void)
   DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-  DMA_Init(SPIx_DMA_RX_CHANNEL, &DMA_InitStructure);
-  DMA_ITConfig(SPIx_DMA_RX_CHANNEL, DMA_IT_TC, ENABLE);
+  DMA_Init(SPI_MN_DMA_RX_CHAN, &DMA_InitStructure);
+  DMA_ITConfig(SPI_MN_DMA_RX_CHAN, DMA_IT_TC, ENABLE);
   
    // SPI TRANSMIT CHANNEL -----------------------------------------------------
-  DMA_DeInit(SPIx_DMA_TX_CHANNEL);
-  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPIx_DR_ADDRESS;
+  DMA_DeInit(SPI_MN_DMA_TX_CHAN);
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPI_MN_DR;
   DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)comm_str_1;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
   DMA_InitStructure.DMA_BufferSize = DATA_SIZE_FLEXSEA;
@@ -257,13 +319,15 @@ void DMA_config(void)
   DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-  DMA_Init(SPIx_DMA_TX_CHANNEL, &DMA_InitStructure);
-  DMA_ITConfig(SPIx_DMA_TX_CHANNEL, DMA_IT_TC, ENABLE);
+  DMA_Init(SPI_MN_DMA_TX_CHAN, &DMA_InitStructure);
+  DMA_ITConfig(SPI_MN_DMA_TX_CHAN, DMA_IT_TC, ENABLE);
   
-  // USART RECEIVE CHANNEL -----------------------------------------------------
-  DMA_DeInit(USARTx_DMA_RX_CHANNEL);
-  //DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)USARTx_RDR_ADDRESS;//M0
-  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)USARTx_DR_ADDRESS;
+  
+  // BLUETOOTH MODULE =====================================================
+  
+    // USART RECEIVE CHANNEL -----------------------------------------------------
+  DMA_DeInit(USART_BT_DMA_RX_CHAN);
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)USART_BT_DR;
   DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)usart_rx_buffer;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
   DMA_InitStructure.DMA_BufferSize = DATA_SIZE_U2P;
@@ -274,13 +338,12 @@ void DMA_config(void)
   DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-  DMA_Init(USARTx_DMA_RX_CHANNEL, &DMA_InitStructure);
-  DMA_ITConfig(USARTx_DMA_RX_CHANNEL, DMA_IT_TC, ENABLE);
+  DMA_Init(USART_BT_DMA_RX_CHAN, &DMA_InitStructure);
+  DMA_ITConfig(USART_BT_DMA_RX_CHAN, DMA_IT_TC, ENABLE);
   
   // USART TRANSMIT CHANNEL ----------------------------------------------------
-  DMA_DeInit(USARTx_DMA_TX_CHANNEL);
-  //DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)USARTx_TDR_ADDRESS;//M0
-  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)USARTx_DR_ADDRESS;
+  DMA_DeInit(USART_BT_DMA_TX_CHAN);
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)USART_BT_DR;
   DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)usart_tx_buffer;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
   DMA_InitStructure.DMA_BufferSize = DATA_SIZE_P2U;
@@ -291,8 +354,8 @@ void DMA_config(void)
   DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-  DMA_Init(USARTx_DMA_TX_CHANNEL, &DMA_InitStructure);
-  DMA_ITConfig(USARTx_DMA_TX_CHANNEL, DMA_IT_TC, ENABLE); 
+  DMA_Init(USART_BT_DMA_TX_CHAN, &DMA_InitStructure);
+  DMA_ITConfig(USART_BT_DMA_TX_CHAN, DMA_IT_TC, ENABLE); 
 }
 
 
@@ -305,39 +368,43 @@ void NVIC_config(void)
   // Declare NVIC initialization structure
   NVIC_InitTypeDef NVIC_InitStructure;
   
-  // Configure SPI RX interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = DMAx_SPIx_Rx_IRQn;
-  //NVIC_InitStructure.NVIC_IRQChannelPriority = 1;            //M0
+  // Configure SD Card SPI RX interrupt
+  NVIC_InitStructure.NVIC_IRQChannel = DMA_SD_RX_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
-  // Configure SPI TX interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = DMAx_SPIx_Tx_IRQn;
-  //NVIC_InitStructure.NVIC_IRQChannelPriority = 1;            //M0
+  // Configure SD Card SPI TX interrupt
+  NVIC_InitStructure.NVIC_IRQChannel = DMA_SD_TX_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
-  // Configure USART RX interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = DMAx_USARTx_Rx_IRQn;
-  //NVIC_InitStructure.NVIC_IRQChannelPriority = 1;            //M0
+  // Configure FlexSEA Manage SPI RX interrupt
+  NVIC_InitStructure.NVIC_IRQChannel = DMA_MN_RX_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
-  // Configure USART TX interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = DMAx_USARTx_Tx_IRQn;
-  //NVIC_InitStructure.NVIC_IRQChannelPriority = 1;            //M0
+  // Configure FlexSEA Manage SPI TX interrupt
+  NVIC_InitStructure.NVIC_IRQChannel = DMA_MN_TX_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
-  // Configure EXTI2 Interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = EXTI_CD_IRQn;
-  //NVIC_InitStructure.NVIC_IRQChannelPriority = 0x00;          //M0
+  // Configure Bluetooth Module USART RX interrupt
+  NVIC_InitStructure.NVIC_IRQChannel = DMA_BT_RX_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
-  // Configure EXTI0 Interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = EXTI_UB_IRQn ;
-  //NVIC_InitStructure.NVIC_IRQChannelPriority = 0x00;          //M0
+  // Configure Bluetooth Module USART TX interrupt
+  NVIC_InitStructure.NVIC_IRQChannel = DMA_BT_TX_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+  
+  // Configure SD Card Card Detect Interrupt
+  NVIC_InitStructure.NVIC_IRQChannel = EXTI_SD_CD_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+  
+  
+  NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
 }
@@ -353,6 +420,29 @@ void RTC_config(void)
 }
 
 //==============================================================================
+// FUNCTION RCC_config()
+//      - Configures clocks
+//==============================================================================
+void RCC_config(void)
+{
+  RCC_PLLCmd(DISABLE);                          // Disable PLL                  // Also start up LSE for RTC
+  RCC_PLLConfig(RCC_PLLSource_HSI_Div2, RCC_PLLMul_12); //PLL: 8M/2*12 = 48M
+  RCC_PLLCmd(ENABLE);                           // Enable PLL
+  while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET){;} //Wait: PLL is ready
+  FLASH_SetLatency(FLASH_Latency_1);            // Increase FLASH latency
+  RCC_HCLKConfig(RCC_SYSCLK_Div1); 
+  RCC_PCLK2Config(RCC_HCLK_Div1); 
+  RCC_PCLK1Config(RCC_HCLK_Div2);
+  RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);    // Set PLL as sys clock source
+  while (RCC_GetSYSCLKSource() != 0x08){;}      // Wait: PLL is sysclk source
+  
+  SystemCoreClockUpdate();
+  
+}
+
+
+
+//==============================================================================
 // FUNCTION EXTI_config()
 //      - Configures sd card detect pin external interrupt
 //==============================================================================
@@ -360,22 +450,30 @@ void EXTI_config(void)
 {
   // Declare the GPIO initialization structure
   EXTI_InitTypeDef EXTI_InitStructure;
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
   
-  // Configure EXTI line
-  SYSCFG_EXTILineConfig(EXTI_CD_PORT_SOURCE,EXTI_CD_PIN_SOURCE);
-  EXTI_InitStructure.EXTI_Line = EXTI_CD_LINE;
-  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+  
+  // Configure SD Card Card Detect EXTI line
+  GPIO_EXTILineConfig(EXTI_SD_CD_PORTSRS, EXTI_SD_CD_PINSRS);
+  EXTI_InitStructure.EXTI_Line = EXTI_SD_CD_LINE;
+  EXTI_InitStructure.EXTI_Mode = EXTI_SD_CD_MODE;
+  EXTI_InitStructure.EXTI_Trigger = EXTI_SD_CD_TRIG;
   EXTI_InitStructure.EXTI_LineCmd = ENABLE;
   EXTI_Init(&EXTI_InitStructure);
+}
+
+
+void TIM_config(void)
+{
+  TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
   
-  // Configure EXTI line
-  SYSCFG_EXTILineConfig(EXTI_UB_PORT_SOURCE,EXTI_UB_PIN_SOURCE);
-  EXTI_InitStructure.EXTI_Line = EXTI_UB_LINE;
-  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
-  EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-  EXTI_Init(&EXTI_InitStructure);
+  TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  TIM_TimeBaseInitStructure.TIM_ClockDivision = 0;
+  TIM_TimeBaseInitStructure.TIM_Prescaler = LED_TIM_PRESCALER;
+  TIM_TimeBaseInitStructure.TIM_Period = LED_TIM_PERIOD;
+  TIM_TimeBaseInit(TIM2, &TIM_TimeBaseInitStructure);
+  TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);
+  TIM_Cmd(TIM2,ENABLE);
 }
 

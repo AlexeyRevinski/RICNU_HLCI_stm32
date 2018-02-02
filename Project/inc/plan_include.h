@@ -4,27 +4,27 @@
 // INCLUDES  ===================================================================
 
 // Standard C libraries
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stdlib.h>             // For dynamic memory allocation functions          
+#include <string.h>             // For string manipulation functions
 
 // External code
 #include "flexsea.h"            // FlexSEA protocol definitions 
-#include "diskio.h"             // FatFs low level I/O
-#include "ff.h"                 // FatFs
+#include "ff.h"                 // FatFs - FAT system library
+#include "diskio.h"             // FatFs low level I/O apapter
 #include "jsmn.h"               // JSMN - JSON parsing library
-#include "flexsea_system.h"     // FlexSEA system definitions
+#include "flexsea.h"
+#include "flexsea_system.h"     // FlexSEA system definitions                   // Maybe get rid of flexsea code!!!
+#include "flexsea_comm.h"
 #include "cmd-RICNU_Knee_v1.h"  // RICNU Knee protocol
-#include "stm32l1xx_conf.h"     // STM32 library from STMicroelectronics
+#include "stm32f10x.h"          // STM32F10x Standard Peripheral library
 
-// FRICNU Plan
-#include "plan_comm.h"          // Communication code
-#include "plan_config.h"        // Hardware configuration functions
-#include "plan_led.h"           // LED add-on
+// RICNU Plan
+#include "plan_comm.h"          // Communication module
+#include "plan_config.h"        // Hardware configuration module
+#include "plan_fsm_builder.h"   // Leg finite state machine module
+#include "plan_led.h"           // LED module
+#include "plan_sd.h"            // SD Card low level communication module
+#include "plan_state_system.h"  // System finite state machine module
 #include "plan_utilities.h"     // Utility code
-#include "plan_state_system.h"  // System state machine
-#include "plan_fsm_builder.h"
-#include "plan_fsm_structures.h"
-#include "plan_sd.h"
 
 #endif //PLAN_INCLUDE_H

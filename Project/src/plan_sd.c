@@ -10,18 +10,16 @@ extern mstate   mem_state;
 //==============================================================================
 uint8_t SD_Detect(void)
 {
+  
   // If card is detected in the socket
-    if ((GPIO_EXTI_CD_PORT->IDR & GPIO_EXTI_CD_PIN))
+    if (!(GPIO_SD_CD_PORT->IDR & GPIO_SD_CD_PIN))
     {
       mem_state = MEM_IN;
-      change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DETECTED);
       return 1;
     }
     else // If card was taken out of the socket
     {
       mem_state = MEM_OUT;
-      change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DISCONNECTED);
-      //change_sys_state(&sys_state,EVENT_EXTERNAL_MEMORY_DETECTED);
       return 0;
     }
 }
@@ -38,9 +36,20 @@ MEMTYPE SD_Init(void)
   // LOW LEVEL INITIALIZATION STEPS  -------------------------------------------
   //    Slow down SPI, pull CS high, clock for 80 cycles
   //----------------------------------------------------------------------------
-  spi_change_mode(SPI_MODE_SD_INIT);            // SPI to 375kHz
+  
+  //  Set SPI to 375kHz ===============
+  
+  SPI_Cmd(SPI_SD, DISABLE);
+  // Disable interactions with DMA
+  SPI_I2S_DMACmd(SPI_SD, SPI_I2S_DMAReq_Rx, DISABLE);
+  SPI_I2S_DMACmd(SPI_SD, SPI_I2S_DMAReq_Tx, DISABLE);
+  // SPI clock rate at 375kHz
+  SPI_SD->CR1 &= ~SPI_CR1_BR;                   //Clear baud rate prescaler bits
+  SPI_SD->CR1 |= SPI_BaudRatePrescaler_128;
+  SPI_Cmd(SPI_SD, ENABLE);  
+  
   SPI_SS_SD_DESELECT();                         // Pull CS high
-  for (int i=0;i<10;i++){SPI_ReadByte();}       // Clock for 80 cycles 
+  for (int i=0;i<10;i++){SPI_ReadByte(SPI_SD);}       // Clock for 80 cycles 
   
   
   // CMD0 TRANSACTION  ---------------------------------------------------------
@@ -188,11 +197,11 @@ RESPONSE    SD_SendCmd(command cmd, uint32_t arg)
   SPI_SS_SD_SELECT();                         // Set CS high
   
   // Write the command array to SD card
-  for (uint8_t i=0;i<6;i++){SPI_WriteByte(cmdarray[i]);}
+  for (uint8_t i=0;i<6;i++){SPI_WriteByte(SPI_SD,cmdarray[i]);}
   
   // Keep reading bytes until 8 resp. failure bytes read or result is valid
   do{
-    rval.R1 = SPI_ReadByte();
+    rval.R1 = SPI_ReadByte(SPI_SD);
     timeout--;
   }
   while((rval.R1&0x80)&&timeout);
@@ -203,7 +212,7 @@ RESPONSE    SD_SendCmd(command cmd, uint32_t arg)
   // If response is not R1, read more bytes in
   if (response != R1) {
       // Read the next 4 bytes
-      for (uint8_t i=0; i<4; ++i) {rvals[i] = SPI_ReadByte();}
+      for (uint8_t i=0; i<4; ++i) {rvals[i] = SPI_ReadByte(SPI_SD);}
   }
   rval.extra = rvals[0]<<24|rvals[1]<<16|rvals[2]<<8|rvals[3];
   
@@ -211,13 +220,15 @@ RESPONSE    SD_SendCmd(command cmd, uint32_t arg)
   SPI_SS_SD_DESELECT();
   
   // Clock one more byte
-  SPI_ReadByte();
+  SPI_ReadByte(SPI_SD);
+  // Clock one more byte
+  SPI_ReadByte(SPI_SD);
   
   return rval;
 }
 
 //==============================================================================
-// FUNCTION SD_ReadData()
+// FUNCTION SD_ReadBlock()
 //      - reads data and fills up a provided buffer
 //==============================================================================
 void SD_ReadBlock(uint8_t* buff)
@@ -226,29 +237,29 @@ void SD_ReadBlock(uint8_t* buff)
   SPI_SS_SD_SELECT();
   
   // Clock until SD card ready to send data
-  while(SPI_ReadByte()!=0xFE);  //do{token = SPI_ReadByte();}while(token!=0xFE);
+  while(SPI_ReadByte(SPI_SD)!=0xFE);  //do{token = SPI_ReadByte();}while(token!=0xFE);
   
   // Read data bytes
   for (int i=0;i<512;i++)
   { // Fill buffer with desired data; skip the rest
-    buff[i] = SPI_ReadByte();
+    buff[i] = SPI_ReadByte(SPI_SD);
   }
   
   // Read the two CRC bytes
-  SPI_ReadByte(); SPI_ReadByte();
+  SPI_ReadByte(SPI_SD); SPI_ReadByte(SPI_SD);
   
   // Deselect SD card
   SPI_SS_SD_DESELECT();
   
   // Clock additional byte
-  SPI_ReadByte();
+  SPI_ReadByte(SPI_SD);
 }
 
 //==============================================================================
 // FUNCTION SPI_WriteByte()
 //      - writes and reads one data byte via SPI
 //==============================================================================
-uint8_t SPI_WriteByte(uint8_t data)
+uint8_t SPI_WriteByte(SPI_TypeDef * SPIx, uint8_t data)
 {//Wait until tx not empty, send data, wait until rx not empty, read data
   uint8_t result = 0;
   while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET){;}
@@ -262,9 +273,9 @@ uint8_t SPI_WriteByte(uint8_t data)
 // FUNCTION SPI_ReadByte()
 //      - clocks SPI bus to receive MISO data
 //==============================================================================
-uint8_t SPI_ReadByte(void)
+uint8_t SPI_ReadByte(SPI_TypeDef * SPIx)
 {
   uint8_t result = 0;
-  result = SPI_WriteByte(DUMMY_BYTE);
+  result = SPI_WriteByte(SPIx,DUMMY_BYTE);
   return result;
 }

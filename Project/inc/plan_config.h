@@ -6,236 +6,411 @@
 
 #include "plan_include.h"
 
+/*
+===================================================================
+         RICNU Plan STM32F103RD Default Pin Configuration         |
+===================================================================
+ Pin | Name  | Function   | Default | Port | Pin | Mode   | Remap | DONE?
+===================================================================
+ 1   | VBAT  | PWR        | YES     |      |     |        |       |
+ 2   | PC13  | not used   |         |  C   | 13  | ???    |       | Check mode - maybe need to do something
+ 3   | PC14  | OSC_32_IN  | YES     |  C   | 14  |        |       |
+ 4   | PC15  | OSC_32_OUT | YES     |  C   | 15  |        |       |
+ 5   | PD0   | not used   |         |  D   | 0   | ???    |       | Check mode - maybe need to do something 
+ 6   | PD1   | not used   |         |  D   | 1   | ???    |       | Check mode - maybe need to do something
+ 7   | NRST  | NRST       | YES     |      |     |        |       |
+ 8   | PC0   | CAN_SHDN   |         |  C   | 0   | Out_PP |       |
+ 9   | PC1   | CAN_STBY   |         |  C   | 1   | Out_PP |       |
+ 10  | PC2   | not used   |         |  C   | 2   | ???    |       |
+ 11  | PC3   | not used   |         |  C   | 3   | ???    |       |
+ 12  | VSSA  | PWR        | YES     |      |     |        |       |
+ 13  | VDDA  | PWR        | YES     |      |     |        |       |
+ 14  | PA0   | USR        |         |  A   | 0   | In_PU  |       |
+ 15  | PA1   | LED4 DRIVE |         |  A   | 1   | Out_PP |       |
+ 16  | PA2   | BTMOD_TX   |         |  A   | 2   | AF_PP  |       |  Check mode
+ 17  | PA3   | BTMOD_RX   |         |  A   | 3   | In_PU  |       |  Check mode
+ 18  | VSS4  | PWR        | YES     |      |     |        |       |
+ 19  | VDD4  | PWR        | YES     |      |     |        |       |
+ 20  | PA4   | SD_NSS     |         |  A   | 4   | Out_PP |       |
+ 21  | PA5   | SD_SCK     |         |  A   | 5   | AF_PP  |       |
+ 22  | PA6   | SD_MISO    |         |  A   | 6   | In_PU  |       |  Check mode
+ 23  | PA7   | SD_MOSI    |         |  A   | 7   | AF_PP  |       |
+ 24  | PC4   | SD_CD      |         |  C   | 4   | In_PU  |       |
+ 25  | PC5   | LED1 DRIVE |         |  C   | 5   | Out_PP |       |
+ 26  | PB0   | LED2 DRIVE |         |  B   | 0   | Out_PP |       |
+ 27  | PB1   | LED3 DRIVE |         |  B   | 1   | Out_PP |       |
+ 28  | PB2   | BOOT1      | ???     |  B   | 2   | ???    |       |
+ 29  | PB10  | USR        |         |  B   | 10  | In_PU  |       |
+ 30  | PB11  | USR        |         |  B   | 11  | In_PU  |       |
+ 31  | VSS1  | PWR        | YES     |      |     |        |       |
+ 32  | VDD1  | PWR        | YES     |      |     |        |       |
+ 33  | PB12  | MN_NSS     |         |  B   | 12  | Out_PP |       |
+ 34  | PB13  | MN_SCK     |         |  B   | 13  | AF_PP  |       |
+ 35  | PB14  | MN_MISO    |         |  B   | 14  | In_PU  |       |  Check mode
+ 36  | PB15  | MN_MOSI    |         |  B   | 15  | AF_PP  |       |
+ 37  | PC6   | USR        |         |  C   | 6   | In_PU  |       |
+ 38  | PC7   | USR        |         |  C   | 7   | In_PU  |       |
+ 39  | PC8   | FTDI_ENUM  |         |  C   | 8   | In_PU  |       |  Check mode
+ 40  | PC9   | FTDI_PWR   |         |  C   | 9   | In_PU  |       |  Check mode
+ 41  | PA8   | USR        |         |  A   | 8   | In_PU  |       | 
+ 42  | PA9   | USR        |         |  A   | 9   | In_PU  |       |
+ 43  | PA10  | USR        |         |  A   | 10  | In_PU  |       |
+ 44  | PA11  | USR        |         |  A   | 11  | In_PU  |       |
+ 45  | PA12  | USR        |         |  A   | 12  | In_PU  |       |
+ 46  | PA13  | SWDIO	  | YES     |  A   | 13  | ???    |       |
+ 47  | VSS2  | PWR        | YES     |      |     |        |       |
+ 48  | VDD2  | PWR        | YES     |      |     |        |       |
+ 49  | PA14  | SWCLK	  | YES     |  A   | 14  | ???    |       |
+ 50  | PA15  | RS485_REN  |         |  A   | 15  | Out_PP |       |
+ 51  | PC10  | RS485_TX   |         |  C   | 10  | AF_PP  |       |  Check mode
+ 52  | PC11  | RS485_RX   |         |  C   | 11  | In_PU  |       |  Check mode
+ 53  | PC12  | RS485_DEN  |         |  C   | 12  | Out_PP |       |
+ 54  | PD2   | USR        |         |  D   | 2   | In_PU  |       |
+ 55  | PB3   | USR        |         |  B   | 3   | In_PD  |       |  PD externally
+ 56  | PB4   | USR        |         |  B   | 4   | In_PU  |       |
+ 57  | PB5   | USR        |         |  B   | 5   | In_PU  |       |
+ 58  | PB6   | USR        |         |  B   | 6   | In_PU  |       |
+ 59  | PB7   | USR        |         |  B   | 7   | In_PU  |       |
+ 60  | BOOT0 | BOOT       | YES     |      |     |        |       |
+ 61  | PB8   | CAN_RX     |         |  B   | 8   | In_PU  | Yes   |
+ 62  | PB9   | CAN_TX     |         |  B   | 9   | AF_PP  | Yes   |
+ 63  | VSS3  | PWR        | YES     |      |     |        |       |
+ 64  | VDD3  | PWR        | YES     |      |     |        |       |
+ ==================================================================
 
-// DEFINES  ==================================================================
-
-#define SYSTICK                         50      //us
-#define UPDATE_RATE                     TIMEBASE_250_HZ
-#define DATA_SIZE_FLEXSEA               48      //bytes
-#define DATA_SIZE_P2U                   25      //bytes
-#define DATA_SIZE_U2P                   2       //bytes
-
-#define SPI_USE_SOFTWARE_CONTROL
-
-
-// MACROS  =====================================================================
-
-#define SYSTEM_PERIOD_US (FACTOR_us_PER_s/UPDATE_RATE)
-
-
-// NICKNAMES  ==================================================================
-
-// GPIO PINS  ------------------------------------------------------------------
-//
-//      ----------------------------
-//      FUNCTION        F0      L1
-//      ----------------------------
-//      SPI SCK         PA5     PB13
-//      SPI MISO        PA6     PB14
-//      SPI MOSI        PA7     PB15
-//      SPI SS MN       PA4     PA5     //TODO CHANGE TO PA4 (used on discovery board)
-//      SPI SS SD       PA3     PB13
-//      SPI EN MN       PB0     PB10    //TODO REMOVE (only need to invert SS pins)
-//      SPI EN SD       PB1     PB11    //TODO REMOVE (only need to invert SS pins)
-//      USART Tx        PA9     PA2
-//      USART Rx        PA10    PA3
-//      USER BUTTON     PA0     PA0
-//      CARD DETECT     PA2     PA1
-//      ----------------------------
-
-#define GPIO_SPEED_FAST                 GPIO_Speed_40MHz
-
-// PB10 SPI SD ENABLE (TEMPORARY)                                                // TODO remove
-#define GPIO_SPIx_EN_SD_PORT            GPIOB                   //M0: GPIOB
-#define GPIO_SPIx_EN_SD_PIN             GPIO_Pin_10             //M0: 0
-#define GPIO_SPIx_EN_SD_CLK             RCC_AHBPeriph_GPIOB
-#define GPIO_SPIx_EN_SD_MODE            GPIO_Mode_OUT
-#define GPIO_SPIx_EN_SD_OTYPE           GPIO_OType_PP
-#define GPIO_SPIx_EN_SD_PUPD            GPIO_PuPd_NOPULL
-#define GPIO_SPIx_EN_SD_SPEED           GPIO_SPEED_FAST 
-
-// PB11 SPI MANAGE ENABLE (TEMPORARY)                                            //TODO remove
-#define GPIO_SPIx_EN_MN_PORT            GPIOB                   //M0: GPIOB
-#define GPIO_SPIx_EN_MN_PIN             GPIO_Pin_11             //M0: 1
-#define GPIO_SPIx_EN_MN_CLK             RCC_AHBPeriph_GPIOB
-#define GPIO_SPIx_EN_MN_MODE            GPIO_Mode_OUT
-#define GPIO_SPIx_EN_MN_OTYPE           GPIO_OType_PP
-#define GPIO_SPIx_EN_MN_PUPD            GPIO_PuPd_NOPULL
-#define GPIO_SPIx_EN_MN_SPEED           GPIO_SPEED_FAST
-
-// PA5  SPI Slave Select Manage pin     // Output, 50Mhz, push-pull             //TODO CHANGE TO PA4 MAYBE
-#define GPIO_SPIx_SS_MN_PORT            GPIOA
-#define GPIO_SPIx_SS_MN_PIN             GPIO_Pin_5
-#define GPIO_SPIx_SS_MN_CLK             RCC_AHBPeriph_GPIOA
-#define GPIO_SPIx_SS_MN_MODE            GPIO_Mode_OUT
-#define GPIO_SPIx_SS_MN_OTYPE           GPIO_OType_PP
-#define GPIO_SPIx_SS_MN_PUPD            GPIO_PuPd_NOPULL
-#define GPIO_SPIx_SS_MN_SPEED           GPIO_SPEED_FAST 
-
-/* Second SPI bus: PA5,PA6,PA7
-// PB13 SPI Clock pin                  //AF Output, push-pull, 40Mhz,
-#define GPIO_SPIx_SCK_PORT              GPIOB                   //M0: GPIOA
-#define GPIO_SPIx_SCK_PIN               GPIO_Pin_13             //M0: 5
-#define GPIO_SPIx_SCK_CLK               RCC_AHBPeriph_GPIOB
-#define GPIO_SPIx_SCK_MODE              GPIO_Mode_AF
-#define GPIO_SPIx_SCK_OTYPE             GPIO_OType_PP
-#define GPIO_SPIx_SCK_PUPD              GPIO_PuPd_NOPULL
-#define GPIO_SPIx_SCK_SPEED             GPIO_SPEED_FAST 
-#define GPIO_SPIx_SCK_SOURCE            GPIO_PinSource13
-#define GPIO_SPIx_SCK_AF                GPIO_AF_SPI2            //M0: GPIO_AF_0 
-
-// PB14 SPI Master In Slave Out pin     //AF Output, push-pull, 40Mhz,
-#define GPIO_SPIx_MISO_PORT             GPIOB                   //M0: GPIOA
-#define GPIO_SPIx_MISO_PIN              GPIO_Pin_14             //M0: 6
-#define GPIO_SPIx_MISO_CLK              RCC_AHBPeriph_GPIOB
-#define GPIO_SPIx_MISO_MODE             GPIO_Mode_AF
-#define GPIO_SPIx_MISO_OTYPE            GPIO_OType_PP
-#define GPIO_SPIx_MISO_PUPD             GPIO_PuPd_NOPULL
-#define GPIO_SPIx_MISO_SPEED            GPIO_SPEED_FAST 
-#define GPIO_SPIx_MISO_SOURCE           GPIO_PinSource14
-#define GPIO_SPIx_MISO_AF               GPIO_AF_SPI2            //M0: GPIO_AF_0 
-
-// PB15 SPI Master Out Slave In pin     //AF Output, push-pull, 40Mhz,
-#define GPIO_SPIx_MOSI_PORT             GPIOB                   //M0: GPIOA
-#define GPIO_SPIx_MOSI_PIN              GPIO_Pin_15             //M0: 7
-#define GPIO_SPIx_MOSI_CLK              RCC_AHBPeriph_GPIOB
-#define GPIO_SPIx_MOSI_MODE             GPIO_Mode_AF
-#define GPIO_SPIx_MOSI_OTYPE            GPIO_OType_PP
-#define GPIO_SPIx_MOSI_PUPD             GPIO_PuPd_NOPULL
-#define GPIO_SPIx_MOSI_SPEED            GPIO_SPEED_FAST 
-#define GPIO_SPIx_MOSI_SOURCE           GPIO_PinSource15
-#define GPIO_SPIx_MOSI_AF               GPIO_AF_SPI2            //M0: GPIO_AF_0 
 */
 
-// PB12  SPI Slave Select SD Card pin   // Output, 50Mhz, push-pull
-#define GPIO_SPIx_SS_SD_PORT            GPIOB                   //M0: GPIOA
-#define GPIO_SPIx_SS_SD_PIN             GPIO_Pin_12             //M0: 3
-#define GPIO_SPIx_SS_SD_CLK             RCC_AHBPeriph_GPIOB
-#define GPIO_SPIx_SS_SD_MODE            GPIO_Mode_OUT
-#define GPIO_SPIx_SS_SD_OTYPE           GPIO_OType_PP
-#define GPIO_SPIx_SS_SD_PUPD            GPIO_PuPd_NOPULL
-#define GPIO_SPIx_SS_SD_SPEED           GPIO_SPEED_FAST 
+// DEFINES       =============================================================
 
-// PB13 SPI Clock pin                  //AF Output, push-pull, 40Mhz,
-#define GPIO_SPIx_SCK_PORT              GPIOB                   //M0: GPIOA
-#define GPIO_SPIx_SCK_PIN               GPIO_Pin_13             //M0: 5
-#define GPIO_SPIx_SCK_CLK               RCC_AHBPeriph_GPIOB
-#define GPIO_SPIx_SCK_MODE              GPIO_Mode_AF
-#define GPIO_SPIx_SCK_OTYPE             GPIO_OType_PP
-#define GPIO_SPIx_SCK_PUPD              GPIO_PuPd_NOPULL
-#define GPIO_SPIx_SCK_SPEED             GPIO_SPEED_FAST 
-#define GPIO_SPIx_SCK_SOURCE            GPIO_PinSource13
-#define GPIO_SPIx_SCK_AF                GPIO_AF_SPI2            //M0: GPIO_AF_0 
 
-// PB14 SPI Master In Slave Out pin     //AF Output, push-pull, 40Mhz,
-#define GPIO_SPIx_MISO_PORT             GPIOB                   //M0: GPIOA
-#define GPIO_SPIx_MISO_PIN              GPIO_Pin_14             //M0: 6
-#define GPIO_SPIx_MISO_CLK              RCC_AHBPeriph_GPIOB
-#define GPIO_SPIx_MISO_MODE             GPIO_Mode_AF
-#define GPIO_SPIx_MISO_OTYPE            GPIO_OType_PP
-#define GPIO_SPIx_MISO_PUPD             GPIO_PuPd_NOPULL
-#define GPIO_SPIx_MISO_SPEED            GPIO_SPEED_FAST 
-#define GPIO_SPIx_MISO_SOURCE           GPIO_PinSource14
-#define GPIO_SPIx_MISO_AF               GPIO_AF_SPI2            //M0: GPIO_AF_0 
+#define SYS_TICK_US             50                              //us
+#define SYS_UPDFRQ_HZ           TIMEBASE_100_HZ                 // System update
+#define SYS_PERIOD_US           (FACTOR_us_PER_s/SYS_UPDFRQ_HZ)   // Update period
+#define GPIO_Speed_FAST         GPIO_Speed_50MHz
 
-// PB15 SPI Master Out Slave In pin     //AF Output, push-pull, 40Mhz,
-#define GPIO_SPIx_MOSI_PORT             GPIOB                   //M0: GPIOA
-#define GPIO_SPIx_MOSI_PIN              GPIO_Pin_15             //M0: 7
-#define GPIO_SPIx_MOSI_CLK              RCC_AHBPeriph_GPIOB
-#define GPIO_SPIx_MOSI_MODE             GPIO_Mode_AF
-#define GPIO_SPIx_MOSI_OTYPE            GPIO_OType_PP
-#define GPIO_SPIx_MOSI_PUPD             GPIO_PuPd_NOPULL
-#define GPIO_SPIx_MOSI_SPEED            GPIO_SPEED_FAST 
-#define GPIO_SPIx_MOSI_SOURCE           GPIO_PinSource15
-#define GPIO_SPIx_MOSI_AF               GPIO_AF_SPI2            //M0: GPIO_AF_0 
 
-// PA2 USART Tx pin                     //AF Output, push-pull, 40Mhz,
-#define GPIO_USARTx_TX_PORT             GPIOA                   //M0: GPIOA
-#define GPIO_USARTx_TX_PIN              GPIO_Pin_2              //M0: 9           
-#define GPIO_USARTx_TX_CLK              RCC_AHBPeriph_GPIOA
-#define GPIO_USARTx_TX_MODE             GPIO_Mode_AF
-#define GPIO_USARTx_TX_OTYPE            GPIO_OType_PP
-#define GPIO_USARTx_TX_PUPD             GPIO_PuPd_NOPULL
-#define GPIO_USARTx_TX_SPEED            GPIO_SPEED_FAST 
-#define GPIO_USARTx_TX_SOURCE           GPIO_PinSource2
-#define GPIO_USARTx_TX_AF               GPIO_AF_USART2          //M0: GPIO_AF_1
+// 8    PC0     CAN                     Shutdown Control
+#define GPIO_CAN_SHDN_PORT              GPIOC
+#define GPIO_CAN_SHDN_PIN               GPIO_Pin_0
+#define GPIO_CAN_SHDN_SPEED             GPIO_Speed_FAST
+#define GPIO_CAN_SHDN_MODE              GPIO_Mode_Out_PP
 
-// PA3 USART Rx pin                     //AF Output, push-pull, 40Mhz,
-#define GPIO_USARTx_RX_PORT             GPIOA                   //M0: GPIOA
-#define GPIO_USARTx_RX_PIN              GPIO_Pin_3              //M0: 10        
-#define GPIO_USARTx_RX_CLK              RCC_AHBPeriph_GPIOA
-#define GPIO_USARTx_RX_MODE             GPIO_Mode_AF
-#define GPIO_USARTx_RX_OTYPE            GPIO_OType_PP
-#define GPIO_USARTx_RX_PUPD             GPIO_PuPd_NOPULL
-#define GPIO_USARTx_RX_SPEED            GPIO_SPEED_FAST 
-#define GPIO_USARTx_RX_SOURCE           GPIO_PinSource3
-#define GPIO_USARTx_RX_AF               GPIO_AF_USART2          //M0: GPIO_AF_1
+// 9    PC1     CAN                     Standby Control
+#define GPIO_CAN_STBY_PORT              GPIOC
+#define GPIO_CAN_STBY_PIN               GPIO_Pin_1
+#define GPIO_CAN_STBY_SPEED             GPIO_Speed_FAST
+#define GPIO_CAN_STBY_MODE              GPIO_Mode_Out_PP
 
-// PA1  Card detect pin                 // Input
-#define GPIO_EXTI_CD_PORT               GPIOA                   //M0: GPIOA
-#define GPIO_EXTI_CD_PIN                GPIO_Pin_1              //M0: 2
-#define GPIO_EXTI_CD_CLK                RCC_AHBPeriph_GPIOA
-#define GPIO_EXTI_CD_MODE               GPIO_Mode_IN
-#define GPIO_EXTI_CD_PUPD               GPIO_PuPd_UP
+// 61   PB8     CAN                     Receive
+#define GPIO_CAN_RX_PORT                GPIOB
+#define GPIO_CAN_RX_PIN                 GPIO_Pin_8
+#define GPIO_CAN_RX_SPEED               GPIO_Speed_FAST
+#define GPIO_CAN_RX_MODE                GPIO_Mode_IPU           // Check mode
 
-// PA0  User button pin                 // Input
-#define GPIO_EXTI_UB_PORT               GPIOA
-#define GPIO_EXTI_UB_PIN                GPIO_Pin_0
-#define GPIO_EXTI_UB_CLK                RCC_AHBPeriph_GPIOA
-#define GPIO_EXTI_UB_MODE               GPIO_Mode_IN
-#define GPIO_EXTI_UB_PUPD               GPIO_PuPd_NOPULL
+// 62   PB9     CAN                     Transmit
+#define GPIO_CAN_TX_PORT                GPIOB
+#define GPIO_CAN_TX_PIN                 GPIO_Pin_9
+#define GPIO_CAN_TX_SPEED               GPIO_Speed_FAST
+#define GPIO_CAN_TX_MODE                GPIO_Mode_AF_PP         // Check mode
 
-// DMA  ------------------------------------------------------------------------
+// 25   PC5     LED                     1 RED                   ERROR           // a bit too bright
+#define GPIO_LED_1_PORT                 GPIOC
+#define GPIO_LED_1_PIN                  GPIO_Pin_5
+#define GPIO_LED_1_SPEED                GPIO_Speed_FAST
+#define GPIO_LED_1_MODE                 GPIO_Mode_Out_PP
 
-#define DMAx_SPIx_Rx_IRQn               DMA1_Channel4_IRQn
-#define DMAx_SPIx_Tx_IRQn               DMA1_Channel5_IRQn
-//#define DMAx_SPIx_IRQn                  DMA1_Channel2_3_IRQn  //M0
-#define DMAx_USARTx_Rx_IRQn             DMA1_Channel6_IRQn
-#define DMAx_USARTx_Tx_IRQn             DMA1_Channel7_IRQn
-//#define DMAx_USARTx_IRQn                DMA1_Channel4_5_IRQn  //M0
+// 26   PB0     LED                     2 YELLOW                CONTROL         // OKAY
+#define GPIO_LED_2_PORT                 GPIOB
+#define GPIO_LED_2_PIN                  GPIO_Pin_0
+#define GPIO_LED_2_SPEED                GPIO_Speed_FAST
+#define GPIO_LED_2_MODE                 GPIO_Mode_Out_PP
 
-// EXTI  -----------------------------------------------------------------------
+// 27   PB1     LED                     3 GREEN                 HEARTBEAT       // TOO BRIGHT
+#define GPIO_LED_3_PORT                 GPIOB
+#define GPIO_LED_3_PIN                  GPIO_Pin_1
+#define GPIO_LED_3_SPEED                GPIO_Speed_FAST
+#define GPIO_LED_3_MODE                 GPIO_Mode_Out_PP
 
-#define EXTI_UB_LINE                    EXTI_Line0
-#define EXTI_UB_PORT_SOURCE             EXTI_PortSourceGPIOA
-#define EXTI_UB_PIN_SOURCE              EXTI_PinSource0
-#define EXTI_UB_IRQn                    EXTI0_IRQn
+// 15   PA1     LED                     4 BLUE                  DATA LOGGING    // OKAY
+#define GPIO_LED_4_PORT                 GPIOA
+#define GPIO_LED_4_PIN                  GPIO_Pin_1
+#define GPIO_LED_4_SPEED                GPIO_Speed_FAST
+#define GPIO_LED_4_MODE                 GPIO_Mode_Out_PP
 
-#define EXTI_CD_LINE                    EXTI_Line1              //M0: 2
-#define EXTI_CD_PORT_SOURCE             EXTI_PortSourceGPIOA
-#define EXTI_CD_PIN_SOURCE              EXTI_PinSource1
-#define EXTI_CD_IRQn                    EXTI1_IRQn
+// 16   PA2     Bluetooth Module        UART Transmit
+#define GPIO_BT_TX_PORT                 GPIOA
+#define GPIO_BT_TX_PIN                  GPIO_Pin_2
+#define GPIO_BT_TX_SPEED                GPIO_Speed_FAST
+#define GPIO_BT_TX_MODE                 GPIO_Mode_AF_PP
 
-// SPI  ------------------------------------------------------------------------
+// 17   PA3     Bluetooth Module        UART Receive
+#define GPIO_BT_RX_PORT                 GPIOA
+#define GPIO_BT_RX_PIN                  GPIO_Pin_3
+#define GPIO_BT_RX_SPEED                GPIO_Speed_FAST
+#define GPIO_BT_RX_MODE                 GPIO_Mode_IPU
 
-#define SPIx                            SPI2
-#define SPIx_CLK                        RCC_APB1Periph_SPI2
-#define SPIx_DMA_RX_CHANNEL             DMA1_Channel4           //M0: 2
-#define SPIx_DMA_TX_CHANNEL             DMA1_Channel5           //M0: 3
-//#define SPIx_DR_ADDRESS                 0x4001300C            //M0
-#define SPIx_DR_ADDRESS                 0x4000380C
-#define SPI_DATASIZE                    SPI_DataSize_8b
+// 20   PA4     SD Card                 SPI Slave Select
+#define GPIO_SD_NSS_PORT                GPIOA
+#define GPIO_SD_NSS_PIN                 GPIO_Pin_4
+#define GPIO_SD_NSS_SPEED               GPIO_Speed_FAST
+#define GPIO_SD_NSS_MODE                GPIO_Mode_Out_PP
 
-// USART  ----------------------------------------------------------------------
+// 21   PA5     SD Card                 SPI Clock Line
+#define GPIO_SD_SCK_PORT                GPIOA
+#define GPIO_SD_SCK_PIN                 GPIO_Pin_5
+#define GPIO_SD_SCK_SPEED               GPIO_Speed_FAST
+#define GPIO_SD_SCK_MODE                GPIO_Mode_AF_PP
 
-#define USARTx                          USART2
-#define USARTx_CLK                      RCC_APB1Periph_USART2
-#define USARTx_DMA_RX_CHANNEL           DMA1_Channel6           //M0: 5
-#define USARTx_DMA_TX_CHANNEL           DMA1_Channel7           //M0: 4
-//#define USARTx_TDR_ADDRESS              0x40013828            //M0
-//#define USARTx_RDR_ADDRESS              0x40013824            //M0
-#define USARTx_DR_ADDRESS               0x40004404
+// 22   PA6     SD Card                 SPI Master-In-Slave-Out Line
+#define GPIO_SD_MISO_PORT               GPIOA
+#define GPIO_SD_MISO_PIN                GPIO_Pin_6
+#define GPIO_SD_MISO_SPEED              GPIO_Speed_FAST
+#define GPIO_SD_MISO_MODE               GPIO_Mode_IPU
 
+// 23   PA7     SD Card                 SPI Master-Out-Slave-In Line
+#define GPIO_SD_MOSI_PORT               GPIOA
+#define GPIO_SD_MOSI_PIN                GPIO_Pin_7
+#define GPIO_SD_MOSI_SPEED              GPIO_Speed_FAST
+#define GPIO_SD_MOSI_MODE               GPIO_Mode_AF_PP
+
+// 24   PC4     SD Card                 Card Detect
+#define GPIO_SD_CD_PORT                 GPIOC
+#define GPIO_SD_CD_PIN                  GPIO_Pin_4
+#define GPIO_SD_CD_SPEED                GPIO_Speed_FAST
+#define GPIO_SD_CD_MODE                 GPIO_Mode_IPU
+
+// 33   PB12     FlexSEA Manage         SPI Slave Select
+#define GPIO_MN_NSS_PORT                GPIOB
+#define GPIO_MN_NSS_PIN                 GPIO_Pin_12
+#define GPIO_MN_NSS_SPEED               GPIO_Speed_FAST
+#define GPIO_MN_NSS_MODE                GPIO_Mode_Out_PP
+
+// 34   PB13     FlexSEA Manage         SPI Clock Line
+#define GPIO_MN_SCK_PORT                GPIOB
+#define GPIO_MN_SCK_PIN                 GPIO_Pin_13
+#define GPIO_MN_SCK_SPEED               GPIO_Speed_FAST
+#define GPIO_MN_SCK_MODE                GPIO_Mode_AF_PP
+
+// 35   PB14     FlexSEA Manage         SPI Master-In-Slave-Out Line
+#define GPIO_MN_MISO_PORT               GPIOB
+#define GPIO_MN_MISO_PIN                GPIO_Pin_14
+#define GPIO_MN_MISO_SPEED              GPIO_Speed_FAST
+#define GPIO_MN_MISO_MODE               GPIO_Mode_IPU
+
+// 36   PB15     FlexSEA Manage         SPI Master-Out-Slave-In Line
+#define GPIO_MN_MOSI_PORT               GPIOB
+#define GPIO_MN_MOSI_PIN                GPIO_Pin_15
+#define GPIO_MN_MOSI_SPEED              GPIO_Speed_FAST
+#define GPIO_MN_MOSI_MODE               GPIO_Mode_AF_PP
+
+// 39   PC8     FTDI                    Enumeration Complete input
+#define GPIO_FTDI_ENUM_PORT             GPIOC
+#define GPIO_FTDI_ENUM_PIN              GPIO_Pin_8
+#define GPIO_FTDI_ENUM_SPEED            GPIO_Speed_FAST
+#define GPIO_FTDI_ENUM_MODE             GPIO_Mode_IPU
+
+// 40   PC9     FTDI                    USB Power Available
+#define GPIO_FTDI_PWR_PORT              GPIOC
+#define GPIO_FTDI_PWR_PIN               GPIO_Pin_9
+#define GPIO_FTDI_PWR_SPEED             GPIO_Speed_FAST
+#define GPIO_FTDI_PWR_MODE              GPIO_Mode_IPU
+
+// 50   PA15    RS485                   Receiver Enable
+#define GPIO_RS485_REN_PORT             GPIOA
+#define GPIO_RS485_REN_PIN              GPIO_Pin_15
+#define GPIO_RS485_REN_SPEED            GPIO_Speed_FAST
+#define GPIO_RS485_REN_MODE             GPIO_Mode_Out_PP
+
+// 51   PC10    RS485                   Transmit
+#define GPIO_RS485_TX_PORT              GPIOC
+#define GPIO_RS485_TX_PIN               GPIO_Pin_10
+#define GPIO_RS485_TX_SPEED             GPIO_Speed_FAST
+#define GPIO_RS485_TX_MODE              GPIO_Mode_AF_PP
+
+// 52   PC11    RS485                   Receive
+#define GPIO_RS485_RX_PORT              GPIOC
+#define GPIO_RS485_RX_PIN               GPIO_Pin_11
+#define GPIO_RS485_RX_SPEED             GPIO_Speed_FAST
+#define GPIO_RS485_RX_MODE              GPIO_Mode_IPU
+
+// 53   PC12    RS485                   Driver Enable
+#define GPIO_RS485_DEN_PORT             GPIOC
+#define GPIO_RS485_DEN_PIN              GPIO_Pin_12
+#define GPIO_RS485_DEN_SPEED            GPIO_Speed_FAST
+#define GPIO_RS485_DEN_MODE             GPIO_Mode_Out_PP
+
+// 14   PA0     Digital I/O             1
+#define GPIO_DIO_01_PORT                GPIOA
+#define GPIO_DIO_01_PIN                 GPIO_Pin_0
+#define GPIO_DIO_01_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_01_MODE                GPIO_Mode_IPU
+
+// 42   PA9     Digital I/O             2
+#define GPIO_DIO_02_PORT                GPIOA
+#define GPIO_DIO_02_PIN                 GPIO_Pin_9
+#define GPIO_DIO_02_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_02_MODE                GPIO_Mode_IPU
+
+// 41   PA8     Digital I/O             3       MCO
+#define GPIO_DIO_03_PORT                GPIOA
+#define GPIO_DIO_03_PIN                 GPIO_Pin_8
+#define GPIO_DIO_03_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_03_MODE                GPIO_Mode_IPU
+
+// 43   PA10    Digital I/O             4
+#define GPIO_DIO_04_PORT                GPIOA
+#define GPIO_DIO_04_PIN                 GPIO_Pin_10
+#define GPIO_DIO_04_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_04_MODE                GPIO_Mode_IPU
+
+// 38   PC7     Digital I/O             5
+#define GPIO_DIO_05_PORT                GPIOC
+#define GPIO_DIO_05_PIN                 GPIO_Pin_7
+#define GPIO_DIO_05_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_05_MODE                GPIO_Mode_IPU
+
+// 44   PA11    Digital I/O             6
+#define GPIO_DIO_06_PORT                GPIOA
+#define GPIO_DIO_06_PIN                 GPIO_Pin_11
+#define GPIO_DIO_06_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_06_MODE                GPIO_Mode_IPU
+
+// 37   PC6     Digital I/O             7
+#define GPIO_DIO_07_PORT                GPIOC
+#define GPIO_DIO_07_PIN                 GPIO_Pin_6
+#define GPIO_DIO_07_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_07_MODE                GPIO_Mode_IPU
+
+// 45   PA12    Digital I/O             8
+#define GPIO_DIO_08_PORT                GPIOA
+#define GPIO_DIO_08_PIN                 GPIO_Pin_12
+#define GPIO_DIO_08_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_08_MODE                GPIO_Mode_IPU
+
+// 59   PB7     Digital I/O             9
+#define GPIO_DIO_09_PORT                GPIOB
+#define GPIO_DIO_09_PIN                 GPIO_Pin_7
+#define GPIO_DIO_09_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_09_MODE                GPIO_Mode_IPU
+
+// 54   PD2     Digital I/O             10
+#define GPIO_DIO_10_PORT                GPIOD
+#define GPIO_DIO_10_PIN                 GPIO_Pin_2
+#define GPIO_DIO_10_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_10_MODE                GPIO_Mode_IPU
+
+// 58   PB6     Digital I/O             11
+#define GPIO_DIO_11_PORT                GPIOB
+#define GPIO_DIO_11_PIN                 GPIO_Pin_6
+#define GPIO_DIO_11_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_11_MODE                GPIO_Mode_IPU
+
+// 55   PB3     Digital I/O             12
+#define GPIO_DIO_12_PORT                GPIOB
+#define GPIO_DIO_12_PIN                 GPIO_Pin_3
+#define GPIO_DIO_12_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_12_MODE                GPIO_Mode_IPD   // External pull down as well
+
+// 30   PB11    Digital I/O             13
+#define GPIO_DIO_13_PORT                GPIOB
+#define GPIO_DIO_13_PIN                 GPIO_Pin_11
+#define GPIO_DIO_13_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_13_MODE                GPIO_Mode_IPU
+
+// 56   PB4     Digital I/O             14
+#define GPIO_DIO_14_PORT                GPIOB
+#define GPIO_DIO_14_PIN                 GPIO_Pin_4
+#define GPIO_DIO_14_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_14_MODE                GPIO_Mode_IPU
+
+// 29   PB10    Digital I/O             15
+#define GPIO_DIO_15_PORT                GPIOB
+#define GPIO_DIO_15_PIN                 GPIO_Pin_10
+#define GPIO_DIO_15_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_15_MODE                GPIO_Mode_IPU
+
+// 57   PB5     Digital I/O             16
+#define GPIO_DIO_16_PORT                GPIOB
+#define GPIO_DIO_16_PIN                 GPIO_Pin_5
+#define GPIO_DIO_16_SPEED               GPIO_Speed_FAST
+#define GPIO_DIO_16_MODE                GPIO_Mode_IPU
+
+//==============================================================================
+
+
+/*
+ 2   | PC13  | not used   |         |  C   | 13  | ???    |       | Check mode - maybe need to do something
+ 3   | PC14  | OSC_32_IN  | YES     |  C   | 14  |        |       |
+ 4   | PC15  | OSC_32_OUT | YES     |  C   | 15  |        |       |
+ 5   | PD0   | not used   |         |  D   | 0   | ???    |       | Check mode - maybe need to do something 
+ 6   | PD1   | not used   |         |  D   | 1   | ???    |       | Check mode - maybe need to do something
+ 10  | PC2   | not used   |         |  C   | 2   | ???    |       |
+ 11  | PC3   | not used   |         |  C   | 3   | ???    |       |
+ 46  | PA13  | SWDIO	  | YES     |  A   | 13  | ???    |       |
+ 49  | PA14  | SWCLK	  | YES     |  A   | 14  | ???    |       |
+ 60  | BOOT0 | BOOT       | YES     |      |     |        |       |
+ 28  | PB2   | BOOT1      | ???     |  B   | 2   | ???    |       |
+
+*/
+
+
+// EXTI:        Card Detect
+
+#define EXTI_SD_CD_LINE         EXTI_Line4
+#define EXTI_SD_CD_MODE         EXTI_Mode_Interrupt
+#define EXTI_SD_CD_TRIG         EXTI_Trigger_Rising_Falling
+#define EXTI_SD_CD_IRQn         EXTI4_IRQn
+#define EXTI_SD_CD_PORTSRS      GPIO_PortSourceGPIOC
+#define EXTI_SD_CD_PINSRS       GPIO_PinSource4
+
+// DMA Interrupts
+
+#define DMA_SD_RX_IRQn          DMA1_Channel2_IRQn
+#define DMA_SD_TX_IRQn          DMA1_Channel3_IRQn
+#define DMA_MN_RX_IRQn          DMA1_Channel4_IRQn
+#define DMA_MN_TX_IRQn          DMA1_Channel5_IRQn
+#define DMA_BT_RX_IRQn          DMA1_Channel6_IRQn
+#define DMA_BT_TX_IRQn          DMA1_Channel7_IRQn
+
+// SPI:         SD Card
+
+#define SPI_SD                  SPI1
+#define SPI_SD_CLK              RCC_APB2Periph_SPI1
+#define SPI_SD_DMA_RX_CHAN      DMA1_Channel2
+#define SPI_SD_DMA_TX_CHAN      DMA1_Channel3
+#define SPI_SD_DR               0x4001300C
+#define SPI_SD_DATASIZE         SPI_DataSize_8b
+
+// SPI:         FlexSEA Manage
+
+#define SPI_MN                  SPI2
+#define SPI_MN_CLK              RCC_APB1Periph_SPI2
+#define SPI_MN_DMA_RX_CHAN      DMA1_Channel4
+#define SPI_MN_DMA_TX_CHAN      DMA1_Channel5
+#define SPI_MN_DR               0x4000380C
+#define SPI_MN_DATASIZE         SPI_DataSize_8b
+
+// USART:       Bluetooth Module
+
+#define USART_BT                USART2
+#define USART_BT_CLK            RCC_APB1Periph_USART2
+#define USART_BT_DMA_RX_CHAN    DMA1_Channel6
+#define USART_BT_DMA_TX_CHAN    DMA1_Channel7
+#define USART_BT_DR             0x40004404
+#define USART_BT_BAUDRATE       230400
 
 
 // FUNCTION PROTOTYPES  ========================================================
-
+void hardware_config(void);
 void DMA_config(void);
 void EXTI_config(void);
 void GPIO_config(void);
+void GPIO_PinConfig(GPIO_TypeDef*,uint16_t,GPIOSpeed_TypeDef,GPIOMode_TypeDef);
 void NVIC_config(void);
 void RTC_config(void);
 void SPI_config(void);
 void USART_config(void);
+void RCC_config(void);
+void TIM_config(void);
 
 #endif //PLAN_CONFIG_H
