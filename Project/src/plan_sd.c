@@ -1,7 +1,6 @@
 #include "plan_sd.h"
 
 RESPONSE        resp;
-extern state    sys_state;
 extern mstate   mem_state;
 
 //==============================================================================
@@ -10,18 +9,8 @@ extern mstate   mem_state;
 //==============================================================================
 uint8_t SD_Detect(void)
 {
-  
-  // If card is detected in the socket
-    if (!(GPIO_SD_CD_PORT->IDR & GPIO_SD_CD_PIN))
-    {
-      mem_state = MEM_IN;
-      return 1;
-    }
-    else // If card was taken out of the socket
-    {
-      mem_state = MEM_OUT;
-      return 0;
-    }
+  if (!(GPIO_SD_CD_PORT->IDR & GPIO_SD_CD_PIN)) {mem_state = MEM_IN;  return 1;}
+  else                                          {mem_state = MEM_OUT; return 0;}
 }
 
 //==============================================================================

@@ -15,34 +15,36 @@ void prep_packet(uint8_t offset, uint8_t ctrl, int32_t sp, int16_t gain0, \
   pack(P_AND_S_DEFAULT, FLEXSEA_EXECUTE_1, 0, 0, comm_str_1);
 }
 
+
+
 //==============================================================================
-// FUNCTION update_Manage()
-//      - communicates with FlexSEA Manage board via SPI (one packet)
+// FUNCTION update()
+//      - starts DMA-assisted communication to a specified device
 //==============================================================================
-void update_Manage(void)
+void update(device dev)
 {
-  // Clear data register by reading data until none left
-  while(SPI_I2S_GetFlagStatus(SPI_MN, SPI_I2S_FLAG_RXNE) == SET)
+  switch (dev)
   {
-    SPI_I2S_ReceiveData(SPI_MN);
-  }  
-  GPIO_ResetBits(GPIO_MN_NSS_PORT,GPIO_MN_NSS_PIN);     // Select Manage Board
-  
-  // Start DMA transfer from memory to SPI->DR
-  DMA_Cmd(SPI_MN_DMA_RX_CHAN, ENABLE);
-  DMA_Cmd(SPI_MN_DMA_TX_CHAN, ENABLE);
-}
-
-
-//==============================================================================
-// FUNCTION update_User()
-//      - communicates with user app: (UART to BT121)
-//==============================================================================
-void update_User(void)
-{
-  // Start DMA transfer from memory to USART->TDR
-  DMA_Cmd(USART_BT_DMA_RX_CHAN, ENABLE);
-  DMA_Cmd(USART_BT_DMA_TX_CHAN, ENABLE);
+  case MANAGE:
+    // Clear data register by reading data until none left
+    while(SPI_I2S_GetFlagStatus(SPI_MN, SPI_I2S_FLAG_RXNE) == SET)
+    {
+      SPI_I2S_ReceiveData(SPI_MN);
+    }
+    
+    // Select Manage Board
+    GPIO_ResetBits(GPIO_MN_NSS_PORT,GPIO_MN_NSS_PIN);
+    
+    // Start DMA transfer from memory to SPI->DR
+    DMA_Cmd(SPI_MN_DMA_RX_CHAN, ENABLE);
+    DMA_Cmd(SPI_MN_DMA_TX_CHAN, ENABLE);
+    break;
+  case USER:
+    // Start DMA transfer from memory to USART->DR
+    DMA_Cmd(USART_BT_DMA_RX_CHAN, ENABLE);
+    DMA_Cmd(USART_BT_DMA_TX_CHAN, ENABLE);
+    break;
+  }
 }
 
 
@@ -50,25 +52,26 @@ void update_User(void)
 // FUNCTION pack_P2U()
 //      - packs data to send to User over UART
 //==============================================================================
-int pack_P2U(void)                                                             // BUILD IN A ROBUST CHECKING MECHANISM
+int unpack(device dev)
 {
-  if(unpack_payload(spi_rx_buffer,spi_rx_tmp,spi_payload)>0)
+  switch(dev)
   {
-    struct execute_s ex2; ricnu_1.ex = &ex2; // set rn->ex to point to declared structure
-    struct strain_s  st2; ricnu_1.st = &st2; // set rn->st to point to declared structure
-    rx_cmd_ricnu_rr(spi_payload,0);
-    int i=0;
-    //if(spi_rx_tmp[1]==0x1D) // If SPI packet contains the right-size data
-    //{
-      // Isolate data and pack into USART buffer
-      for(i=0;i<=24;i++){usart_tx_buffer[i]=spi_payload[i+4];}    
-    //}
-    return COMM_OK;
+  case MANAGE:
+    if(unpack_payload(spi_rx_buffer,spi_rx_tmp,spi_payload)>0)
+    {
+      struct execute_s ex2; ricnu_1.ex = &ex2;    // point rn->ex to a declared structure
+      struct strain_s  st2; ricnu_1.st = &st2;    // point rn->st to a declared structure
+      rx_cmd_ricnu_rr(spi_payload,0);             // unpack payload using RICNU function
+      for(int i=0;i<=24;i++){usart_tx_buffer[i]=spi_payload[i+4];}    
+      return COMM_OK;
+    }
+  case USER:
+    break;
   }
   return COMM_ERR;
 }
 
-
+/*
 //==============================================================================
 // FUNCTION pack_U2P()
 //      - packs data received from User over UART
@@ -102,4 +105,5 @@ void pack_U2P(void)
   (void) ctrl;
   (void) pwm;
 }
+*/
 

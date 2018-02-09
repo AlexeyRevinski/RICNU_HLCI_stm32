@@ -23,9 +23,10 @@
 #define TOG                             (uint8_t) 1
 #define CON                             (uint8_t) 0
 
-#define LED_TIME                0.25    //s
-#define LED_TIM_PERIOD          46875
-#define LED_TIM_PRESCALER       256
+#define LED_TIME                        0.25    //s
+#define LED_TIM_PRESCALER               256
+#define LED_TIM_PERIOD                  48000000/LED_TIM_PRESCALER*LED_TIME
+
 
 void LED_state(const uint8_t,const uint8_t,const uint8_t);
 void LED_update(void);

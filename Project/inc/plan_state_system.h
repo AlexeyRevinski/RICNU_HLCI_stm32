@@ -2,7 +2,6 @@
 #define PLAN_STATE_SYSTEM_H
 
 #include "plan_include.h"
-//#include <stddef.h>
 
 // EVENTS ----------------------------------------------------------------------
 typedef enum

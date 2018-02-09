@@ -68,8 +68,8 @@ typedef struct
   uint32_t      extra;          // Used only for R3 and R7
 } RESPONSE;
 
-#define SPI_SS_SD_SELECT() GPIO_ResetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);//GPIO_ResetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN);// GPIO_SetBits(GPIO_SPIx_EN_SD_PORT,GPIO_SPIx_EN_SD_PIN)
-#define SPI_SS_SD_DESELECT() GPIO_SetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);//GPIO_SetBits(GPIO_SPIx_SS_SD_PORT,GPIO_SPIx_SS_SD_PIN);// GPIO_ResetBits(GPIO_SPIx_EN_SD_PORT,GPIO_SPIx_EN_SD_PIN)
+#define SPI_SS_SD_SELECT() GPIO_ResetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);
+#define SPI_SS_SD_DESELECT() GPIO_SetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);
 
 uint8_t         SD_Detect(void);
 MEMTYPE         SD_Init(void);

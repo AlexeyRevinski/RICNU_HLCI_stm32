@@ -21,10 +21,9 @@
 // RICNU Plan
 #include "plan_comm.h"          // Communication module
 #include "plan_config.h"        // Hardware configuration module
-#include "plan_fsm_builder.h"   // Leg finite state machine module
+#include "plan_fsm.h"           // Device control finite state machine module
 #include "plan_led.h"           // LED module
 #include "plan_sd.h"            // SD Card low level communication module
 #include "plan_state_system.h"  // System finite state machine module
-#include "plan_utilities.h"     // Utility code
 
 #endif //PLAN_INCLUDE_H

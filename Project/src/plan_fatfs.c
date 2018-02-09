@@ -72,14 +72,6 @@ DRESULT disk_read (BYTE drv, BYTE* buff, DWORD sector, UINT count)
       timeout--;
     }while((rval.R1!=0x00) && timeout); // Until first valid response
     if(timeout==0){return RES_NOTRDY;} // If timed out - card is broken
-    
-    /*
-    do // Poll until not busy
-    {
-      rval.R1 = SPI_ReadByte();
-    }while((rval.R1==0x00) && timeout);
-    if(timeout==0){return RES_NOTRDY;} // If timed out - card is broken
-    */
   }
   return RES_OK;                                                                // TODO CHECK IF ACTUALLY OKAY
 }

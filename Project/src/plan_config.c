@@ -16,7 +16,6 @@ void hardware_config(void)
   DMA_config();         // Direct Memory Access Controller
   EXTI_config();        // External Interrupt Controller
   NVIC_config();        // Nested Vector Interrupt Controller
-  
   RTC_config();         // Real Time Clock configuration
   TIM_config();         // Configuring timers
   
@@ -127,7 +126,6 @@ void GPIO_config(void)
   
   // PIN REMAPS ================================================================
   GPIO_PinRemapConfig(GPIO_Remap1_CAN1, ENABLE);
-  //RCC_MCOConfig(RCC_MCO_HSI);
   
   
   // INITIAL OUTPUT LEVELS =====================================================
@@ -403,7 +401,7 @@ void NVIC_config(void)
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
-  
+  // Configure LED Update (TIM2 overflow) Interrupt
   NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
@@ -426,21 +424,17 @@ void RTC_config(void)
 void RCC_config(void)
 {
   RCC_PLLCmd(DISABLE);                          // Disable PLL                  // Also start up LSE for RTC
-  RCC_PLLConfig(RCC_PLLSource_HSI_Div2, RCC_PLLMul_12); //PLL: 8M/2*12 = 48M
+  RCC_PLLConfig(RCC_PLLSOURCE, RCC_PLLMUL);     //PLL: 8M/2*12 = 48M
   RCC_PLLCmd(ENABLE);                           // Enable PLL
   while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET){;} //Wait: PLL is ready
   FLASH_SetLatency(FLASH_Latency_1);            // Increase FLASH latency
-  RCC_HCLKConfig(RCC_SYSCLK_Div1); 
-  RCC_PCLK2Config(RCC_HCLK_Div1); 
-  RCC_PCLK1Config(RCC_HCLK_Div2);
+  RCC_HCLKConfig(RCC_SYSCLK_Div1);              // HCLK configudation
+  RCC_PCLK2Config(RCC_HCLK_Div1);               // PCLK2 configudation 
+  RCC_PCLK1Config(RCC_HCLK_Div2);               // PCLK1 configudation
   RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);    // Set PLL as sys clock source
   while (RCC_GetSYSCLKSource() != 0x08){;}      // Wait: PLL is sysclk source
-  
-  SystemCoreClockUpdate();
-  
+  SystemCoreClockUpdate();                      // Udpate variables
 }
-
-
 
 //==============================================================================
 // FUNCTION EXTI_config()

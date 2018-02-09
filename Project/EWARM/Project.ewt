@@ -1451,7 +1451,7 @@
         <name>$PROJ_DIR$\..\inc\plan_config.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\inc\plan_fsm_builder.h</name>
+        <name>$PROJ_DIR$\..\inc\plan_fsm.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\inc\plan_include.h</name>
@@ -1464,9 +1464,6 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\inc\plan_state_system.h</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\inc\plan_utilities.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\inc\stm32f10x_conf.h</name>
@@ -1493,7 +1490,7 @@
         <name>$PROJ_DIR$\..\src\plan_fatfs.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\src\plan_fsm_builder.c</name>
+        <name>$PROJ_DIR$\..\src\plan_fsm.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\plan_led.c</name>
@@ -1503,9 +1500,6 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\plan_state_system.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\src\plan_utilities.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\src\stm32f10x_it.c</name>

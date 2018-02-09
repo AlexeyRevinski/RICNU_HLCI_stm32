@@ -26,19 +26,17 @@ void change_sys_state(state* curstate_p, event curevent)
   switch(*curstate_p)
   {
   case STATE_INACTIVE:
-    LED_state(LED_RED,OFF,CON);         // No error             (RED off)
-    LED_state(LED_YEL,OFF,CON);         // No data logging      (YEL off)
-    LED_state(LED_GRN, ON,CON);         // Ready                (GRN on)
+    LED_state(LED_RED|LED_YEL,OFF,CON); // No error or data logging
+    LED_state(LED_GRN, ON,CON);         // Ready
     break;
   case STATE_ACTIVE:
     LED_state(LED_RED,OFF,CON);         // No error             (RED off)
-    if(1){LED_state(LED_YEL,OFF,CON);}   // Data logging         (YEL on)        // Implement data logging verification
+    if(1){LED_state(LED_YEL,OFF,CON);}  // Data logging         (YEL on)        // Implement data logging verification
     LED_state(LED_GRN, ON,TOG);         // Active               (GRN flash)
     break;
   case STATE_ERROR:
     LED_state(LED_RED, ON,TOG);         // Error                (RED on)
-    LED_state(LED_YEL,OFF,CON);         // No data logging      (YEL off)
-    LED_state(LED_GRN,OFF,CON);         // Not ready or active  (GRN off)
+    LED_state(LED_YEL|LED_GRN,OFF,CON); // No data logging      (YEL off)
     break;
   }
 }

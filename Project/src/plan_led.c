@@ -12,10 +12,10 @@ static uint8_t led_state = 0;
 //==============================================================================
 void LED_state(const uint8_t led,const uint8_t en,const uint8_t mod)
 {
-  if(en)        led_state|=led;         //Set that LED's on bit
-  else          led_state&=(~led);      //Reset that LED's on bit
-  if(mod)       led_state|=(led<<4);    //Set that LED's mod bit
-  else          led_state&=(~(led<<4)); //Reset that LED's mod bit
+  if(en)        led_state|=led;         //Set ON bit
+  else          led_state&=(~led);      //Reset ON bit
+  if(mod)       led_state|=(led<<4);    //Set MOD bit
+  else          led_state&=(~(led<<4)); //Reset MOD bit
 }
 
 //==============================================================================

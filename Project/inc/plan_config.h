@@ -81,12 +81,18 @@
 */
 
 // DEFINES       =============================================================
+#define TIMEBASE_100_HZ                 100     //Hz
+#define TIMEBASE_250_HZ                 250     //Hz
+#define TIMEBASE_500_HZ                 500     //Hz
+#define FACTOR_us_PER_s                 1000000 //us per 1s
 
+#define SYS_TICK_US                     50                              //us
+#define SYS_UPDFRQ_HZ                   TIMEBASE_100_HZ                 // System update
+#define SYS_PERIOD_US                   (FACTOR_us_PER_s/SYS_UPDFRQ_HZ)   // Update period
+#define GPIO_Speed_FAST                 GPIO_Speed_50MHz
 
-#define SYS_TICK_US             50                              //us
-#define SYS_UPDFRQ_HZ           TIMEBASE_100_HZ                 // System update
-#define SYS_PERIOD_US           (FACTOR_us_PER_s/SYS_UPDFRQ_HZ)   // Update period
-#define GPIO_Speed_FAST         GPIO_Speed_50MHz
+#define RCC_PLLSOURCE                   RCC_PLLSource_HSI_Div2
+#define RCC_PLLMUL                      RCC_PLLMul_12
 
 
 // 8    PC0     CAN                     Shutdown Control
