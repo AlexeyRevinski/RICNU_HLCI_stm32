@@ -34,7 +34,7 @@ int main(void)
     PWR_EnterSTOPMode(PWR_Regulator_LowPower,   // Go into STOP mode
                       PWR_STOPEntry_WFI);
     RCC_config();                       // Once awake, configure clocks anew
-    while(SD_Init()==UNKNOWN);          // Go through init until success
+    while(SD_Init()!=UNKNOWN);          // Go through init until success
   }
   
   // INITIALIZATION COMPLETE LED SEQUENCE --------------------------------------
@@ -46,13 +46,13 @@ int main(void)
   {
     if(systick_update)  // On SysTick update
     {
-      systick_update = 0;       // Reset update flag      
+      systick_update = 0;       // Reset update flag
       switch (sys_state)        // Take an action based on system state
       {
-      // INACTIVE STATE 
+      // INACTIVE STATE
       case STATE_INACTIVE:
         break;
-        
+
       // ERROR STATE
       case STATE_ERROR:
         break;
@@ -64,20 +64,25 @@ int main(void)
         case SYS_TICK_US*0:     // At t = 0us:
           update(MANAGE);               // - Communicate with Manage
           break;
-          
+
         case SYS_TICK_US*7:     // At t = 350us
           unpack(MANAGE);               // Pack data to send upstream
           break;
-          
-        case SYS_TICK_US*10:    // At t = 500us
+
+        case SYS_TICK_US*20:    // At t = 500us
           fsm_update();               // Update state machine
           break;
-          
+
         case SYS_TICK_US*14:    // At t = 700us:
           update(USER);                // Communicate with user
           break;
+
+        default:
+        	break;
         }
         break;
+        default:
+        	break;
       }
     }
   }

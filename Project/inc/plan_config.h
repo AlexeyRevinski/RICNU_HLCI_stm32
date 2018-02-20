@@ -87,7 +87,7 @@
 #define FACTOR_us_PER_s                 1000000 //us per 1s
 
 #define SYS_TICK_US                     50                              //us
-#define SYS_UPDFRQ_HZ                   TIMEBASE_100_HZ                 // System update
+#define SYS_UPDFRQ_HZ                   TIMEBASE_250_HZ                 // System update
 #define SYS_PERIOD_US                   (FACTOR_us_PER_s/SYS_UPDFRQ_HZ)   // Update period
 #define GPIO_Speed_FAST                 GPIO_Speed_50MHz
 

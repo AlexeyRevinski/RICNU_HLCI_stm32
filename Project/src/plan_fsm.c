@@ -54,10 +54,10 @@ const char* val_le              = "le";
 const char* val_eq              = "eq";
 
 // GLOBAL VARIABLES  ===========================================================
-static  fsm_stack       fst     = NULL;
+static  fsm_stack       fst;
 static  fsm_stack       *fstp   = &fst; // Initialize ptr to fsm ptr stack
 
-static  fsm             FSM_s   = NULL;                                                 
+static  fsm             FSM_s;
 static  fsm             *FSM    = &FSM_s; // Initialize pointer to fsm structure
 static  fsm_tracker     TR;
 
@@ -75,7 +75,7 @@ static  char            *fstr   = NULL; // Initialize fsm string pointer
 errcode fsm_build(void)
 {  
   // Select SD Card for SPI communication  =====================================
-  GPIO_ResetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);
+  GPIO_ResetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);                             // Not needed??
   
   // Get FSM file string  ======================================================
   FATFS fs; FIL fil; UINT br;                   // Declare FatFs variables
@@ -84,20 +84,20 @@ errcode fsm_build(void)
   int str_size = fil.obj.objsize;               // Get file size
   if(str_size>MAX_FSM_FILE_LENGTH){return FB_ERR;} // If too large ==> error
   fstr = (char *)malloc(sizeof(*fstr)*str_size);// Allocate memory for fstr
-  if(!fstr){fsm_mem_free(); return FB_ERR;} // If didn't allocate ==> error
+  if(!fstr){fsm_mem_free(); return FB_ERR;}     // If didn't allocate ==> error
   f_read(&fil,fstr,str_size,&br);               // Populate the string
   f_close(&fil);                                // Close the file
-  f_mount(0,"", 0);                             // Unmount the default drive
+  f_mount(0,"",0);                              // Unmount the default drive
   
   // Parse FSM string to get jsmn tokens  ======================================
   jsmn_parser parser;                           // Declare parser
   jsmn_init(&parser);                           // Initialize parser
   int num_tkns =                                // Get num tokens needed
-    jsmn_parse(&parser, fstr, str_size, NULL, NULL);
+    jsmn_parse(&parser, fstr, str_size, NULL, (unsigned int)NULL);
   jsmn_init(&parser);                           // Reset parser
   tkns =                                        // Allocate mem for tokens array
     (jsmntok_t *)malloc(sizeof(jsmntok_t)*num_tkns);
-  if(!tkns){fsm_mem_free();return FB_ERR;}  // If didn't allocate ==> error
+  if(!tkns){fsm_mem_free();return FB_ERR;}      // If didn't allocate ==> error
   jsmn_parse(&parser,fstr,str_size,tkns,num_tkns); // Parse string 
   
   // Populate FSM structure from FSM string and jsmn tokens  ===================
@@ -544,7 +544,7 @@ int fsm_stack_put(fsm_stack* s, int ptr)
 int  fsm_stack_pop(fsm_stack* s)
 {
   // If head is invalid, return
-  if (s->top == -1) {return NULL;}
+  if (s->top == -1) {return 0;}
   // Get value at head
   int ptr = fsm_stack_get(s);
   // Point head to previous

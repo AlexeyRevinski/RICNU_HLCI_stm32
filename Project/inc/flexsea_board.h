@@ -44,8 +44,8 @@ extern "C" {
 //****************************************************************************
 
 #include <stdint.h>
-#include "../flexsea-comm/inc/flexsea_comm.h"
-#include "../flexsea-comm/inc/flexsea.h"
+#include "flexsea_comm.h"
+#include "flexsea.h"
 
 //****************************************************************************
 // Prototype(s):

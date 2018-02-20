@@ -38,5 +38,7 @@ void change_sys_state(state* curstate_p, event curevent)
     LED_state(LED_RED, ON,TOG);         // Error                (RED on)
     LED_state(LED_YEL|LED_GRN,OFF,CON); // No data logging      (YEL off)
     break;
+  default:
+  	  break;
   }
 }
