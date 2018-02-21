@@ -22,6 +22,24 @@ int main(void)
   update(MANAGE);                               // Make this blocking!
   //check that Execute changed control to none
   
+
+  FRESULT fr;
+  FATFS fs;
+  FIL fil;
+
+  /* Open or create a log file and ready to append */
+  f_mount(&fs, "", 0);
+  fr = open_append(&fil, "logfile.txt");
+  if (fr != FR_OK) return 1;
+
+  /* Append a line */
+  f_printf(&fil, "%02u/%02u/%u, %2u:%02u\n", 2, 21, 2018, 16, 31);
+
+  /* Close the file */
+  f_close(&fil);
+
+
+
   // DEVICE CONTROL FINITE STATE MACHINE BUILD ---------------------------------
   while(1)
   {

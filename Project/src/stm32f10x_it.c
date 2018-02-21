@@ -144,11 +144,18 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+
+void SysTick_Handler(void)		// if 3950
 {
-  systick_update = 1;
-  if(state_time_us!=(SYS_PERIOD_US-SYS_TICK_US)){state_time_us+=SYS_TICK_US;}
-  else{state_time_us=0;}
+	// Set update flag
+	systick_update = 1;
+
+    // Increment time by SYS_TICK_US microseconds
+    if(state_time_us!=(SYS_PERIOD_US-SYS_TICK_US)){state_time_us+=SYS_TICK_US;}
+    else{state_time_us=0;}
+
+    // Update software timers
+    if(!(state_time_us%1000)){SD_TimeUpdate();}	//1kHz time base
 }
 
 /******************************************************************************/
@@ -179,7 +186,7 @@ void EXTI4_IRQHandler(void)
   {
     
     // See if the card is in or not
-    SD_Detect();
+    if(SD_DETECT);
     // Clear the interrupt pending bit
     EXTI_ClearITPendingBit(EXTI_SD_CD_LINE);
   }

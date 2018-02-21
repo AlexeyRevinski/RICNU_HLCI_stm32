@@ -12,10 +12,9 @@ typedef enum
 {
   UNKNOWN               = 0x00,
   MMC_V3                = 0x01,
-  SD_V1_SC              = 0x02,
-  SD_V2_SC              = 0x04,
-  SD_V2_HC              = 0x08,
-  SD_V2_XC              = 0x10
+  SD_V1              	= 0x02,
+  SD_V2              	= 0x04,
+  SD_V2_BL              = 0x08
 } MEMTYPE;
 
 // RESPONSE TYPES
@@ -33,13 +32,21 @@ typedef enum
   CMD0                  = 0 |R1,        // GO_IDLE_STATE
   CMD1                  = 1 |R1,        // SEND_OP_COND
   CMD8                  = 8 |R7,        // SEND_IF_COND
+  CMD9					= 9 |R1,			/* SEND_CSD */
   CMD12                 = 12|R1,        // STOP_TRANSMISSION
   CMD16                 = 16|R1,        // SET_BLOCKLEN
   CMD17                 = 17|R1,        // READ_SINGLE_BLOCK
   CMD18                 = 18|R1,        // READ_MULTIPLE_BLOCK
+  CMD24					= 24|R1,
+  CMD25					= 25|R1,
+  CMD32					= 32|R1,
+  CMD33					= 33|R1,
+  CMD38					= 38|R1,
   CMD55                 = 55|R1,        // APP_CMD
   CMD58                 = 58|R3,        // READ_OCR
   ACMDX                 = 1<<8,         // Mask that specifes app command
+  ACMD13				= 13|R1|ACMDX,
+  ACMD23				= 23|R1|ACMDX,
   ACMD41                = 41|R1|ACMDX   // (App command) APP_SEND_OP_COND
 } command;
 
@@ -68,14 +75,24 @@ typedef struct
   uint32_t      extra;          // Used only for R3 and R7
 } RESPONSE;
 
-#define SPI_SS_SD_SELECT() GPIO_ResetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);
-#define SPI_SS_SD_DESELECT() GPIO_SetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);
+// MACROS
+#define SD_CS_LOW() 	GPIO_ResetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);
+#define SD_CS_HIGH() 	GPIO_SetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);
+#define SD_DETECT		(!(GPIO_SD_CD_PORT->IDR & GPIO_SD_CD_PIN))
 
-uint8_t         SD_Detect(void);
-MEMTYPE         SD_Init(void);
-RESPONSE        SD_SendCmd(command cmd, uint32_t arg);
-void            SD_ReadBlock(uint8_t* buff);
-uint8_t         SPI_WriteByte(SPI_TypeDef * SPIx, uint8_t data);
-uint8_t         SPI_ReadByte(SPI_TypeDef * SPIx);
+void 			SD_TimeUpdate();
+uint8_t			SD_WaitReady(uint32_t ms);
+uint8_t			SD_Select();								// Macro?
+void			SD_Deselect();								// Macro?
+uint8_t 		SD_ReadBlock(uint8_t* buff, uint32_t numbytes);
+uint8_t 		SD_SendBlock(const uint8_t* buff, uint8_t token);
+uint8_t    		SD_SendCmd(command cmd, uint32_t arg);
+
+DSTATUS         SD_Init(void);
+//RESPONSE        SD_SendCmd(command cmd, uint32_t arg);
+//void            SD_ReadBlock(uint8_t* buff);
+
+
+FRESULT open_append (FIL* fp,const char* path);
 
 #endif

@@ -24,6 +24,7 @@
 #include "plan_fsm.h"           // Device control finite state machine module
 #include "plan_led.h"           // LED module
 #include "plan_sd.h"            // SD Card low level communication module
+#include "plan_spi.h"
 #include "plan_state_system.h"  // System finite state machine module
 
 #endif //PLAN_INCLUDE_H

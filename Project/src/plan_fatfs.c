@@ -2,7 +2,9 @@
 
 DSTATUS diskstat = STA_NOINIT; // Status of disk drive
 DRESULT diskrslt; // Result of disk functions
-MEMTYPE memtype;
+//MEMTYPE memtype;
+
+extern MEMTYPE			CardType;
 
 DSTATUS disk_status (BYTE drv)
 {
@@ -14,74 +16,151 @@ DSTATUS disk_initialize (BYTE drv)
 {  
   if (drv) return STA_NOINIT;                   // SD card only has a drive 0
   
-  if(SD_Detect()){diskstat &= ~STA_NODISK;}     // SD card detected
+  if(SD_DETECT){diskstat &= ~STA_NODISK;}     // SD card detected
   else           {return STA_NODISK;}           // SD card not detected
   
-  if(SD_Init()) {diskstat &= ~STA_NOINIT;}      // Card initialized okay
-  else          {return STA_NOINIT;}            // Card init failed
+  //if(SD_Init()) {diskstat &= ~STA_NOINIT;}      // Card initialized okay
+  //else          {return STA_NOINIT;}            // Card init failed
   
-  return diskstat;
+  return SD_Init();
 }
 
 DRESULT disk_read (BYTE drv, BYTE* buff, DWORD sector, UINT count)
 { 
-  if (drv || !count) return RES_PARERR;		// Check parameters
-  if (diskstat & STA_NOINIT) return RES_NOTRDY;	// Check drive status
+	if (drv || !count) return RES_PARERR;		/* Check parameter */
+	if (diskstat & STA_NOINIT) return RES_NOTRDY;	/* Check if drive is ready */
 
-  command CMDxx = CMD17;
-  int timeout = 1000;
-  RESPONSE rval;
-  
-  SPI_Cmd(SPI_SD, DISABLE);
-  // Enable SPI interrupts for DMA
-  SPI_I2S_DMACmd(SPI_SD, SPI_I2S_DMAReq_Rx, ENABLE);
-  SPI_I2S_DMACmd(SPI_SD, SPI_I2S_DMAReq_Tx, ENABLE);
-  // SPI clock rate at 1.5MHz
-  SPI_SD->CR1 &= ~SPI_CR1_BR;                   //Clear baud rate prescaler bits
-  SPI_SD->CR1 |= SPI_BaudRatePrescaler_16;       //Set baud rate prescaler//M0:32
-  SPI_Cmd(SPI_SD, ENABLE);
+	if (!(CardType==SD_V2_BL)) sector *= 512;	/* LBA ot BA conversion (byte addressing cards) */
 
-  // Send read data request (multiplying sector by 512 to get byte address)
-  if (count==1)         {CMDxx = CMD17;} //Single block read
-  else                  {CMDxx = CMD18;} //Multiple block read
-  
-  do
-  { // ONLY FOR HIGH CAPACITY CARDS (for standard, sector<<9)
-    rval = SD_SendCmd(CMDxx,(uint32_t)sector);        // Send CMDxx; sector*512
-    timeout--;
-  }while((rval.R1!=0x00) && timeout); // Until first valid response
-  if(timeout==0){return RES_NOTRDY;} // If timed out - card is broken
-  
-  for (int i=0;i<count;i++)
-  {
-    // Read data based on number of sectors
-    SD_ReadBlock(buff+(i*512));
-  }
-  if(count>1) // If multiple blocks, send CMD12 to finish
-  {
-    do // Send CMD12 until valid response
-    {
-      rval = SD_SendCmd(CMD12,(uint32_t)0x0000);
-       // First byte is garbage; clock more for one byte
-      if(rval.R1!=0x00)
-      {
-        SPI_SS_SD_SELECT();
-        rval.R1 = SPI_ReadByte(SPI_SD);
-        SPI_SS_SD_DESELECT();
-      }
-      timeout--;
-    }while((rval.R1!=0x00) && timeout); // Until first valid response
-    if(timeout==0){return RES_NOTRDY;} // If timed out - card is broken
-  }
-  return RES_OK;                                                                // TODO CHECK IF ACTUALLY OKAY
+	if (count == 1) {	/* Single sector read */
+		if ((SD_SendCmd(CMD17, sector) == 0)	/* READ_SINGLE_BLOCK */
+			&& SD_ReadBlock(buff, 512)) {
+			count = 0;
+		}
+	}
+	else {				/* Multiple sector read */
+		if (SD_SendCmd(CMD18, sector) == 0) {	/* READ_MULTIPLE_BLOCK */
+			do {
+				if (!SD_ReadBlock(buff, 512)) break;
+				buff += 512;
+			} while (--count);
+			SD_SendCmd(CMD12, 0);				/* STOP_TRANSMISSION */
+		}
+	}
+	SD_Deselect();
+
+	return count ? RES_ERROR : RES_OK;	/* Return result */
 }
 
-DRESULT disk_write (BYTE pdrv, const BYTE* buff, DWORD sector, UINT count)
+
+DRESULT disk_write (BYTE drv, const BYTE* buff, DWORD sector, UINT count)
 {
-  return diskrslt;
+	if (drv || !count) return RES_PARERR;		/* Check parameter */
+	if (diskstat & STA_NOINIT) return RES_NOTRDY;	/* Check drive status */
+	if (diskstat & STA_PROTECT) return RES_WRPRT;	/* Check write protect */
+
+	if (!(CardType==SD_V2_BL)) sector *= 512;	/* LBA ==> BA conversion (byte addressing cards) */
+
+	if (count == 1) {	/* Single sector write */
+		if ((SD_SendCmd(CMD24, sector) == 0)	/* WRITE_BLOCK */
+			&& SD_SendBlock(buff, 0xFE)) {
+			count = 0;
+		}
+	}
+	else {				/* Multiple sector write */
+		if (CardType==SD_V1||CardType==SD_V2) SD_SendCmd(ACMD23, count);	/* Predefine number of sectors */
+		if (SD_SendCmd(CMD25, sector) == 0) {	/* WRITE_MULTIPLE_BLOCK */
+			do {
+				if (!SD_SendBlock(buff, 0xFC)) break;
+				buff += 512;
+			} while (--count);
+			if (!SD_SendBlock(0, 0xFD)) count = 1;	/* STOP_TRAN token */
+		}
+	}
+	SD_Deselect();
+
+	return count ? RES_ERROR : RES_OK;	/* Return result */
 }
 
-DRESULT disk_ioctl (BYTE pdrv, BYTE cmd, void* buff)
+DRESULT disk_ioctl (
+	BYTE drv,		/* Physical drive number (0) */
+	BYTE cmd,		/* Control command code */
+	void *buff		/* Pointer to the conrtol data */
+)
 {
-  return diskrslt;
+	DRESULT res;
+	BYTE n, csd[16];
+	DWORD *dp, st, ed, csize;
+
+
+	if (drv) return RES_PARERR;					/* Check parameter */
+	if (diskstat & STA_NOINIT) return RES_NOTRDY;	/* Check if drive is ready */
+
+	res = RES_ERROR;
+
+	switch (cmd) {
+	case CTRL_SYNC :		/* Wait for end of internal write process of the drive */
+		if (SD_Select()) res = RES_OK;
+		break;
+
+	case GET_SECTOR_COUNT :	/* Get drive capacity in unit of sector (DWORD) */
+		if ((SD_SendCmd(CMD9, 0) == 0) && SD_ReadBlock(csd, 16)) {
+			if ((csd[0] >> 6) == 1) {	/* SDC ver 2.00 */
+				csize = csd[9] + ((WORD)csd[8] << 8) + ((DWORD)(csd[7] & 63) << 16) + 1;
+				*(DWORD*)buff = csize << 10;
+			} else {					/* SDC ver 1.XX or MMC ver 3 */
+				n = (csd[5] & 15) + ((csd[10] & 128) >> 7) + ((csd[9] & 3) << 1) + 2;
+				csize = (csd[8] >> 6) + ((WORD)csd[7] << 2) + ((WORD)(csd[6] & 3) << 10) + 1;
+				*(DWORD*)buff = csize << (n - 9);
+			}
+			res = RES_OK;
+		}
+		break;
+
+	case GET_BLOCK_SIZE :	/* Get erase block size in unit of sector (DWORD) */
+		if (CardType==SD_V2) {	/* SDC ver 2.00 */
+			if (SD_SendCmd(ACMD13, 0) == 0) {	/* Read SD status */
+				SPI_WriteByte(SPI_SD, 0xFF);
+				if (SD_ReadBlock(csd, 16)) {				/* Read partial block */
+					for (n = 64 - 16; n; n--) SPI_WriteByte(SPI_SD,0xFF);	/* Purge trailing data */
+					*(DWORD*)buff = 16UL << (csd[10] >> 4);
+					res = RES_OK;
+				}
+			}
+		} else {					/* SDC ver 1.XX or MMC */
+			if ((SD_SendCmd(CMD9, 0) == 0) && SD_ReadBlock(csd, 16)) {	/* Read CSD */
+				if (CardType==SD_V1) {	/* SDC ver 1.XX */
+					*(DWORD*)buff = (((csd[10] & 63) << 1) + ((WORD)(csd[11] & 128) >> 7) + 1) << ((csd[13] >> 6) - 1);
+				} else {					/* MMC */
+					*(DWORD*)buff = ((WORD)((csd[10] & 124) >> 2) + 1) * (((csd[11] & 3) << 3) + ((csd[11] & 224) >> 5) + 1);
+				}
+				res = RES_OK;
+			}
+		}
+		break;
+
+	case CTRL_TRIM :	/* Erase a block of sectors (used when _USE_ERASE == 1) */
+		if (!(CardType==SD_V1||CardType==SD_V2)) break;				/* Check if the card is SDC */
+		if (disk_ioctl(drv, MMC_GET_CSD, csd)) break;	/* Get CSD */
+		if (!(csd[0] >> 6) && !(csd[10] & 0x40)) break;	/* Check if sector erase can be applied to the card */
+		dp = buff; st = dp[0]; ed = dp[1];				/* Load sector block */
+		if (!(CardType==SD_V2_BL)) {
+			st *= 512; ed *= 512;
+		}
+		if (SD_SendCmd(CMD32, st) == 0 && SD_SendCmd(CMD33, ed) == 0 && SD_SendCmd(CMD38, 0) == 0 && SD_WaitReady(30000)) {	/* Erase sector block */
+			res = RES_OK;	/* FatFs does not check result of this command */
+		}
+		break;
+
+	default:
+		res = RES_PARERR;
+	}
+
+	SD_Deselect();
+
+	return res;
 }
+
+
+
+
