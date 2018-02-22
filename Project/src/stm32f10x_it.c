@@ -32,6 +32,8 @@ extern int delay;
 
 extern state sys_state;
 
+//extern time tm;
+
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
   */
@@ -145,7 +147,7 @@ void PendSV_Handler(void)
   * @retval None
   */
 
-void SysTick_Handler(void)		// if 3950
+void SysTick_Handler(void)
 {
 	// Set update flag
 	systick_update = 1;
@@ -171,6 +173,33 @@ void SysTick_Handler(void)		// if 3950
   * @retval None
   */
 
+void RTC_IRQHandler(void)
+{
+  if (RTC_GetITStatus(RTC_IT_SEC) != RESET)
+  {
+	TIM_SetCounter(TIM3,0);						// Reset ms counter
+    RTC_ClearITPendingBit(RTC_IT_SEC);			// Clear interrupt pending bit
+    if (RTC_GetCounter() == 0x0001517F)			// If reached 23:59:59, reset
+	{
+    	RTC_WaitForLastTask();					// Wait until last write operation is finished
+		RTC_SetCounter(0);							// Reset counter
+	}
+    RTC_WaitForLastTask();						// Wait for last write operation
+  }
+}
+
+
+//Eliminate
+/*
+void TIM3_IRQHandler(void)	// Update millisecond timer
+{
+  if(TIM_GetFlagStatus(TIM3, TIM_FLAG_Update) == SET)
+  {
+    TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
+  }
+}
+*/
+
 void TIM2_IRQHandler(void)
 {
   if(TIM_GetFlagStatus(TIM2, TIM_FLAG_Update) == SET)
@@ -180,6 +209,8 @@ void TIM2_IRQHandler(void)
   }
 }
 
+// ELIMINATE
+/*
 void EXTI4_IRQHandler(void)
 {
   if(EXTI_GetITStatus(EXTI_SD_CD_LINE) != RESET)
@@ -191,6 +222,7 @@ void EXTI4_IRQHandler(void)
     EXTI_ClearITPendingBit(EXTI_SD_CD_LINE);
   }
 }
+*/
 // SD Card:             SPI RX Handler
 void DMA1_Channel2_IRQHandler(void)
 {

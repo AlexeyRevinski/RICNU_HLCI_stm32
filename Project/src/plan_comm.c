@@ -7,6 +7,10 @@ uint8_t         usart_rx_buffer[DATA_SIZE_U2P];         // Used for UART rx
 uint8_t         spi_payload[DATA_SIZE_FLEXSEA];
 uint8_t         spi_rx_tmp[DATA_SIZE_FLEXSEA];
 
+ricnu_data rndata;
+
+
+
 void prep_packet(uint8_t offset, uint8_t ctrl, int32_t sp, int16_t gain0, \
                  int16_t gain1, int16_t gain2, int16_t gain3)
 {
@@ -59,9 +63,33 @@ int unpack(device dev)
   case MANAGE:
     if(unpack_payload(spi_rx_buffer,spi_rx_tmp,spi_payload)>0)
     {
-      struct execute_s ex2; ricnu_1.ex = &ex2;    // point rn->ex to a declared structure
-      struct strain_s  st2; ricnu_1.st = &st2;    // point rn->st to a declared structure
-      rx_cmd_ricnu_rr(spi_payload,0);             // unpack payload using RICNU function
+    	{
+    		uint16_t index = 0;
+    		uint8_t offset = 0;
+			index = P_DATA1;
+			offset = spi_payload[index++];
+
+			if(offset == 0)
+			{
+				//Typical Execute variables, + new encoders:
+				rndata.gx = (int16_t) REBUILD_UINT16(spi_payload, &index);
+				rndata.gy = (int16_t) REBUILD_UINT16(spi_payload, &index);
+				rndata.gz = (int16_t) REBUILD_UINT16(spi_payload, &index);
+				rndata.ax = (int16_t) REBUILD_UINT16(spi_payload, &index);
+				rndata.ay = (int16_t) REBUILD_UINT16(spi_payload, &index);
+				rndata.az = (int16_t) REBUILD_UINT16(spi_payload, &index);
+				rndata.em = (int32_t) REBUILD_UINT32(spi_payload, &index);
+				rndata.ej = (int32_t) REBUILD_UINT32(spi_payload, &index);
+				rndata.cu = (int16_t) REBUILD_UINT16(spi_payload, &index);
+			}
+			else if(offset == 1)
+			{
+				;
+			}
+    	}
+      //struct execute_s ex2; ricnu_1.ex = &ex2;    // point rn->ex to a declared structure
+      //struct strain_s  st2; ricnu_1.st = &st2;    // point rn->st to a declared structure
+      //rx_cmd_ricnu_rr(spi_payload,0);             // unpack payload using RICNU function
       for(int i=0;i<=24;i++){usart_tx_buffer[i]=spi_payload[i+4];}    
       return COMM_OK;
     }

@@ -23,6 +23,22 @@ typedef enum
   USER,
 } device;
 
+
+
+typedef struct
+{
+	uint16_t gx;
+	uint16_t gy;
+	uint16_t gz;
+	uint16_t ax;
+	uint16_t ay;
+	uint16_t az;
+	uint32_t em;
+	uint32_t ej;
+	uint16_t cu;
+} ricnu_data;
+
+
 // FUNCTION PROTOTYPES  ========================================================
 int     unpack(device);
 void    update(device);

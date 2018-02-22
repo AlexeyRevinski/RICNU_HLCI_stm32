@@ -4,6 +4,7 @@
 uint16_t        state_time_us = 0;      // Time in microseconds since last cycle
 uint8_t         systick_update = 0;     // Did SysTick tick? 0=no, 1=yes
 mstate          mem_state = MEM_OUT;
+FATFS 			fs;
 
 //==============================================================================
 // FUNCTION main()
@@ -21,22 +22,29 @@ int main(void)
   prep_packet(0,CTRL_NONE,0,0,0,0,0);           // Prepare NO CONTROL packet
   update(MANAGE);                               // Make this blocking!
   //check that Execute changed control to none
-  
 
-  FRESULT fr;
-  FATFS fs;
-  FIL fil;
+  // Mount file system
+  f_mount(&fs,"", 0);                           // Mount the default drive
 
-  /* Open or create a log file and ready to append */
-  f_mount(&fs, "", 0);
-  fr = open_append(&fil, "logfile.txt");
-  if (fr != FR_OK) return 1;
+  log_q_init();
 
-  /* Append a line */
-  f_printf(&fil, "%02u/%02u/%u, %2u:%02u\n", 2, 21, 2018, 16, 31);
-
-  /* Close the file */
-  f_close(&fil);
+  log_buf_append("strings",7);		// Should enqueue					1
+  log_buf_append("n",1);			// Should not enqueue				1
+  log_buf_append("oice",4);			// Should enqueue					2
+  log_file_append();				// Should write "strin"				1
+  log_buf_append("012",3);			// Should enqueue					2
+  log_buf_append("3456789",7);		// Should overwrite and enqueue		3
+  log_file_append();				// Should write "gsnoi"				2
+  log_buf_append("123",3);			// Should enqueue					3
+  log_buf_append("aaaaa",5);		// Should be written and enqueue	4
+  log_buf_append("bbbbb",5);		// Should not do anything			4
+  log_file_append();				// Should write "ce012"				3
+  log_buf_append("ccccc",5);		// Should written and enqueue		4
+  log_file_append();				// Should write "34567"				3
+  log_file_append();				// Should write "89123"				2
+  log_file_append();				// Should write "aaaaa"				1
+  log_file_append();				// Should write "ccccc"				0
+  log_file_append();				// Shouldn't do anything			0
 
 
 

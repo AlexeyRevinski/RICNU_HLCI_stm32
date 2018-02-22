@@ -54,7 +54,7 @@ void LED_update(void)
 //==============================================================================
 void LED_rainbow(void)
 {
-  TIM_ITConfig(TIM2,TIM_IT_Update,DISABLE);     // Disable TIM2 interrupts
+  TIM_ITConfig(TIM2,TIM_IT_Update,DISABLE);     // Disable TIM2 interrupts		//TODO migrate to systick
   for(int i = 0; i<7; i++)
   {
     while(TIM2->CNT<LED_TIM_PERIOD);    // Wait until TIM2 counts fully

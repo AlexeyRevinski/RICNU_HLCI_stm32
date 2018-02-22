@@ -61,6 +61,8 @@ static  fsm             FSM_s;
 static  fsm             *FSM    = &FSM_s; // Initialize pointer to fsm structure
 static  fsm_tracker     TR;
 
+extern ricnu_data rndata;
+
 int32_t setpoint = -1;
 int16_t g0=-1,g1=-1,g2=-1,g3=-1;
 
@@ -78,8 +80,8 @@ errcode fsm_build(void)
   GPIO_ResetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);                             // Not needed??
   
   // Get FSM file string  ======================================================
-  FATFS fs; FIL fil; UINT br;                   // Declare FatFs variables
-  f_mount(&fs,"", 0);                           // Mount the default drive
+  FIL fil; UINT br;                   			// Declare FatFs variables
+
   if(f_open(&fil,FILENAME, FA_READ)!=FR_OK) return FB_ERR;               // Open fsm file
   int str_size = fil.obj.objsize;               // Get file size
   if(str_size>MAX_FSM_FILE_LENGTH){return FB_ERR;} // If too large ==> error
@@ -87,7 +89,7 @@ errcode fsm_build(void)
   if(!fstr){fsm_mem_free(); return FB_ERR;}     // If didn't allocate ==> error
   f_read(&fil,fstr,str_size,&br);               // Populate the string
   f_close(&fil);                                // Close the file
-  f_mount(0,"",0);                              // Unmount the default drive
+  //f_mount(0,"",0);                              // Unmount the default drive
   
   // Parse FSM string to get jsmn tokens  ======================================
   jsmn_parser parser;                           // Declare parser
@@ -361,18 +363,20 @@ void fsm_update(void)
   // Cycle through transitions of current state
   for(int tcnt=0;tcnt<(FSM->m[TR.cm].s[TR.cs].num_t);tcnt++)
   {
-    // Get transition's channel value to analyze
-    switch(FSM->m[TR.cm].s[TR.cs].t[tcnt].chan) 
-      {
-      case AX: data=ricnu_1.ex->accel.x/(double)8192;    break;
-      case AY: data=ricnu_1.ex->accel.y/(double)8192;    break;
-      case AZ: data=ricnu_1.ex->accel.z/(double)8192;    break;
-      case GX: data=ricnu_1.ex->gyro.x/(double)164;      break;
-      case GY: data=ricnu_1.ex->gyro.y/(double)164;      break;
-      case GZ: data=ricnu_1.ex->gyro.z/(double)164;      break;
-      case EM: data=ricnu_1.enc_motor*0.021973;          break;
-      case EJ: data=ricnu_1.enc_joint*0.021973;          break;
-      case CM: data=ricnu_1.ex->current;                 break;
+	  // Get transition's channel value to analyze
+	  switch(FSM->m[TR.cm].s[TR.cs].t[tcnt].chan)
+	  {
+	  case GX: data=rndata.gx/(double)164;      break;
+	  case GY: data=rndata.gy/(double)164;      break;
+	  case GZ: data=rndata.gz/(double)164;      break;
+
+	  case AX: data=rndata.ax/(double)8192;    break;
+      case AY: data=rndata.ay/(double)8192;    break;
+      case AZ: data=rndata.az/(double)8192;    break;
+
+      case EM: data=rndata.em*0.021973;          break;
+      case EJ: data=rndata.ej*0.021973;          break;
+      case CM: data=rndata.cu;                 break;
       }
       condition = FSM->m[TR.cm].s[TR.cs].t[tcnt].cond;
       threshold = FSM->m[TR.cm].s[TR.cs].t[tcnt].thres;
@@ -697,7 +701,7 @@ int fsm_get_tkn(int ptr, const char* name, xmltype type, int inst)
       // If it matches name
       if(fsm_str_cmp(ptr,name))
       {
-          // If XXX request and token string is a XXX, return pointer
+          // If request TAG or ATT and token string is TAG or ATT, return pointer
           if((type==TAG&&fsm_is_tag(ptr))||
              (type==ATT&&fsm_is_att(ptr)))
           {

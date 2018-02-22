@@ -12,12 +12,12 @@ void hardware_config(void)
   RCC_config();         // Clock configuration
   GPIO_config();        // GPIOs - for SPI, USART, etc.
   SPI_config();         // Serial Peripheral Interface Controller
-  USART_config();       // Universal Synch/Asynch Receiver/Transmitter
+  USART_config();       // Universal Sync/Async Receiver/Transmitter
   DMA_config();         // Direct Memory Access Controller
   EXTI_config();        // External Interrupt Controller
-  NVIC_config();        // Nested Vector Interrupt Controller
   RTC_config();         // Real Time Clock configuration
   TIM_config();         // Configuring timers
+  NVIC_config();        // Nested Vector Interrupt Controller
   
   RCC_ClocksTypeDef RCC_Clocks;
   RCC_GetClocksFreq(&RCC_Clocks);
@@ -33,7 +33,7 @@ void hardware_config(void)
 
 void GPIO_config(void)
 {
-  // Enable GPIO and altenate function I/O clocks
+  // Enable GPIO and alternate function I/O clocks
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOB|
                          RCC_APB2Periph_GPIOC|RCC_APB2Periph_GPIOD|
                          RCC_APB2Periph_AFIO, ENABLE);
@@ -194,7 +194,7 @@ void SPI_config(void)
   SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
   SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_32;// 24MHz/16=1.5MHz
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_32;
   SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
   SPI_InitStructure.SPI_CRCPolynomial = 7;
   SPI_Init(SPI_MN, &SPI_InitStructure);
@@ -207,7 +207,7 @@ void SPI_config(void)
 //==============================================================================
 // FUNCTION USART_config()
 //      - Configures STM32's USART peripheral
-//      - 115200 Baud rate
+//      - 230400 Baud rate
 //==============================================================================
 void USART_config(void)
 {
@@ -288,6 +288,7 @@ void DMA_config(void)
   
   
   // MANAGE ====================================================================
+
   // SPI RECEIVE CHANNEL -------------------------------------------------------
   DMA_DeInit(SPI_MN_DMA_RX_CHAN);
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPI_MN_DR;
@@ -322,7 +323,7 @@ void DMA_config(void)
   
   
   // BLUETOOTH MODULE =====================================================
-  
+
     // USART RECEIVE CHANNEL -----------------------------------------------------
   DMA_DeInit(USART_BT_DMA_RX_CHAN);
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)USART_BT_DR;
@@ -363,48 +364,56 @@ void DMA_config(void)
 //==============================================================================
 void NVIC_config(void)
 {
-  // Declare NVIC initialization structure
-  NVIC_InitTypeDef NVIC_InitStructure;
+	NVIC_InitTypeDef NVIC_InitStructure;				// Initialization structure
   
-  // Configure SD Card SPI RX interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = DMA_SD_RX_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
+	// SPI RX interrupt for SD Card --------------------------------------------
+	NVIC_InitStructure.NVIC_IRQChannel = DMA_SD_RX_IRQn;// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	NVIC_Init(&NVIC_InitStructure);						// Implement above
   
-  // Configure SD Card SPI TX interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = DMA_SD_TX_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
+	// SPI TX interrupt for SD Card --------------------------------------------
+	NVIC_InitStructure.NVIC_IRQChannel = DMA_SD_TX_IRQn;// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	NVIC_Init(&NVIC_InitStructure);						// Implement above
   
-  // Configure FlexSEA Manage SPI RX interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = DMA_MN_RX_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
+	// SPI RX interrupt for FlexSEA --------------------------------------------
+	NVIC_InitStructure.NVIC_IRQChannel = DMA_MN_RX_IRQn;// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	NVIC_Init(&NVIC_InitStructure);						// Implement above
   
-  // Configure FlexSEA Manage SPI TX interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = DMA_MN_TX_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
+	// SPI TX interrupt for FlexSEA --------------------------------------------
+    NVIC_InitStructure.NVIC_IRQChannel = DMA_MN_TX_IRQn;// Specify IRQ channel
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+    NVIC_Init(&NVIC_InitStructure);						// Implement above
+
+    // UART RX interrupt for BT121 ---------------------------------------------
+    NVIC_InitStructure.NVIC_IRQChannel = DMA_BT_RX_IRQn;// Specify IRQ channel
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+    NVIC_Init(&NVIC_InitStructure);						// Implement above
+
+    // UART TX interrupt for BT121 ---------------------------------------------
+	NVIC_InitStructure.NVIC_IRQChannel = DMA_BT_TX_IRQn;// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	NVIC_Init(&NVIC_InitStructure);						// Implement above
+
+	// EXTI interrupt for Card Detect ------------------------------------------
+	//NVIC_InitStructure.NVIC_IRQChannel = EXTI_SD_CD_IRQn;	// Specify IRQ channel
+	//NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	//NVIC_Init(&NVIC_InitStructure);						// Implement above
   
-  // Configure Bluetooth Module USART RX interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = DMA_BT_RX_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
-  
-  // Configure Bluetooth Module USART TX interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = DMA_BT_TX_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
-  
-  // Configure SD Card Card Detect Interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = EXTI_SD_CD_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
-  
-  // Configure LED Update (TIM2 overflow) Interrupt
-  NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructure);
+	// TIM2 Update interrupt for LEDs ------------------------------------------
+	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;		// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	NVIC_Init(&NVIC_InitStructure);						// Implement above
+
+	// RTC Second Update interrupt ---------------------------------------------
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);		// Select priority grouping
+	NVIC_InitStructure.NVIC_IRQChannel = RTC_IRQn;		// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;	// Specify priority
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;	// Specify subpriority
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	NVIC_Init(&NVIC_InitStructure);						// Implement above
+
 }
 
 
@@ -414,45 +423,25 @@ void NVIC_config(void)
 //==============================================================================
 void RTC_config(void)
 {
-  /* Enable PWR and BKP clocks */
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE);
-
-  /* Allow access to BKP Domain */
-  PWR_BackupAccessCmd(ENABLE);
-
-  /* Reset Backup Domain */
-  BKP_DeInit();
-
-  /* Enable LSE */
-  RCC_LSEConfig(RCC_LSE_ON);
-  /* Wait till LSE is ready */
-  while (RCC_GetFlagStatus(RCC_FLAG_LSERDY) == RESET)
-  {}
-
-  /* Select LSE as RTC Clock Source */
-  RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
-
-  /* Enable RTC Clock */
-  RCC_RTCCLKCmd(ENABLE);
-
-  /* Wait for RTC registers synchronization */
-  RTC_WaitForSynchro();
-
-  /* Wait until last write operation on RTC registers has finished */
-  RTC_WaitForLastTask();
-
-  /* Enable the RTC Second */
-  RTC_ITConfig(RTC_IT_SEC, ENABLE);
-
-  /* Wait until last write operation on RTC registers has finished */
-  RTC_WaitForLastTask();
-
-  /* Set RTC prescaler: set RTC period to 1sec */
-  RTC_SetPrescaler(32767); /* RTC period = RTCCLK/RTC_PR = (32.768 KHz)/(32767+1) */
-
-  /* Wait until last write operation on RTC registers has finished */
-  RTC_WaitForLastTask();
+	RCC_APB1PeriphClockCmd(								// Enable PWR and BKP clocks
+		  RCC_APB1Periph_PWR |
+		  RCC_APB1Periph_BKP, ENABLE);
+	PWR_BackupAccessCmd(ENABLE);						// Allow access to BKP Domain
+	BKP_DeInit();										// Reset Backup Domain
+	RCC_LSEConfig(RCC_LSE_ON);							// Enable LSE
+	while (RCC_GetFlagStatus(RCC_FLAG_LSERDY)==RESET);	// Wait: LSE is ready
+	RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);				// Select LSE as RTC clock source
+	RCC_RTCCLKCmd(ENABLE);								// Enable RIC clock
+	RTC_WaitForSynchro();								// Wait: RTC synchronization
+	RTC_WaitForLastTask();								// Wait: last write operation
+	RTC_ITConfig(RTC_IT_SEC, ENABLE);					// Enable RTC second update
+	RTC_WaitForLastTask();								// Wait: last write operation
+	RTC_SetPrescaler(32767); 							// Set RTC period to 1 second
+	RTC_WaitForLastTask();								// Wait: last write operation
+  //RTC_SetCounter(19396); //5:23:16					// Set counter to specific time
+    RTC_WaitForLastTask();								// Wait until last write operation
 }
+
 
 //==============================================================================
 // FUNCTION RCC_config()
@@ -460,18 +449,19 @@ void RTC_config(void)
 //==============================================================================
 void RCC_config(void)
 {
-  RCC_PLLCmd(DISABLE);                          // Disable PLL                  // Also start up LSE for RTC
-  RCC_PLLConfig(RCC_PLLSOURCE, RCC_PLLMUL);     //PLL: 8M/2*12 = 48M
-  RCC_PLLCmd(ENABLE);                           // Enable PLL
-  while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET){;} //Wait: PLL is ready
-  FLASH_SetLatency(FLASH_Latency_1);            // Increase FLASH latency
-  RCC_HCLKConfig(RCC_SYSCLK_Div1);              // HCLK configudation
-  RCC_PCLK2Config(RCC_HCLK_Div1);               // PCLK2 configudation 
-  RCC_PCLK1Config(RCC_HCLK_Div2);               // PCLK1 configudation
-  RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);    // Set PLL as sys clock source
-  while (RCC_GetSYSCLKSource() != 0x08){;}      // Wait: PLL is sysclk source
-  SystemCoreClockUpdate();                      // Udpate variables
+  RCC_PLLCmd(DISABLE);                          		// Disable PLL
+  RCC_PLLConfig(RCC_PLLSOURCE, RCC_PLLMUL);     		// PLL: 8M/2*12 = 48M
+  RCC_PLLCmd(ENABLE);                           		// Enable PLL
+  while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY)==RESET);		// Wait: PLL is ready
+  FLASH_SetLatency(FLASH_Latency_1);            		// Increase FLASH latency
+  RCC_HCLKConfig(RCC_SYSCLK_Div1);              		// HCLK configuration
+  RCC_PCLK2Config(RCC_HCLK_Div1);               		// PCLK2 configuration
+  RCC_PCLK1Config(RCC_HCLK_Div2);               		// PCLK1 configuration
+  RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);    		// Set PLL as system clock source
+  while (RCC_GetSYSCLKSource() != 0x08){;}      		// Wait: PLL is system clock source
+  SystemCoreClockUpdate();                      		// Udpate variables
 }
+
 
 //==============================================================================
 // FUNCTION EXTI_config()
@@ -479,32 +469,53 @@ void RCC_config(void)
 //==============================================================================
 void EXTI_config(void)
 {
-  // Declare the GPIO initialization structure
-  EXTI_InitTypeDef EXTI_InitStructure;
-  
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-  
-  // Configure SD Card Card Detect EXTI line
-  GPIO_EXTILineConfig(EXTI_SD_CD_PORTSRS, EXTI_SD_CD_PINSRS);
-  EXTI_InitStructure.EXTI_Line = EXTI_SD_CD_LINE;
-  EXTI_InitStructure.EXTI_Mode = EXTI_SD_CD_MODE;
-  EXTI_InitStructure.EXTI_Trigger = EXTI_SD_CD_TRIG;
-  EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-  EXTI_Init(&EXTI_InitStructure);
+	/*
+	EXTI_InitTypeDef EXTI_InitStructure;				// Initialization structure
+
+	// EXTI Card Detect --------------------------------------------------------
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);	// Enable AFIO clock
+	GPIO_EXTILineConfig(EXTI_SD_CD_PORTSRS,				// Select GPIO to use
+			EXTI_SD_CD_PINSRS);
+	EXTI_InitStructure.EXTI_Line = EXTI_SD_CD_LINE;		// Specify EXTI line
+	EXTI_InitStructure.EXTI_Mode = EXTI_SD_CD_MODE;		// Specify EXTI mode
+	EXTI_InitStructure.EXTI_Trigger = EXTI_SD_CD_TRIG;	// Specify EXTI trigger type
+	EXTI_InitStructure.EXTI_LineCmd = ENABLE;			// Enable specified line
+	EXTI_Init(&EXTI_InitStructure);						// Implement above
+	*/
+	;
 }
 
 
+//==============================================================================
+// FUNCTION TIM_config()
+//      - configures various timers
+//==============================================================================
 void TIM_config(void)
 {
-  TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
-  
-  TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
-  TIM_TimeBaseInitStructure.TIM_ClockDivision = 0;
-  TIM_TimeBaseInitStructure.TIM_Prescaler = LED_TIM_PRESCALER;
-  TIM_TimeBaseInitStructure.TIM_Period = LED_TIM_PERIOD;
-  TIM_TimeBaseInit(TIM2, &TIM_TimeBaseInitStructure);
-  TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);
-  TIM_Cmd(TIM2,ENABLE);
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;	// Initialization structure
+
+	// TIM2 --------------------------------------------------------------------
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);// Enable TIM2 clock
+	TIM_TimeBaseInitStructure.TIM_CounterMode = 		// Specify counter mode
+			TIM_CounterMode_Up;
+	TIM_TimeBaseInitStructure.TIM_ClockDivision = 0;	// Specify clock division
+	TIM_TimeBaseInitStructure.TIM_Prescaler =			// Specify prescaler
+			LED_TIM_PRESCALER;
+	TIM_TimeBaseInitStructure.TIM_Period = 				// Specify period
+			LED_TIM_PERIOD;
+	TIM_TimeBaseInit(TIM2, &TIM_TimeBaseInitStructure); // Implement above
+	TIM_ITConfig(TIM2,TIM_IT_Update,ENABLE);			// Enable update interrupt
+	TIM_Cmd(TIM2,ENABLE);								// Enable timer
+
+	// TIM3 --------------------------------------------------------------------	//1kHz
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);// Enable TIM3 clock
+	TIM_TimeBaseInitStructure.TIM_CounterMode = 		// Specify counter mode
+			TIM_CounterMode_Up;
+	TIM_TimeBaseInitStructure.TIM_ClockDivision = 0;	// Specify clock division
+	TIM_TimeBaseInitStructure.TIM_Prescaler = 1;		// Specify prescaler
+	TIM_TimeBaseInitStructure.TIM_Period = 47999;		// Specify period
+	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseInitStructure); // Implement above
+	//TIM_ITConfig(TIM3,TIM_IT_Update,ENABLE);			// Enable update interrupt
+	TIM_Cmd(TIM3,ENABLE);								// Enable timer
 }
 
