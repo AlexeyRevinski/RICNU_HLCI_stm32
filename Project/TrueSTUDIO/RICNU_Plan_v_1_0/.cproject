@@ -122,7 +122,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FlexSEA/flexsea-comm/src/flexsea_circular_buffer.c|FlexSEA/flexsea-comm/src/flexsea_buffers.c|FlexSEA/flexsea-system/src/fm_block_allocator.c|FlexSEA/flexsea-system/src/flexsea_cmd_tools.c|FlexSEA/flexsea-system/src/flexsea_cmd_stream.c|FlexSEA/flexsea-system/src/flexsea_cmd_data.c|FlexSEA/flexsea-system/src/flexsea_cmd_calibration.c|FlexSEA/flexsea-user/inc|FlexSEA/flexsea-user/src|FlexSEA/flexsea-user/RICNU_Knee_v1/src/user-mn-RICNU_Knee_v1.c|FlexSEA/flexsea-user/RICNU_Knee_v1/src/user-ex-RICNU_Knee_v1.c|FlexSEA/flexsea-user/MotorTestBench|FlexSEA/flexsea-user/MIT_2DoF_Ankle_v1|FlexSEA/flexsea-system/src/flexsea_cmd_sensors.c|FlexSEA/flexsea-system/src/flexsea_cmd_in_control.c|FlexSEA/flexsea-system/src/flexsea_cmd_external.c|FlexSEA/flexsea-system/src/flexsea_cmd_control_2.c|FlexSEA/flexsea-system/src/flexsea_cmd_control_1.c|jsmn/test|jsmn/example|FatFs/source/diskio.c|FlexSEA/flexsea-system/test|FatFs/documents|FlexSEA/flexsea-user/test|FlexSEA/flexsea-comm/test" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Libraries"/>
-						<entry excluding="system_stm32l1xx.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="tiny_printf.c|system_stm32l1xx.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -234,7 +234,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FlexSEA/flexsea-comm/src/flexsea_circular_buffer.c|FlexSEA/flexsea-comm/src/flexsea_buffers.c|FlexSEA/flexsea-system/src/fm_block_allocator.c|FlexSEA/flexsea-system/src/flexsea_cmd_tools.c|FlexSEA/flexsea-system/src/flexsea_cmd_stream.c|FlexSEA/flexsea-system/src/flexsea_cmd_data.c|FlexSEA/flexsea-system/src/flexsea_cmd_calibration.c|FlexSEA/flexsea-user/inc|FlexSEA/flexsea-user/src|FlexSEA/flexsea-user/RICNU_Knee_v1/src/user-mn-RICNU_Knee_v1.c|FlexSEA/flexsea-user/RICNU_Knee_v1/src/user-ex-RICNU_Knee_v1.c|FlexSEA/flexsea-user/MotorTestBench|FlexSEA/flexsea-user/MIT_2DoF_Ankle_v1|FlexSEA/flexsea-system/src/flexsea_cmd_sensors.c|FlexSEA/flexsea-system/src/flexsea_cmd_in_control.c|FlexSEA/flexsea-system/src/flexsea_cmd_external.c|FlexSEA/flexsea-system/src/flexsea_cmd_control_2.c|FlexSEA/flexsea-system/src/flexsea_cmd_control_1.c|jsmn/test|jsmn/example|FatFs/source/diskio.c|FlexSEA/flexsea-system/test|FatFs/documents|FlexSEA/flexsea-user/test|FlexSEA/flexsea-comm/test" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Libraries"/>
-						<entry excluding="system_stm32l1xx.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="tiny_printf.c|system_stm32l1xx.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

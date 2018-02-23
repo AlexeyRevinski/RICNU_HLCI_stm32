@@ -36,6 +36,13 @@ typedef struct
 	uint32_t em;
 	uint32_t ej;
 	uint16_t cu;
+	uint32_t sc;
+	uint16_t s0;
+	uint16_t s1;
+	uint16_t s2;
+	uint16_t s3;
+	uint16_t s4;
+	uint16_t s5;
 } ricnu_data;
 
 

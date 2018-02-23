@@ -124,7 +124,7 @@ DSTATUS SD_Init(void)
 
   if (diskstat & STA_NODISK) return diskstat;
   SD_CS_HIGH();												// Pull CS high
-  SPI_ChangeSpeed(SPI_SD,SPI_BaudRatePrescaler_128);		// Change to 375kHz
+  SPI_ChangeSpeed(SPI_SD,SD_SLOW_PSCR);		// Change to 375kHz
   for (int i=0;i<10;i++){SPI_WriteByte(SPI_SD,0xFF);}       // Clock for 80 cycles
 
 
@@ -154,7 +154,7 @@ DSTATUS SD_Init(void)
   	SD_Deselect();
 
   	if (memcard) {			/* OK */
-	SPI_ChangeSpeed(SPI_SD,SPI_BaudRatePrescaler_16);			/* Set fast clock */
+	SPI_ChangeSpeed(SPI_SD,SD_FAST_PSCR);			/* Set fast clock */
 		diskstat &= ~STA_NOINIT;	/* Clear STA_NOINIT flag */
 	} else {			/* Failed */
 		diskstat = STA_NOINIT;

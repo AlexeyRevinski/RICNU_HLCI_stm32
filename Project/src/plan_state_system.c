@@ -1,5 +1,7 @@
 #include "plan_state_system.h"
 
+char st = 0;
+
 static const transition transitionTable[] = {
   //{STATE_INITIALIZING,  EVENT_INITIALIZED,              STATE_INACTIVE},
   {STATE_INITIALIZING,  EVENT_INITIALIZED,              STATE_ACTIVE},
@@ -26,15 +28,18 @@ void change_sys_state(state* curstate_p, event curevent)
   switch(*curstate_p)
   {
   case STATE_INACTIVE:
+	  st = 'I';
     LED_state(LED_RED|LED_YEL,OFF,CON); // No error or data logging
     LED_state(LED_GRN, ON,CON);         // Ready
     break;
   case STATE_ACTIVE:
+	  st = 'A';
     LED_state(LED_RED,OFF,CON);         // No error             (RED off)
     if(1){LED_state(LED_YEL,OFF,CON);}  // Data logging         (YEL on)        // Implement data logging verification
     LED_state(LED_GRN, ON,TOG);         // Active               (GRN flash)
     break;
   case STATE_ERROR:
+	  st = 'E';
     LED_state(LED_RED, ON,TOG);         // Error                (RED on)
     LED_state(LED_YEL|LED_GRN,OFF,CON); // No data logging      (YEL off)
     break;

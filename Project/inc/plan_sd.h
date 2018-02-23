@@ -6,6 +6,8 @@
 #define RESPONSE_TIMEOUT        0xFFF
 
 #define DUMMY_BYTE              (uint8_t) 0xFF
+#define SD_SLOW_PSCR			SPI_BaudRatePrescaler_128
+#define SD_FAST_PSCR			SPI_BaudRatePrescaler_8
 
 // CARD VERSIONS
 typedef enum

@@ -4,6 +4,7 @@
 // INCLUDES  ===================================================================
 
 // Standard C libraries
+#include <stdio.h>
 #include <stdlib.h>             // For dynamic memory allocation functions          
 #include <string.h>             // For string manipulation functions
 

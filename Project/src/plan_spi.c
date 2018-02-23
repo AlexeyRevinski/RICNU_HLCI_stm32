@@ -1,5 +1,6 @@
 #include "plan_spi.h"
 
+
 //==============================================================================
 // FUNCTION SPI_ChangeSpeed()
 //      - writes and reads one data byte via SPI
@@ -37,6 +38,7 @@ uint8_t	SPI_WriteByte(SPI_TypeDef * SPIx, uint8_t data)
 //==============================================================================
 void	SPI_ReadMultByte(SPI_TypeDef * SPIx,uint8_t* buffer,uint32_t numbytes)
 {
+
 	while(numbytes--)
 	{
 		while(SPI_I2S_GetFlagStatus(SPIx,SPI_I2S_FLAG_BSY));// Wait until not busy

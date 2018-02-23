@@ -177,7 +177,6 @@ void RTC_IRQHandler(void)
 {
   if (RTC_GetITStatus(RTC_IT_SEC) != RESET)
   {
-	TIM_SetCounter(TIM3,0);						// Reset ms counter
     RTC_ClearITPendingBit(RTC_IT_SEC);			// Clear interrupt pending bit
     if (RTC_GetCounter() == 0x0001517F)			// If reached 23:59:59, reset
 	{
@@ -186,6 +185,7 @@ void RTC_IRQHandler(void)
 	}
     RTC_WaitForLastTask();						// Wait for last write operation
   }
+  TIM_SetCounter(TIM3,0);						// Reset ms counter
 }
 
 

@@ -57,9 +57,9 @@ const char* val_eq              = "eq";
 static  fsm_stack       fst;
 static  fsm_stack       *fstp   = &fst; // Initialize ptr to fsm ptr stack
 
-static  fsm             FSM_s;
-static  fsm             *FSM    = &FSM_s; // Initialize pointer to fsm structure
-static  fsm_tracker     TR;
+fsm             		FSM_s;
+fsm             		*FSM    = &FSM_s; // Initialize pointer to fsm structure
+fsm_tracker     		TR;
 
 extern ricnu_data rndata;
 

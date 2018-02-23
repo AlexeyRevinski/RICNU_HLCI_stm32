@@ -512,8 +512,8 @@ void TIM_config(void)
 	TIM_TimeBaseInitStructure.TIM_CounterMode = 		// Specify counter mode
 			TIM_CounterMode_Up;
 	TIM_TimeBaseInitStructure.TIM_ClockDivision = 0;	// Specify clock division
-	TIM_TimeBaseInitStructure.TIM_Prescaler = 1;		// Specify prescaler
-	TIM_TimeBaseInitStructure.TIM_Period = 47999;		// Specify period
+	TIM_TimeBaseInitStructure.TIM_Prescaler = 48000;	// Specify prescaler
+	TIM_TimeBaseInitStructure.TIM_Period = 999;			// Specify period
 	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseInitStructure); // Implement above
 	//TIM_ITConfig(TIM3,TIM_IT_Update,ENABLE);			// Enable update interrupt
 	TIM_Cmd(TIM3,ENABLE);								// Enable timer

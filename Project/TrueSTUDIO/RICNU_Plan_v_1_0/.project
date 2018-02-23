@@ -169,10 +169,5 @@
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/inc/stm32f10x_it.h</locationURI>
 		</link>
-		<link>
-			<name>src/system_stm32l1xx.c</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/src/system_stm32l1xx.c</locationURI>
-		</link>
 	</linkedResources>
 </projectDescription>

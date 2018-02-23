@@ -1,21 +1,119 @@
 //Need:
 
 //	Generate log strings when called from main or wherever else
-//  Append them to the log buffer. Once log reaches 512 size (log string pointer - log start pointer), send them off, update next log start pointer
-//  After sending, if successful, update send pointer accordingly
 
 #include "plan_log.h"
 
 
-time tm;
-struct Queue logq;
-uint8_t log_buffer[LOG_STRING_SIZE]; // Change to 2048?
-uint8_t temp_log_buffer[LOG_STRING_SIZE];
-uint16_t log_bi = 0;	// Current buffer index
-uint16_t log_fs = 0;	// Location of current growing sector (front sector) in fifo
-uint16_t log_bs = 0;	// Location of ready to send sector (back sector) in log_buffer
+logtime 			logtm;
+logqueue 			logq;
+char	 			log_string	[LOG_STR_SIZE];
+char	 			log_buffer	[LOG_BUFFER_SIZE];
+char	 			tlog_buffer	[LOG_BUFFER_SIZE];
+uint16_t 			log_bi = 0;							// Current buffer index
+int					log_id = 0;
+extern char 		st;
+extern fsm_tracker	TR;
+extern fsm			FSM_s;
+extern ricnu_data 	rndata;
+
+void log_init()
+{
+	for(int i=0;i<LOG_STR_SIZE;i++)	// Initialize log packet string
+	{log_string[i]='-';}					// Set everything to contain space characters
 
 
+	logtm.years = 2018;
+	logtm.months = 23;
+	logtm.days = 2;
+	log_time_set((uint32_t)10,(uint8_t)38,(uint8_t)13);
+	log_time_get();
+
+	rndata.gx=0xB111;
+	rndata.gy=0xB222;
+	rndata.gz=0xB333;
+	rndata.ax=0xA111;
+	rndata.ay=0xA222;
+	rndata.az=0xA333;
+	rndata.em=0x55556666;
+	rndata.ej=0x77778888;
+	rndata.cu=0xFFFF;
+	rndata.sc=0xABABABAB;
+	rndata.s0=0x0111;
+	rndata.s1=0x0222;
+	rndata.s2=0x0333;
+	rndata.s3=0x0444;
+	rndata.s4=0x0555;
+	rndata.s5=0x0666;
+
+	log_q_init();						// Initialize log queue
+}
+
+
+void log_generate()
+{
+	log_gen_string();
+	log_buf_append(log_string,LOG_STR_SIZE);
+}
+
+
+void log_gen_string()
+{
+	log_time_get();
+	sprintf(log_string+LOG_STR_ID,		"%08X",log_id++);
+	log_string[LOG_STR_HOUR-1]		=' ';
+	sprintf(log_string+LOG_STR_HOUR,	"%02d",logtm.hours);
+	log_string[LOG_STR_MINUTE-1] 	=':';						// ...HR:MN...
+	sprintf(log_string+LOG_STR_MINUTE,	"%02d",logtm.minutes);
+	log_string[LOG_STR_SECOND-1] 	=':';						// ...MN:SC...
+	sprintf(log_string+LOG_STR_SECOND,	"%02d",logtm.seconds);
+	log_string[LOG_STR_MSECOND-1] 	='.';						// ...SC:MSC...
+	sprintf(log_string+LOG_STR_MSECOND,	"%03d",logtm.mseconds);
+	log_string[LOG_STR_SYS_ST-1] 	=' ';
+	sprintf(log_string+LOG_STR_SYS_ST,	&st);
+	log_string[LOG_STR_FSM_M-1] 	=' ';
+	sprintf(log_string+LOG_STR_FSM_M,	"%05d",FSM_s.m[TR.cm].id_self);
+	log_string[LOG_STR_FSM_S-1] 	=' ';
+	sprintf(log_string+LOG_STR_FSM_S,	"%05d",FSM_s.m[TR.cm].s[TR.cs].id_self);
+	log_string[LOG_STR_FSM_T-1] 	=' ';
+	sprintf(log_string+LOG_STR_FSM_T,	"-----");								// TODO put transition down
+	log_string[LOG_STR_DAT_GX-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_GX,	"%04X",rndata.gx);
+	log_string[LOG_STR_DAT_GY-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_GY,	"%04X",rndata.gy);
+	log_string[LOG_STR_DAT_GZ-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_GZ,	"%04X",rndata.gz);
+	log_string[LOG_STR_DAT_AX-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_AX,	"%04X",rndata.ax);
+	log_string[LOG_STR_DAT_AY-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_AY,	"%04X",rndata.ay);
+	log_string[LOG_STR_DAT_AZ-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_AZ,	"%04X",rndata.az);
+	log_string[LOG_STR_DAT_EM-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_EM,	"%04X",(uint16_t)(rndata.em>>16));
+	sprintf(log_string+LOG_STR_DAT_EM+4,"%04X",(uint16_t)(rndata.em));
+	log_string[LOG_STR_DAT_EJ-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_EJ,	"%04X",(uint16_t)(rndata.ej>>16));
+	sprintf(log_string+LOG_STR_DAT_EJ+4,"%04X",(uint16_t)(rndata.ej));
+	log_string[LOG_STR_DAT_CU-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_CU,	"%04X",rndata.cu);
+	log_string[LOG_STR_DAT_SC-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_SC,	"%04X",(uint16_t)(rndata.sc>>16));
+	sprintf(log_string+LOG_STR_DAT_SC+4,"%04X",(uint16_t)(rndata.sc));
+	log_string[LOG_STR_DAT_S0-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_S0,	"%03X",rndata.s0);
+	log_string[LOG_STR_DAT_S1-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_S1,	"%03X",rndata.s1);
+	log_string[LOG_STR_DAT_S2-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_S2,	"%03X",rndata.s2);
+	log_string[LOG_STR_DAT_S3-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_S3,	"%03X",rndata.s3);
+	log_string[LOG_STR_DAT_S4-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_S4,	"%03X",rndata.s4);
+	log_string[LOG_STR_DAT_S5-1] 	=' ';
+	sprintf(log_string+LOG_STR_DAT_S5,	"%03X",rndata.s5);
+	log_string[LOG_STR_SIZE-1]		='\n';
+}
 
 //==============================================================================
 // FUNCTION log_buf_append()
@@ -25,9 +123,9 @@ int log_buf_append(char* str, uint16_t len)
 {
 	int bnd = 0;
 	if(log_q_is_full()) return 0;		// If queue is full, no space to write
-	if(LOG_STRING_SIZE>(log_bi+len-1))	// If string will fit in the array
+	if(LOG_BUFFER_SIZE>(log_bi+len-1))	// If string will fit in the array
 	{
-		uint8_t* temp=log_buffer+log_bi; 	// Make temporary pointer
+		char* temp=log_buffer+log_bi; 		// Make temporary pointer
 		int i=0;							// Loop index
 		for(;i<len;i++){temp[i] = str[i];}	// Copy string to buffer
 	}
@@ -35,18 +133,18 @@ int log_buf_append(char* str, uint16_t len)
 	{
 		if(logq.size<logq.capacity-1)			// If at least the first sector of buffer
 		{										//   can be overwritten
-			uint8_t* temp=log_buffer+log_bi; 	// Make temporary pointer
-			int i = 0,j = 0;					// Loop indices
-			for(;i<len;i++)						// Copy string to buffer -->
+			char* temp=log_buffer+log_bi; 			// Make temporary pointer
+			int i = 0,j = 0;						// Loop indices
+			for(;i<len;i++)							// Copy string to buffer -->
 			{
-				if((i+log_bi)<LOG_STRING_SIZE)		// If still fits -->
+				if((i+log_bi)<LOG_BUFFER_SIZE)			// If next char still fits -->
 				{
-					temp[i] = str[i];				// Copy character
-					j++;							// Increment temp index
+					temp[i] = str[i];						// Copy character
+					j++;									// Increment temp index
 				}
-				else								// Once hit end of array -->
+				else									// Once hit end of array -->
 				{
-					log_buffer[i-j] = str[i];		// Restart at beginning of array
+					log_buffer[i-j] = str[i];				// Restart at beginning of array
 				}
 			}
 		}// Otherwise, queue is not full but can't fill the last sector
@@ -58,12 +156,13 @@ int log_buf_append(char* str, uint16_t len)
 	{
 		log_q_enq();						// Enqueue this finished sector
 	} // Otherwise do not enqueue
-	if (log_bi>LOG_STRING_SIZE-1)		// If overflown -->
+	if (log_bi>LOG_BUFFER_SIZE-1)		// If overflown -->
 	{
-		log_bi%=LOG_STRING_SIZE;			// Overflow index
+		log_bi%=LOG_BUFFER_SIZE;			// Overflow index
 	}
 	return 1;
 }
+
 
 
 //==============================================================================
@@ -72,9 +171,16 @@ int log_buf_append(char* str, uint16_t len)
 //==============================================================================
 void log_buf_clear()
 {
-	int i = LOG_STRING_SIZE;					// Set index to LOG_STRING_SIZE
+	int i = LOG_BUFFER_SIZE;					// Set index to LOG_BUFFER_SIZE
 	do log_buffer[--i]=0; while(i);				// While going through buffer, clear
 }
+
+void log_str_clear()
+{
+	int i = LOG_STR_SIZE;					// Set index to LOG_BUFFER_SIZE
+	do log_string[--i]=0; while(i);				// While going through buffer, clear
+}
+
 
 
 //==============================================================================
@@ -85,41 +191,49 @@ void log_buf_clear()
 int log_file_append()
 {
 	if(log_q_is_empty()) return 1;				// If queue empty, nothing to write
-	/*
+
 	FRESULT fr; FIL fil;						// Result and file variables
 	UINT bw = 0; UINT* bwp = &bw;
 	fr = open_append(&fil, "ricnu.log");		// Create log file
 	if (fr != FR_OK) return 1;					// If failed - disk error
 	//f_printf(&fil, "mylog\n");				// Otherwise, append file
-	f_write (&fil,log_buffer,
-			logq.front*LOG_SECTOR_SIZE,bwp);											// TODO buff here is a const void*
+	f_write (&fil,log_buffer+(logq.front*LOG_SECTOR_SIZE),
+			LOG_SECTOR_SIZE,bwp);											// TODO buff here is a const void*
 	f_close(&fil);								// Close the file
-	*/
 
 
+
+	/*
 	// test code
 	int start = logq.front*LOG_SECTOR_SIZE;
 	for(int i = 0;i<LOG_SECTOR_SIZE;i++)
 	{
-		temp_log_buffer[start+i] = log_buffer[start+i];
+		tlog_buffer[start+i] = log_buffer[start+i];
 	}
-	log_q_deq();
+	*/
 
+	log_q_deq();
 	return 0;									// Return success
 }
 
 
 //==============================================================================
 // FUNCTION log_q_init()
-//      - checks if queue is full
+//      - initializes queue
+//		- sets capacity to fifo size defined in plan_log.h
+//		- sets front of the queue at the start of buffer string
+//		- sets rear at last sector in buffer string. When first sector of the
+//			buffer string is filled and enqueued, rear will point to start of
+//			buffer string
 //==============================================================================
 void log_q_init()
 {
-	logq.capacity = LOG_FIFO_SIZE;				// Set capacity to LOG_FIFO_SIZE
-	logq.front = logq.size = 0;					// Set size to 0
-	logq.rear = LOG_FIFO_SIZE-1;				// Set rear to item before last
-}
-
+	logq.capacity = LOG_FIFO_SIZE;				// Capacity is num of sectors
+	logq.front = logq.size = 0;					// Queue is empty
+	logq.rear = logq.capacity-1;				// Rear is one less than capacity
+}												//  (once a sector is enqueued,
+												//  it will point to its start,
+												//  which is at address 0)
 
 //==============================================================================
 // FUNCTION log_q_is_full()
@@ -171,7 +285,7 @@ void log_q_deq()
 // FUNCTION log_settime()
 //      - set current time with a second resolution
 //==============================================================================
-void log_time_set(uint16_t hr,uint8_t min,uint8_t sec)
+void log_time_set(uint32_t hr,uint8_t min,uint8_t sec)
 {
 	RTC_WaitForLastTask();						// Wait: last write operation finished
 	RTC_SetCounter(								// Change current time
@@ -188,10 +302,9 @@ void log_time_set(uint16_t hr,uint8_t min,uint8_t sec)
 //==============================================================================
 void log_time_get()
 {
-	uint32_t countms = TIM_GetCounter(TIM3);	// Get millisecond count
-	uint32_t count = RTC_GetCounter();			// Get second count
-	tm.hours 	= count / 3600;					// hours
-	tm.minutes	= (count % 3600) / 60;			// minutes
-	tm.seconds	= (count % 3600) % 60;			// seconds
-	tm.mseconds = countms;						// milliseconds
+	logtm.mseconds	= TIM_GetCounter(TIM3);	// Get millisecond count
+	uint32_t count	= RTC_GetCounter();				// Get second count
+	logtm.hours		= count / 3600;					// hours
+	logtm.minutes	= (count % 3600) / 60;			// minutes
+	logtm.seconds	= (count % 3600) % 60;			// seconds
 }
