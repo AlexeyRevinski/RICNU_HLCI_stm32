@@ -8,11 +8,11 @@
 uint8_t	SPI_ChangeSpeed(SPI_TypeDef * SPIx, uint16_t SPI_BaudRatePrescaler)
 {
 	if(!IS_SPI_ALL_PERIPH(SPIx)||
-		IS_SPI_BAUDRATE_PRESCALER(SPI_BaudRatePrescaler)) return 0;
-	SPI_Cmd(SPI_SD, DISABLE);
+		!IS_SPI_BAUDRATE_PRESCALER(SPI_BaudRatePrescaler)) return 0;
+	SPI_Cmd(SPIx, DISABLE);
 	SPIx->CR1 &= ~SPI_CR1_BR;
 	SPIx->CR1 |= SPI_BaudRatePrescaler;
-	SPI_Cmd(SPI_SD, ENABLE);
+	SPI_Cmd(SPIx, ENABLE);
 	return 1;
 }
 

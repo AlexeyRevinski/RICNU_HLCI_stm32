@@ -8,6 +8,7 @@ FATFS 			fs;
 
 
 uint32_t		testtimer = 0;
+extern	FIL		logfile;
 
 //==============================================================================
 // FUNCTION main()
@@ -20,7 +21,7 @@ int main(void)
 
   // PERIPHERAL CONFIGURATION --------------------------------------------------
   hardware_config();    // Configures all on-chip hardware
-  
+  f_mount(&fs,"", 0);                           // Mount the default drive
   log_init();
 
   // FLEXSEA STACK AND SYSTEM INITIALIZATION -----------------------------------
@@ -29,7 +30,7 @@ int main(void)
   //check that Execute changed control to none
 
   // Mount file system
-  f_mount(&fs,"", 0);                           // Mount the default drive
+
 
   testtimer = 32;
 
@@ -85,6 +86,7 @@ int main(void)
 				  {
 					  log_generate();
 					  log_file_append();
+					  if(testtimer==1) f_close(&logfile);
 					  testtimer--;
 				  }
 				break;

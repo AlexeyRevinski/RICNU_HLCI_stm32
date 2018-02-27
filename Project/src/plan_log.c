@@ -17,6 +17,12 @@ extern fsm_tracker	TR;
 extern fsm			FSM_s;
 extern ricnu_data 	rndata;
 
+FIL logfile;
+#define SZ_TBL 100
+
+DWORD clmt[SZ_TBL];                    /* Cluster link map table buffer */
+
+
 void log_init()
 {
 	for(int i=0;i<LOG_STR_SIZE;i++)	// Initialize log packet string
@@ -47,6 +53,29 @@ void log_init()
 	rndata.s5=0x0666;
 
 	log_q_init();						// Initialize log queue
+
+	FRESULT fr;
+
+	fr = f_open(&logfile, "ricnu.log", FA_WRITE | FA_OPEN_APPEND);
+	if(fr!=FR_OK)
+	{
+		f_close(&logfile);
+		return;
+	}
+    fr = f_lseek(&logfile, f_size(&logfile));               /* This is normal seek (cltbl is nulled on file open) */
+    if(fr!=FR_OK)
+    {
+    	f_close(&logfile);
+    	return;
+    }
+    logfile.cltbl = clmt;                      /* Enable fast seek function (cltbl != NULL) */
+    clmt[0] = SZ_TBL;                      /* Set table size */
+    fr = f_lseek(&logfile, CREATE_LINKMAP);     /* Create CLMT */
+    if(fr!=FR_OK)
+    {
+    	f_close(&logfile);
+    	return;
+    }
 }
 
 
@@ -192,26 +221,14 @@ int log_file_append()
 {
 	if(log_q_is_empty()) return 1;				// If queue empty, nothing to write
 
-	FRESULT fr; FIL fil;						// Result and file variables
+	FRESULT fr; 						// Result and file variables
 	UINT bw = 0; UINT* bwp = &bw;
-	fr = open_append(&fil, "ricnu.log");		// Create log file
-	if (fr != FR_OK) return 1;					// If failed - disk error
-	//f_printf(&fil, "mylog\n");				// Otherwise, append file
-	f_write (&fil,log_buffer+(logq.front*LOG_SECTOR_SIZE),
+
+	fr = f_lseek(&logfile, f_size(&logfile));
+	if (fr != FR_OK){ f_close(&logfile); return 1;}					// If failed - disk error
+	f_write (&logfile,log_buffer+(logq.front*LOG_SECTOR_SIZE),
 			LOG_SECTOR_SIZE,bwp);											// TODO buff here is a const void*
-	f_close(&fil);								// Close the file
-
-
-
-	/*
-	// test code
-	int start = logq.front*LOG_SECTOR_SIZE;
-	for(int i = 0;i<LOG_SECTOR_SIZE;i++)
-	{
-		tlog_buffer[start+i] = log_buffer[start+i];
-	}
-	*/
-
+	f_sync(&logfile);
 	log_q_deq();
 	return 0;									// Return success
 }
