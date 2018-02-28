@@ -70,6 +70,8 @@ int16_t g0=-1,g1=-1,g2=-1,g3=-1;
 static  jsmntok_t       *tkns   = NULL; // Initialize tokens pointer
 static  char            *fstr   = NULL; // Initialize fsm string pointer
 
+uint8_t	g_offset = 0;
+
 //==============================================================================
 // FUNCTION fsm_build
 //      - builds fsm from a JSON file stored on the SD card
@@ -460,8 +462,10 @@ void fsm_update(void)
     g3 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[4];
     break; 
   }
-  //prep_packet(0,control,setpoint,g0,g1,g2,g3);
   
+  //prep_packet(g_offset,control,setpoint,g0,g1,g2,g3);
+  prep_packet(g_offset,CTRL_NONE,0,0,0,0,0);
+
 }
 
 //==============================================================================

@@ -27,22 +27,17 @@ typedef enum
 
 typedef struct
 {
-	uint16_t gx;
-	uint16_t gy;
-	uint16_t gz;
-	uint16_t ax;
-	uint16_t ay;
-	uint16_t az;
-	uint32_t em;
-	uint32_t ej;
-	uint16_t cu;
-	uint32_t sc;
-	uint16_t s0;
-	uint16_t s1;
-	uint16_t s2;
-	uint16_t s3;
-	uint16_t s4;
-	uint16_t s5;
+	int16_t gx;
+	int16_t gy;
+	int16_t gz;
+	int16_t ax;
+	int16_t ay;
+	int16_t az;
+	int32_t em;
+	int32_t ej;
+	int16_t cu;
+	int32_t sc;
+	int32_t st[6];
 } ricnu_data;
 
 

@@ -7,8 +7,19 @@ uint8_t         usart_rx_buffer[DATA_SIZE_U2P];         // Used for UART rx
 uint8_t         spi_payload[DATA_SIZE_FLEXSEA];
 uint8_t         spi_rx_tmp[DATA_SIZE_FLEXSEA];
 
+extern uint8_t		g_offset;
+extern 			state sys_state;
 ricnu_data rndata;
 
+extern int32_t straincal[];
+
+
+int64_t loadCellM[6][6] = {{ 9008,	101,	-9026,	-60,	121,	41},		// Fx, x10
+						  { 5328,	89,		5472,	72,		-10849,	32},		// Fy, x10
+						  {-52,		4990,	-67,	4979,	126,	4976},		// Fz, x10
+						  { 261,	9833,	421,	-9659,	-680,	263},		// Mx, x1000
+						  { 246,	5923,	-504,	5766,	-294,	-11289},	// My, x1000
+						  {-19219,	-176,   -17030,	-134,   -18937,	-101}};		// Mz, x1000
 
 
 void prep_packet(uint8_t offset, uint8_t ctrl, int32_t sp, int16_t gain0, \
@@ -58,6 +69,7 @@ void update(device dev)
 //==============================================================================
 int unpack(device dev)
 {
+	int16_t rawstrain[6] = {0,0,0,0,0,0};
   switch(dev)
   {
   case MANAGE:
@@ -71,6 +83,7 @@ int unpack(device dev)
 
 			if(offset == 0)
 			{
+				g_offset = 1;
 				//Typical Execute variables, + new encoders:
 				rndata.gx = (int16_t) REBUILD_UINT16(spi_payload, &index);
 				rndata.gy = (int16_t) REBUILD_UINT16(spi_payload, &index);
@@ -81,16 +94,52 @@ int unpack(device dev)
 				rndata.em = (int32_t) REBUILD_UINT32(spi_payload, &index);
 				rndata.ej = (int32_t) REBUILD_UINT32(spi_payload, &index);
 				rndata.cu = (int16_t) REBUILD_UINT16(spi_payload, &index);
+				for(int i=0;i<=24;i++){usart_tx_buffer[i]=spi_payload[i+4];}
+
 			}
 			else if(offset == 1)
 			{
-				;
+				g_offset = 0;
+				rawstrain[0] = ((int16_t) ((REBUILD_UINT16(spi_payload, &index))>>4));index--;
+				rawstrain[1] = ((int16_t) (((REBUILD_UINT16(spi_payload, &index)<<4))>>4));
+				rawstrain[2] = ((int16_t) ((REBUILD_UINT16(spi_payload, &index))>>4));index--;
+				rawstrain[3] = ((int16_t) (((REBUILD_UINT16(spi_payload, &index)<<4))>>4));
+				rawstrain[4] = ((int16_t) ((REBUILD_UINT16(spi_payload, &index))>>4));index--;
+				rawstrain[5] = ((int16_t) (((REBUILD_UINT16(spi_payload, &index)<<4))>>4));
+
+				for (int i = 0; i<6;i++)
+				{
+					rawstrain[i]&=0x0FFF;
+					rawstrain[i]-=0x7FF;
+				}
+
+
+				for (int i=0;i<6;i++)
+				{
+					rndata.st[i] =
+					(rawstrain[0] * loadCellM[i][0]) +
+					(rawstrain[1] * loadCellM[i][1]) +
+					(rawstrain[2] * loadCellM[i][2]) +
+					(rawstrain[3] * loadCellM[i][3]) +
+					(rawstrain[4] * loadCellM[i][4]) +
+					(rawstrain[5] * loadCellM[i][5]);
+					if(sys_state!=STATE_CALIBRATION)
+					{
+						rndata.st[i]-=straincal[i];
+						rndata.st[i]>>=9;
+					}
+				}
+
+				usart_tx_buffer[0] = offset;
+				for(int i=1,j=0;i<=24;)										// Put the 6 32 bit values into 24 bytes
+				{
+					usart_tx_buffer[i++]=(uint8_t)(rndata.st[j]>>24);
+					usart_tx_buffer[i++]=(uint8_t)(rndata.st[j]>>16);
+					usart_tx_buffer[i++]=(uint8_t)(rndata.st[j]>>8);
+					usart_tx_buffer[i++]=(uint8_t)(rndata.st[j++]>>0);
+				}
 			}
     	}
-      //struct execute_s ex2; ricnu_1.ex = &ex2;    // point rn->ex to a declared structure
-      //struct strain_s  st2; ricnu_1.st = &st2;    // point rn->st to a declared structure
-      //rx_cmd_ricnu_rr(spi_payload,0);             // unpack payload using RICNU function
-      for(int i=0;i<=24;i++){usart_tx_buffer[i]=spi_payload[i+4];}    
       return COMM_OK;
     }
   case USER:
@@ -98,6 +147,7 @@ int unpack(device dev)
   }
   return COMM_ERR;
 }
+
 
 /*
 //==============================================================================

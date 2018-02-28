@@ -6,6 +6,8 @@ uint32_t		memtime1	=	0;			// Memory card timer
 uint32_t		memtime2	=	0;			// Memory card timer
 extern DSTATUS 		diskstat;				// Memory card drive status
 
+extern FATFS fs;
+
 //==============================================================================
 // FUNCTION SD_TimeUpdate()
 //      - updates 1khz timers and checks SD card status
@@ -227,9 +229,6 @@ FRESULT open_append (
     }
     return fr;
 }
-
-
-
 
 
 

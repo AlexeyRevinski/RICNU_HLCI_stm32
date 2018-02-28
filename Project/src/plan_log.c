@@ -17,6 +17,9 @@ extern fsm_tracker	TR;
 extern fsm			FSM_s;
 extern ricnu_data 	rndata;
 
+extern char temptxbuff[1000];
+extern char temprxbuff[1000];
+
 FIL logfile;
 #define SZ_TBL 100
 
@@ -27,6 +30,13 @@ void log_init()
 {
 	for(int i=0;i<LOG_STR_SIZE;i++)	// Initialize log packet string
 	{log_string[i]='-';}					// Set everything to contain space characters
+
+
+	for(int i=0;i<1000;i++)
+	{
+		temptxbuff[i]=0;
+		temprxbuff[i]=0;
+	}
 
 
 	logtm.years = 2018;
@@ -45,12 +55,12 @@ void log_init()
 	rndata.ej=0x77778888;
 	rndata.cu=0xFFFF;
 	rndata.sc=0xABABABAB;
-	rndata.s0=0x0111;
-	rndata.s1=0x0222;
-	rndata.s2=0x0333;
-	rndata.s3=0x0444;
-	rndata.s4=0x0555;
-	rndata.s5=0x0666;
+	rndata.st[0]=0x0111;
+	rndata.st[1]=0x0222;
+	rndata.st[2]=0x0333;
+	rndata.st[3]=0x0444;
+	rndata.st[4]=0x0555;
+	rndata.st[5]=0x0666;
 
 	log_q_init();						// Initialize log queue
 
@@ -61,6 +71,10 @@ void log_init()
 	{
 		f_close(&logfile);
 		return;
+	}
+	fr = f_expand(&logfile, (uint32_t) 1048576, 1);	//1MB
+	if (fr) { /* Check if the file has been expanded */
+		f_close(&logfile);
 	}
     fr = f_lseek(&logfile, f_size(&logfile));               /* This is normal seek (cltbl is nulled on file open) */
     if(fr!=FR_OK)
@@ -130,17 +144,17 @@ void log_gen_string()
 	sprintf(log_string+LOG_STR_DAT_SC,	"%04X",(uint16_t)(rndata.sc>>16));
 	sprintf(log_string+LOG_STR_DAT_SC+4,"%04X",(uint16_t)(rndata.sc));
 	log_string[LOG_STR_DAT_S0-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_S0,	"%03X",rndata.s0);
+	//sprintf(log_string+LOG_STR_DAT_S0,	"%03X",rndata.st[0]);
 	log_string[LOG_STR_DAT_S1-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_S1,	"%03X",rndata.s1);
+	//sprintf(log_string+LOG_STR_DAT_S1,	"%03X",rndata.st[1]);
 	log_string[LOG_STR_DAT_S2-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_S2,	"%03X",rndata.s2);
+	//sprintf(log_string+LOG_STR_DAT_S2,	"%03X",rndata.st[2]);
 	log_string[LOG_STR_DAT_S3-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_S3,	"%03X",rndata.s3);
+	//sprintf(log_string+LOG_STR_DAT_S3,	"%03X",rndata.st[3]);
 	log_string[LOG_STR_DAT_S4-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_S4,	"%03X",rndata.s4);
+	//sprintf(log_string+LOG_STR_DAT_S4,	"%03X",rndata.st[4]);
 	log_string[LOG_STR_DAT_S5-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_S5,	"%03X",rndata.s5);
+	//sprintf(log_string+LOG_STR_DAT_S5,	"%03X",rndata.st[5]);
 	log_string[LOG_STR_SIZE-1]		='\n';
 }
 
@@ -224,11 +238,27 @@ int log_file_append()
 	FRESULT fr; 						// Result and file variables
 	UINT bw = 0; UINT* bwp = &bw;
 
-	fr = f_lseek(&logfile, f_size(&logfile));
-	if (fr != FR_OK){ f_close(&logfile); return 1;}					// If failed - disk error
-	f_write (&logfile,log_buffer+(logq.front*LOG_SECTOR_SIZE),
+	//fr = f_lseek(&logfile, f_size(&logfile));
+	//if (fr != FR_OK){ f_close(&logfile); return 1;}					// If failed - disk error
+
+	fr = f_write (&logfile,log_buffer+(logq.front*LOG_SECTOR_SIZE),
 			LOG_SECTOR_SIZE,bwp);											// TODO buff here is a const void*
-	f_sync(&logfile);
+	if (fr != FR_OK)
+	{
+		GPIO_SetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN);
+		LED_state(LED_BLU,ON,CON);
+	}
+	else if (fr == FR_OK)
+	{
+		fr = f_sync(&logfile);
+		if (fr != FR_OK)
+		{
+			GPIO_SetBits(GPIO_LED_2_PORT,GPIO_LED_2_PIN);
+			LED_state(LED_BLU,ON,CON);
+		}
+	}
+
+
 	log_q_deq();
 	return 0;									// Return success
 }

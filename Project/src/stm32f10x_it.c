@@ -188,18 +188,6 @@ void RTC_IRQHandler(void)
   TIM_SetCounter(TIM3,0);						// Reset ms counter
 }
 
-
-//Eliminate
-/*
-void TIM3_IRQHandler(void)	// Update millisecond timer
-{
-  if(TIM_GetFlagStatus(TIM3, TIM_FLAG_Update) == SET)
-  {
-    TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
-  }
-}
-*/
-
 void TIM2_IRQHandler(void)
 {
   if(TIM_GetFlagStatus(TIM2, TIM_FLAG_Update) == SET)
@@ -209,26 +197,24 @@ void TIM2_IRQHandler(void)
   }
 }
 
-// ELIMINATE
-/*
 void EXTI4_IRQHandler(void)
 {
   if(EXTI_GetITStatus(EXTI_SD_CD_LINE) != RESET)
   {
     
     // See if the card is in or not
-    if(SD_DETECT);
+    //if(SD_DETECT);
     // Clear the interrupt pending bit
     EXTI_ClearITPendingBit(EXTI_SD_CD_LINE);
   }
 }
-*/
+
 // SD Card:             SPI RX Handler
 void DMA1_Channel2_IRQHandler(void)
 {
   // Stop packet transmission sequence - drive chip select high
   DMA_Cmd(SPI_SD_DMA_RX_CHAN, DISABLE);
-  GPIO_SetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);
+  //GPIO_SetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);
   // Clear all channel 2 IT requests
   DMA_ClearITPendingBit(DMA1_IT_GL2);
 }

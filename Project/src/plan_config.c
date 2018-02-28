@@ -183,6 +183,8 @@ void SPI_config(void)
   SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
   SPI_InitStructure.SPI_CRCPolynomial = 7;
   SPI_Init(SPI_SD, &SPI_InitStructure);
+  //SPI_I2S_DMACmd(SPI_SD, SPI_I2S_DMAReq_Tx, ENABLE);
+  //SPI_I2S_DMACmd(SPI_SD, SPI_I2S_DMAReq_Rx, ENABLE);
   SPI_Cmd(SPI_SD, ENABLE);
   
   // MANAGE
@@ -252,42 +254,40 @@ void DMA_config(void)
   // Start DMA clock
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);
   
-  // SD =====================================================
-  
   // SPI RECEIVE CHANNEL -------------------------------------------------------
   DMA_DeInit(SPI_SD_DMA_RX_CHAN);
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPI_SD_DR;
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)spi_rx_buffer;               // CHANGE
+  //DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)spi_rx_buffer;               // CHANGE
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
-  DMA_InitStructure.DMA_BufferSize = DATA_SIZE_FLEXSEA;                         // CHANGE
+  //DMA_InitStructure.DMA_BufferSize = DATA_SIZE_FLEXSEA;                         // CHANGE
   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_MemoryDataSize_Byte;
   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(SPI_SD_DMA_RX_CHAN, &DMA_InitStructure);
+  DMA_Cmd(SPI_SD_DMA_RX_CHAN, ENABLE);
+
   //DMA_ITConfig(SPI_SD_DMA_RX_CHAN, DMA_IT_TC, ENABLE);
   
    // SPI TRANSMIT CHANNEL -----------------------------------------------------
   DMA_DeInit(SPI_SD_DMA_TX_CHAN);
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPI_SD_DR;
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)comm_str_1;                  // CHANGE
+  //DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)comm_str_1;                  // CHANGE
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
-  DMA_InitStructure.DMA_BufferSize = DATA_SIZE_FLEXSEA;                         // CHANGE
+  //DMA_InitStructure.DMA_BufferSize = DATA_SIZE_FLEXSEA;                         // CHANGE
   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_MemoryDataSize_Byte;
   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(SPI_SD_DMA_TX_CHAN, &DMA_InitStructure);
+  DMA_Cmd(SPI_SD_DMA_TX_CHAN, ENABLE);
   //DMA_ITConfig(SPI_SD_DMA_TX_CHAN, DMA_IT_TC, ENABLE);
-  
-  
-  // MANAGE ====================================================================
 
   // SPI RECEIVE CHANNEL -------------------------------------------------------
   DMA_DeInit(SPI_MN_DMA_RX_CHAN);
@@ -320,9 +320,6 @@ void DMA_config(void)
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(SPI_MN_DMA_TX_CHAN, &DMA_InitStructure);
   DMA_ITConfig(SPI_MN_DMA_TX_CHAN, DMA_IT_TC, ENABLE);
-  
-  
-  // BLUETOOTH MODULE =====================================================
 
     // USART RECEIVE CHANNEL -----------------------------------------------------
   DMA_DeInit(USART_BT_DMA_RX_CHAN);
@@ -397,9 +394,9 @@ void NVIC_config(void)
 	NVIC_Init(&NVIC_InitStructure);						// Implement above
 
 	// EXTI interrupt for Card Detect ------------------------------------------
-	//NVIC_InitStructure.NVIC_IRQChannel = EXTI_SD_CD_IRQn;	// Specify IRQ channel
-	//NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
-	//NVIC_Init(&NVIC_InitStructure);						// Implement above
+	NVIC_InitStructure.NVIC_IRQChannel = EXTI_SD_CD_IRQn;	// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	NVIC_Init(&NVIC_InitStructure);						// Implement above
   
 	// TIM2 Update interrupt for LEDs ------------------------------------------
 	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;		// Specify IRQ channel
@@ -469,7 +466,6 @@ void RCC_config(void)
 //==============================================================================
 void EXTI_config(void)
 {
-	/*
 	EXTI_InitTypeDef EXTI_InitStructure;				// Initialization structure
 
 	// EXTI Card Detect --------------------------------------------------------
@@ -481,8 +477,6 @@ void EXTI_config(void)
 	EXTI_InitStructure.EXTI_Trigger = EXTI_SD_CD_TRIG;	// Specify EXTI trigger type
 	EXTI_InitStructure.EXTI_LineCmd = ENABLE;			// Enable specified line
 	EXTI_Init(&EXTI_InitStructure);						// Implement above
-	*/
-	;
 }
 
 

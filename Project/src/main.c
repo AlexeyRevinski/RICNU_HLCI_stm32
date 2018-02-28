@@ -10,6 +10,16 @@ FATFS 			fs;
 uint32_t		testtimer = 0;
 extern	FIL		logfile;
 
+extern uint8_t		g_offset;
+
+#define CALIBTIME 500
+
+extern ricnu_data rndata;
+int64_t straincalib[] = {0,0,0,0,0,0};
+int32_t straincal[] = {0,0,0,0,0,0};
+uint32_t calibtimer = CALIBTIME;
+state sys_state = STATE_INITIALIZING;         // State variable
+
 //==============================================================================
 // FUNCTION main()
 //      - initializes the system
@@ -17,7 +27,9 @@ extern	FIL		logfile;
 //==============================================================================
 int main(void)
 {
-  state sys_state = STATE_INITIALIZING;         // State variable
+	//FRESULT fr;
+
+
 
   // PERIPHERAL CONFIGURATION --------------------------------------------------
   hardware_config();    // Configures all on-chip hardware
@@ -25,6 +37,7 @@ int main(void)
   log_init();
 
   // FLEXSEA STACK AND SYSTEM INITIALIZATION -----------------------------------
+  //prep_packet(0,CTRL_NONE,0,0,0,0,0);           // Prepare NO CONTROL packet
   prep_packet(0,CTRL_NONE,0,0,0,0,0);           // Prepare NO CONTROL packet
   update(MANAGE);                               // Make this blocking!
   //check that Execute changed control to none
@@ -32,7 +45,7 @@ int main(void)
   // Mount file system
 
 
-  testtimer = 32;
+  testtimer = 4000;
 
   // DEVICE CONTROL FINITE STATE MACHINE BUILD ---------------------------------
   while(1)
@@ -53,6 +66,8 @@ int main(void)
   LED_rainbow();                                        // LED sequence BLOCK
   change_sys_state(&sys_state,EVENT_INITIALIZED);       // Initialized state
   log_time_set(0,0,0);
+
+
   // POST-INITIALIZATION STATE MACHINE -----------------------------------------
   while(1)
   {
@@ -68,40 +83,103 @@ int main(void)
       // ERROR STATE
       case STATE_ERROR:
         break;
+      case STATE_CALIBRATION:
+
+    	  switch(state_time_us)
+    	  {
+    	  case SYS_TICK_US*0:
+		  	  if(calibtimer)
+		  	  {
+				  update(MANAGE);
+				  unpack(MANAGE);
+
+				  if (calibtimer<(CALIBTIME-10))	// Discard first few packets
+				  {
+					  for (int i=0;i<6;i++)
+					  {
+						  straincalib[i]+=rndata.st[i];
+					  }
+				  }
+				  calibtimer--;
+		  	  }
+		  	  else
+		  	  {
+		  		for (int i=0;i<6;i++)
+				  {
+					  straincalib[i]/=(CALIBTIME-10);
+					  straincal[i] = (int32_t) straincalib[i];
+				  }
+		  		change_sys_state(&sys_state,EVENT_CALIBRATED);       // Initialized state
+		  	  }
+			  break;
+    	  }
+
+
+    	  break;
         
       // ACTIVE STATE
       case STATE_ACTIVE:                                                        // Time all these
+
+    	  /*
+    	  GPIO_ResetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN);
+    	  update(MANAGE);
+    	  unpack(MANAGE);
+    	  fsm_update();
+    	  update(USER);
+    	  if(testtimer)
+		  {
+			  log_generate();
+			  log_file_append();
+			  if(testtimer==1)
+			  {
+				  f_close(&logfile);
+			  }
+			  testtimer--;
+		  }
+    	  GPIO_SetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN);
+    	  //LED_state(LED_BLU,OFF,CON);
+*/
+
 			switch(state_time_us)   // Do one of the following (time based):
 			{
 			case SYS_TICK_US*0:     // At t = 0us:
-			  //update(MANAGE);               // - Communicate with Manage
+				//prep_packet(g_offset,CTRL_NONE,0,0,0,0,0);           // Prepare NO CONTROL packet
+				fsm_update();
+			  update(MANAGE);               // - Communicate with Manage
+			  unpack(MANAGE);
+			  update(USER);
 			  break;
 
 			case SYS_TICK_US*7:     // At t = 350us
-			  //unpack(MANAGE);               // Pack data to send upstream
+			                 // Pack data to send upstream
 			  break;
 
+			  /*
 			case SYS_TICK_US*10:	// At t = 500us
 				if(testtimer)
 				  {
 					  log_generate();
 					  log_file_append();
-					  if(testtimer==1) f_close(&logfile);
+					  if(testtimer==1)
+					  {
+						  f_close(&logfile);
+					  }
 					  testtimer--;
 				  }
 				break;
-
+*/
 			case SYS_TICK_US*20:    // At t = 1ms
-			  //fsm_update();               // Update state machine
+			                 // Update state machine
 			  break;
 
 			case SYS_TICK_US*14:    // At t = 700us:
-			  //update(USER);                // Communicate with user
+			                 // Communicate with user
 			  break;
 
 			default:
 				break;
 			}
+
         break;
         default:
         	break;

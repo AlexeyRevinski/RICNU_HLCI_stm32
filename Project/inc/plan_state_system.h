@@ -7,6 +7,7 @@
 typedef enum
 {
   EVENT_INITIALIZED,            // Occurs at the end of initialization seq
+  EVENT_CALIBRATED,
   EVENT_SDCARD_IN,              // Occurs when SD Card is inserted
   EVENT_SDCARD_OUT,             // Occurs when SD Card is taken out
   EVENT_START,                  // Occurs when START command received from app
@@ -19,6 +20,7 @@ typedef enum
 {
   STATE_ERROR,                  // Error state
   STATE_INITIALIZING,           // Initial state
+  STATE_CALIBRATION,
   STATE_ACTIVE,                 // Active control/logging/streaming
   STATE_INACTIVE,               // Idle state; waiting for command from app
 } state;
