@@ -393,11 +393,11 @@ void fsm_update(void)
       case CM: data=rndata.cu;                 break;
 
       	  case FX: data=rndata.st[0]*0.1;          break;
-      	  case FY: data=rndata.st[0]*0.1;          break;
-      	  case FZ: data=rndata.st[0]*0.1;           break;
-      	  case MX: data=rndata.st[0]*0.001;          break;
-		  case MY: data=rndata.st[0]*0.001;          break;
-		  case MZ: data=rndata.st[0]*0.001;         break;
+      	  case FY: data=rndata.st[1]*0.1;          break;
+      	  case FZ: data=rndata.st[2]*0.1;           break;
+      	  case MX: data=rndata.st[3]*0.001;          break;
+		  case MY: data=rndata.st[4]*0.001;          break;
+		  case MZ: data=rndata.st[5]*0.001;         break;
 
 
       }
@@ -487,7 +487,7 @@ void fsm_update(void)
   }
   
   //prep_packet(g_offset,control,setpoint,g0,g1,g2,g3);
-  //prep_packet(g_offset,CTRL_NONE,0,0,0,0,0);
+  prep_packet(g_offset,CTRL_NONE,0,0,0,0,0);
 
 }
 

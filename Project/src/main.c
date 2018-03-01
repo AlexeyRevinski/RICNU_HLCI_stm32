@@ -12,12 +12,10 @@ extern	FIL		logfile;
 
 extern uint8_t		g_offset;
 
-#define CALIBTIME 500
+
 
 extern ricnu_data rndata;
-int64_t straincalib[] = {0,0,0,0,0,0};
-int32_t straincal[] = {0,0,0,0,0,0};
-uint32_t calibtimer = CALIBTIME;
+
 state sys_state = STATE_INITIALIZING;         // State variable
 uint8_t offsettimer = 0;
 
@@ -89,32 +87,9 @@ int main(void)
     	  switch(state_time_us)
     	  {
     	  case SYS_TICK_US*0:
-		  	  if(calibtimer)
-		  	  {
-				  update(MANAGE);
-				  unpack(MANAGE);
-
-				  if (calibtimer<(CALIBTIME-10))	// Discard first few packets
-				  {
-					  for (int i=0;i<6;i++)
-					  {
-						  straincalib[i]+=rndata.st[i];
-					  }
-				  }
-				  calibtimer--;
-		  	  }
-		  	  else
-		  	  {
-		  		for (int i=0;i<6;i++)
-				  {
-					  straincalib[i]/=(CALIBTIME-10);
-					  straincal[i] = (int32_t) straincalib[i];
-				  }
-		  		change_sys_state(&sys_state,EVENT_CALIBRATED);       // Initialized state
-		  	  }
+		  	  update(MANAGE);
 			  break;
     	  }
-
 
     	  break;
         
@@ -122,11 +97,6 @@ int main(void)
       case STATE_ACTIVE:                                                        // Time all these
 
     	  /*
-    	  GPIO_ResetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN);
-    	  update(MANAGE);
-    	  unpack(MANAGE);
-    	  fsm_update();
-    	  update(USER);
     	  if(testtimer)
 		  {
 			  log_generate();
@@ -139,41 +109,12 @@ int main(void)
 		  }
     	  GPIO_SetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN);
     	  //LED_state(LED_BLU,OFF,CON);
-*/
+    	   */
 
 			switch(state_time_us)   // Do one of the following (time based):
 			{
 			case SYS_TICK_US*0:     // At t = 0us:
-
-			/*
-			if(!g_offset)
-			{
-			GPIO_ResetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN);
-				LED_state(LED_BLU,ON,CON);
-			}
-			else
-			{
-				GPIO_ResetBits(GPIO_LED_2_PORT,GPIO_LED_2_PIN);
-				LED_state(LED_YEL,ON,CON);
-			}
-			*/
-				prep_packet(g_offset,CTRL_NONE,0,0,0,0,0);           // Prepare NO CONTROL packet
-				//g_offset=!g_offset;
 			  update(MANAGE);               // - Communicate with Manage
-			  unpack(MANAGE);
-			  update(USER);
-			  fsm_update();
-			  /*
-			  offsettimer--;
-			  GPIO_SetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN);
-			  GPIO_SetBits(GPIO_LED_2_PORT,GPIO_LED_2_PIN);
-			  LED_state(LED_BLU,OFF,CON);
-			  LED_state(LED_YEL,OFF,CON);
-			  */
-			  break;
-
-			case SYS_TICK_US*7:     // At t = 350us
-			                 // Pack data to send upstream
 			  break;
 
 			  /*
@@ -190,13 +131,6 @@ int main(void)
 				  }
 				break;
 */
-			case SYS_TICK_US*20:    // At t = 1ms
-			                 // Update state machine
-			  break;
-
-			case SYS_TICK_US*14:    // At t = 700us:
-			                 // Communicate with user
-			  break;
 
 			default:
 				break;

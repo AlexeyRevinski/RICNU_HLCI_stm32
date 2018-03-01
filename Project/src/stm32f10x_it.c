@@ -31,6 +31,17 @@ extern uint8_t systick_update;
 extern int delay;
 
 extern state sys_state;
+#define CALIBTIME 2000
+
+int64_t straincalib[] = {0,0,0,0,0,0};
+int64_t imucalsum[] = {0,0,0,0,0,0,0,0,0};
+int32_t imucal[] = {0,0,0,0,0,0,0,0,0};
+int32_t straincal[] = {0,0,0,0,0,0};
+uint32_t calibtimer = CALIBTIME;
+
+extern ricnu_data rndata;
+
+
 
 //extern time tm;
 
@@ -235,6 +246,72 @@ void DMA1_Channel4_IRQHandler(void)
   // Stop packet transmission sequence - drive chip select high
   DMA_Cmd(SPI_MN_DMA_RX_CHAN, DISABLE);
   GPIO_SetBits(GPIO_MN_NSS_PORT,GPIO_MN_NSS_PIN);
+
+  unpack(MANAGE);
+
+  if(sys_state==STATE_CALIBRATION)
+  {
+
+		if(calibtimer)
+		{
+
+
+		  if (calibtimer<=CALIBTIME)	// Discard first few packets
+		  {
+
+			  if(calibtimer>CALIBTIME/2)
+			  {
+				  prep_packet(1,CTRL_NONE,0,0,0,0,0);
+				  //update(MANAGE);
+				  //unpack(MANAGE);
+				  for (int i=0;i<6;i++)
+				  {
+					  straincalib[i]+=rndata.st[i];
+				  }
+			  }
+			  else
+			  {
+				  prep_packet(0,CTRL_NONE,0,0,0,0,0);
+				  //update(MANAGE);
+				  //unpack(MANAGE);
+				  imucalsum[0]+=rndata.gx;
+				  imucalsum[1]+=rndata.gy;
+				  imucalsum[2]+=rndata.gz;
+				  imucalsum[3]+=rndata.ax;
+				  imucalsum[4]+=rndata.ay;
+				  imucalsum[5]+=rndata.az;
+				  imucalsum[6]+=rndata.em;
+				  imucalsum[7]+=rndata.ej;
+				  imucalsum[8]+=rndata.cu;
+			  }
+		  }
+		  calibtimer--;
+		}
+		else
+		{
+		for (int i=0;i<6;i++)
+		{
+			straincalib[i]/=(CALIBTIME/2);
+			straincal[i] = (int32_t) straincalib[i];
+		}
+		for (int i=0;i<9;i++)
+		{
+			imucalsum[i]/=(CALIBTIME/2);
+			imucal[i] = (int32_t) imucalsum[i];
+		}
+		change_sys_state(&sys_state,EVENT_CALIBRATED);       // Initialized state
+		}
+  }
+  else if (sys_state==STATE_ACTIVE)
+  {
+	  update(USER);
+	  fsm_update();
+  }
+
+
+
+
+
   // Clear all channel 4 IT requests
 }
 
@@ -254,6 +331,8 @@ void DMA1_Channel6_IRQHandler(void)
   DMA_Cmd(USART_BT_DMA_RX_CHAN, DISABLE);
   // Clear all channel 6 IT requests
   DMA_ClearITPendingBit(DMA1_IT_GL6);
+
+  unpack(USER);
 }
 
 // Bluetooth Module:    UART TX Handler

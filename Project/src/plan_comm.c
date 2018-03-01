@@ -12,6 +12,7 @@ extern 			state sys_state;
 ricnu_data rndata;
 
 extern int32_t straincal[];
+extern int32_t imucal[];
 
 
 int64_t loadCellM[6][6] = {{ 9008,	101,	-9026,	-60,	121,	41},		// Fx, x10
@@ -73,75 +74,120 @@ int unpack(device dev)
   switch(dev)
   {
   case MANAGE:
-    if(unpack_payload(spi_rx_buffer,spi_rx_tmp,spi_payload)>0)
-    {
-    	{
-    		uint16_t index = 0;
-    		uint8_t offset = 0;
-			index = P_DATA1;
-			offset = spi_payload[index++];
-
-			if(offset == 0)
+		if(unpack_payload(spi_rx_buffer,spi_rx_tmp,spi_payload)>0)
+		{
 			{
-				g_offset = 1;
-				//Typical Execute variables, + new encoders:
-				rndata.gx = (int16_t) REBUILD_UINT16(spi_payload, &index);
-				rndata.gy = (int16_t) REBUILD_UINT16(spi_payload, &index);
-				rndata.gz = (int16_t) REBUILD_UINT16(spi_payload, &index);
-				rndata.ax = (int16_t) REBUILD_UINT16(spi_payload, &index);
-				rndata.ay = (int16_t) REBUILD_UINT16(spi_payload, &index);
-				rndata.az = (int16_t) REBUILD_UINT16(spi_payload, &index);
-				rndata.em = (int32_t) REBUILD_UINT32(spi_payload, &index);
-				rndata.ej = (int32_t) REBUILD_UINT32(spi_payload, &index);
-				rndata.cu = (int16_t) REBUILD_UINT16(spi_payload, &index);
-				for(int i=0;i<=24;i++){usart_tx_buffer[i]=spi_payload[i+4];}
+				uint16_t index = 0;
+				uint8_t offset = 0;
+				index = P_DATA1;
+				offset = spi_payload[index++];
 
-			}
-			else if(offset == 1)
-			{
-				g_offset = 0;
-				rawstrain[0] = ((int16_t) ((REBUILD_UINT16(spi_payload, &index))>>4));index--;
-				rawstrain[1] = ((int16_t) (((REBUILD_UINT16(spi_payload, &index)<<4))>>4));
-				rawstrain[2] = ((int16_t) ((REBUILD_UINT16(spi_payload, &index))>>4));index--;
-				rawstrain[3] = ((int16_t) (((REBUILD_UINT16(spi_payload, &index)<<4))>>4));
-				rawstrain[4] = ((int16_t) ((REBUILD_UINT16(spi_payload, &index))>>4));index--;
-				rawstrain[5] = ((int16_t) (((REBUILD_UINT16(spi_payload, &index)<<4))>>4));
-
-				for (int i = 0; i<6;i++)
+				if(offset == 0)
 				{
-					rawstrain[i]&=0x0FFF;
-					rawstrain[i]-=0x7FF;
-				}
 
-
-				for (int i=0;i<6;i++)
-				{
-					rndata.st[i] =
-					(rawstrain[0] * loadCellM[i][0]) +
-					(rawstrain[1] * loadCellM[i][1]) +
-					(rawstrain[2] * loadCellM[i][2]) +
-					(rawstrain[3] * loadCellM[i][3]) +
-					(rawstrain[4] * loadCellM[i][4]) +
-					(rawstrain[5] * loadCellM[i][5]);
+					//Typical Execute variables, + new encoders:
+					rndata.gx = (int16_t) REBUILD_UINT16(spi_payload, &index);
+					rndata.gy = (int16_t) REBUILD_UINT16(spi_payload, &index);
+					rndata.gz = (int16_t) REBUILD_UINT16(spi_payload, &index);
+					rndata.ax = (int16_t) REBUILD_UINT16(spi_payload, &index);
+					rndata.ay = (int16_t) REBUILD_UINT16(spi_payload, &index);
+					rndata.az = (int16_t) REBUILD_UINT16(spi_payload, &index);
+					rndata.em = (int32_t) REBUILD_UINT32(spi_payload, &index);
+					rndata.ej = (int32_t) REBUILD_UINT32(spi_payload, &index);
+					rndata.cu = (int16_t) REBUILD_UINT16(spi_payload, &index);
 					if(sys_state!=STATE_CALIBRATION)
 					{
-						rndata.st[i]-=straincal[i];
-						rndata.st[i]>>=9;
+						g_offset = 1;
+
+						rndata.gx-=imucal[0];
+						rndata.gy-=imucal[1];
+						rndata.gz-=imucal[2];
+						rndata.ax-=imucal[3];
+						rndata.ay-=imucal[4];
+						rndata.az-=imucal[5];
+						rndata.em-=imucal[6];
+						rndata.ej-=imucal[7];
+						rndata.cu-=imucal[8];
+						usart_tx_buffer[0] = offset;
+						usart_tx_buffer[1] = (uint8_t)((rndata.gx>>8) & 0xFF);
+						usart_tx_buffer[2] = (uint8_t)((rndata.gx) & 0xFF);
+						usart_tx_buffer[3] = (uint8_t)((rndata.gy>>8) & 0xFF);
+						usart_tx_buffer[4] = (uint8_t)((rndata.gy) & 0xFF);
+						usart_tx_buffer[5] = (uint8_t)((rndata.gz>>8) & 0xFF);
+						usart_tx_buffer[6] = (uint8_t)((rndata.gz) & 0xFF);
+						usart_tx_buffer[7] = (uint8_t)((rndata.ax>>8) & 0xFF);
+						usart_tx_buffer[8] = (uint8_t)((rndata.ax) & 0xFF);
+						usart_tx_buffer[9] = (uint8_t)((rndata.ay>>8) & 0xFF);
+						usart_tx_buffer[10] = (uint8_t)((rndata.ay) & 0xFF);
+						usart_tx_buffer[11] = (uint8_t)((rndata.az>>8) & 0xFF);
+						usart_tx_buffer[12] = (uint8_t)((rndata.az) & 0xFF);
+						usart_tx_buffer[13] = (uint8_t)((rndata.em>>24) & 0xFF);
+						usart_tx_buffer[14] = (uint8_t)((rndata.em>>16) & 0xFF);
+						usart_tx_buffer[15] = (uint8_t)((rndata.em>>8) & 0xFF);
+						usart_tx_buffer[16] = (uint8_t)((rndata.em) & 0xFF);
+						usart_tx_buffer[17] = (uint8_t)((rndata.ej>>24) & 0xFF);
+						usart_tx_buffer[18] = (uint8_t)((rndata.ej>>16) & 0xFF);
+						usart_tx_buffer[19] = (uint8_t)((rndata.ej>>8) & 0xFF);
+						usart_tx_buffer[20] = (uint8_t)((rndata.ej) & 0xFF);
+						usart_tx_buffer[21] = (uint8_t)((rndata.cu>>8) & 0xFF);
+						usart_tx_buffer[22] = (uint8_t)((rndata.cu) & 0xFF);
+						usart_tx_buffer[23] = (uint8_t)((0) & 0xFF);
+						usart_tx_buffer[24] = (uint8_t)((0) & 0xFF);
+
+						/*
+						for(int i=0;i<=24;i++){usart_tx_buffer[i]=spi_payload[i+4];}
+						*/
+					}
+					//
+
+
+				}
+				else if(offset == 1)
+				{
+
+					rawstrain[0] = ((int16_t) ((REBUILD_UINT16(spi_payload, &index))>>4));index--;
+					rawstrain[1] = ((int16_t) (((REBUILD_UINT16(spi_payload, &index)<<4))>>4));
+					rawstrain[2] = ((int16_t) ((REBUILD_UINT16(spi_payload, &index))>>4));index--;
+					rawstrain[3] = ((int16_t) (((REBUILD_UINT16(spi_payload, &index)<<4))>>4));
+					rawstrain[4] = ((int16_t) ((REBUILD_UINT16(spi_payload, &index))>>4));index--;
+					rawstrain[5] = ((int16_t) (((REBUILD_UINT16(spi_payload, &index)<<4))>>4));
+
+					for (int i = 0; i<6;i++)
+					{
+						rawstrain[i]&=0x0FFF;
+						rawstrain[i]-=0x7FF;
+					}
+
+
+					for (int i=0;i<6;i++)
+					{
+						rndata.st[i] =
+						(rawstrain[0] * loadCellM[i][0]) +
+						(rawstrain[1] * loadCellM[i][1]) +
+						(rawstrain[2] * loadCellM[i][2]) +
+						(rawstrain[3] * loadCellM[i][3]) +
+						(rawstrain[4] * loadCellM[i][4]) +
+						(rawstrain[5] * loadCellM[i][5]);
+						if(sys_state!=STATE_CALIBRATION)
+						{
+							g_offset = 0;
+							rndata.st[i]-=straincal[i];
+							rndata.st[i]>>=9;
+						}
+					}
+
+					usart_tx_buffer[0] = offset;
+					for(int i=1,j=0;i<=24;)										// Put the 6 32 bit values into 24 bytes
+					{
+						usart_tx_buffer[i++]=(uint8_t)(rndata.st[j]>>24);
+						usart_tx_buffer[i++]=(uint8_t)(rndata.st[j]>>16);
+						usart_tx_buffer[i++]=(uint8_t)(rndata.st[j]>>8);
+						usart_tx_buffer[i++]=(uint8_t)(rndata.st[j++]>>0);
 					}
 				}
-
-				usart_tx_buffer[0] = offset;
-				for(int i=1,j=0;i<=24;)										// Put the 6 32 bit values into 24 bytes
-				{
-					usart_tx_buffer[i++]=(uint8_t)(rndata.st[j]>>24);
-					usart_tx_buffer[i++]=(uint8_t)(rndata.st[j]>>16);
-					usart_tx_buffer[i++]=(uint8_t)(rndata.st[j]>>8);
-					usart_tx_buffer[i++]=(uint8_t)(rndata.st[j++]>>0);
-				}
 			}
-    	}
-      return COMM_OK;
-    }
+		  return COMM_OK;
+		}
   case USER:
     break;
   }
