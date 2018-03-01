@@ -82,6 +82,7 @@
 
 // DEFINES       =============================================================
 #define TIMEBASE_100_HZ                 100     //Hz
+#define TIMEBASE_200_HZ					200		//Hz
 #define TIMEBASE_250_HZ                 250     //Hz
 #define TIMEBASE_500_HZ                 500     //Hz
 #define FACTOR_us_PER_s                 1000000 //us per 1s

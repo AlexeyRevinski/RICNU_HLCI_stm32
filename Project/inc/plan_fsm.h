@@ -18,7 +18,7 @@
 // ENUMS
 typedef enum {MR,LS,ME,LE,EQ} fsm_condition;
 
-typedef enum {AX,AY,AZ,GX,GY,GZ,EM,EJ,CM,STRAIN} fsm_channel;
+typedef enum {AX,AY,AZ,GX,GY,GZ,EM,EJ,CM,FX,FY,FZ,MX,MY,MZ} fsm_channel;
 
 typedef enum
 {

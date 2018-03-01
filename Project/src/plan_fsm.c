@@ -46,6 +46,12 @@ const char* val_gz              = "gz";
 const char* val_em              = "em";
 const char* val_ej              = "ej";
 const char* val_cm              = "cm";
+const char* val_fx				= "fx";
+const char* val_fy				= "fy";
+const char* val_fz				= "fz";
+const char* val_mx				= "mx";
+const char* val_my				= "my";
+const char* val_mz				= "mz";
 
 const char* val_mr              = "mr";
 const char* val_ls              = "ls";
@@ -295,6 +301,12 @@ int fsm_populate_structure(void)
               else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_em))FSM->m[nm].s[ns].t[nt].chan = EM;
               else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_ej))FSM->m[nm].s[ns].t[nt].chan = EJ;
               else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_cm))FSM->m[nm].s[ns].t[nt].chan = CM;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_fx))FSM->m[nm].s[ns].t[nt].chan = FX;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_fy))FSM->m[nm].s[ns].t[nt].chan = FY;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_fz))FSM->m[nm].s[ns].t[nt].chan = FZ;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_mx))FSM->m[nm].s[ns].t[nt].chan = MX;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_my))FSM->m[nm].s[ns].t[nt].chan = MY;
+              else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_mz))FSM->m[nm].s[ns].t[nt].chan = MZ;
               fsm_move_to(fstp,ATT,att_func,1);                                 // root/fsm/mode/state/transition/next_state/function
               if     (fsm_str_cmp(fstp->arr[fstp->top]+1,val_mr))FSM->m[nm].s[ns].t[nt].cond = MR;
               else if(fsm_str_cmp(fstp->arr[fstp->top]+1,val_ls))FSM->m[nm].s[ns].t[nt].cond = LS;
@@ -379,6 +391,15 @@ void fsm_update(void)
       case EM: data=rndata.em*0.021973;          break;
       case EJ: data=rndata.ej*0.021973;          break;
       case CM: data=rndata.cu;                 break;
+
+      	  case FX: data=rndata.st[0]*0.1;          break;
+      	  case FY: data=rndata.st[0]*0.1;          break;
+      	  case FZ: data=rndata.st[0]*0.1;           break;
+      	  case MX: data=rndata.st[0]*0.001;          break;
+		  case MY: data=rndata.st[0]*0.001;          break;
+		  case MZ: data=rndata.st[0]*0.001;         break;
+
+
       }
       condition = FSM->m[TR.cm].s[TR.cs].t[tcnt].cond;
       threshold = FSM->m[TR.cm].s[TR.cs].t[tcnt].thres;
@@ -426,6 +447,7 @@ void fsm_update(void)
   uint8_t control = 0;
   (void) control;
   
+
   if(TR.cs==1)
   {
     LED_state(LED_YEL,ON,CON);
@@ -442,6 +464,7 @@ void fsm_update(void)
     LED_state(LED_BLU,OFF,CON);
   }
   
+
   switch(FSM->m[TR.cm].s[TR.cs].ctrl)
   {
   case CTRL_NON:
@@ -464,7 +487,7 @@ void fsm_update(void)
   }
   
   //prep_packet(g_offset,control,setpoint,g0,g1,g2,g3);
-  prep_packet(g_offset,CTRL_NONE,0,0,0,0,0);
+  //prep_packet(g_offset,CTRL_NONE,0,0,0,0,0);
 
 }
 
