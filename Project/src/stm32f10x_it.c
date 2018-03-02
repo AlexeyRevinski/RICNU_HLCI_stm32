@@ -25,21 +25,28 @@
 #include "stm32f10x_it.h"
 #include "plan_include.h"
 
-extern uint16_t state_time_us;
-extern uint8_t systick_update;
+uint16_t        state_time_us = 0;      // Time in microseconds since last cycle
+uint8_t         systick_update = 0;     // Did SysTick tick? 0=no, 1=yes
 
 extern int delay;
 
 extern state sys_state;
 #define CALIBTIME 2000
+#define ACKTIME	10
+
+extern flexsea_ctrl fc;
+extern			lstate log_state;
 
 int64_t straincalib[] = {0,0,0,0,0,0};
 int64_t imucalsum[] = {0,0,0,0,0,0,0,0,0};
 int32_t imucal[] = {0,0,0,0,0,0,0,0,0};
 int32_t straincal[] = {0,0,0,0,0,0};
 uint32_t calibtimer = CALIBTIME;
+uint32_t acktimer = ACKTIME;
 
 extern ricnu_data rndata;
+
+uint8_t prev_offset;
 
 
 
@@ -77,7 +84,6 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
   /* Go to infinite loop when Hard Fault exception occurs */
-  GPIO_SetBits(GPIO_LED_1_PORT,GPIO_LED_1_PIN);
   while (1)
   {
   }
@@ -91,7 +97,6 @@ void HardFault_Handler(void)
 void MemManage_Handler(void)
 {
   /* Go to infinite loop when Memory Manage exception occurs */
-  GPIO_SetBits(GPIO_LED_1_PORT,GPIO_LED_1_PIN);
   while (1)
   {
   }
@@ -162,10 +167,36 @@ void SysTick_Handler(void)
 {
 	// Set update flag
 	systick_update = 1;
-
     // Increment time by SYS_TICK_US microseconds
     if(state_time_us!=(SYS_PERIOD_US-SYS_TICK_US)){state_time_us+=SYS_TICK_US;}
-    else{state_time_us=0;}
+    else{
+    	state_time_us=0;
+
+    	if(sys_state==STATE_DONE_CALIB)
+    	{
+    		if(acktimer)
+    		{
+				comm_prep_user(3);
+				comm_start(USER);
+				acktimer--;
+    		}
+    		else
+    		{
+    			change_sys_state(&sys_state,EVENT_CALIB_ACK_SENT);
+    		}
+    	}
+
+    	if(sys_state!=STATE_INITIALIZING||sys_state!=STATE_DONE_CALIB)
+    	{
+			comm_send_manage();		// Start communication with Manage
+
+			if(sys_state!=STATE_CALIBRATION)
+			{
+				comm_prep_user(prev_offset);
+				comm_start(USER);
+			}
+    	}
+    }
 
     // Update software timers
     if(!(state_time_us%1000)){SD_TimeUpdate();}	//1kHz time base
@@ -212,83 +243,58 @@ void EXTI4_IRQHandler(void)
 {
   if(EXTI_GetITStatus(EXTI_SD_CD_LINE) != RESET)
   {
-    
+	  EXTI_ClearITPendingBit(EXTI_SD_CD_LINE);
     // See if the card is in or not
     //if(SD_DETECT);
     // Clear the interrupt pending bit
-    EXTI_ClearITPendingBit(EXTI_SD_CD_LINE);
+
   }
 }
 
-// SD Card:             SPI RX Handler
-void DMA1_Channel2_IRQHandler(void)
-{
-  // Stop packet transmission sequence - drive chip select high
-  DMA_Cmd(SPI_SD_DMA_RX_CHAN, DISABLE);
-  //GPIO_SetBits(GPIO_SD_NSS_PORT,GPIO_SD_NSS_PIN);
-  // Clear all channel 2 IT requests
-  DMA_ClearITPendingBit(DMA1_IT_GL2);
-}
-// SD Card:             SPI TX Handler
-void DMA1_Channel3_IRQHandler(void)
-{
-  // DMA is in circular mode - will keep writing to SPI->DR unless stopped
-  //  by disabling the DMA channel
-  DMA_Cmd(SPI_SD_DMA_TX_CHAN, DISABLE);
-  // Clear all channel 3 IT requests
-  DMA_ClearITPendingBit(DMA1_IT_GL3);
-}
+
 
 // FlexSEA Manage:      SPI RX Handler
 void DMA1_Channel4_IRQHandler(void)
 {
-  DMA_ClearITPendingBit(DMA1_IT_GL4);
-  // Stop packet transmission sequence - drive chip select high
-  DMA_Cmd(SPI_MN_DMA_RX_CHAN, DISABLE);
-  GPIO_SetBits(GPIO_MN_NSS_PORT,GPIO_MN_NSS_PIN);
+	DMA_ClearITPendingBit(DMA1_IT_GL4);		// Clear all channel 4 IT requests
+  DMA_Cmd(SPI_MN_DMA_RX_CHAN, DISABLE);		// Disable RX channel
+  GPIO_SetBits(GPIO_MN_NSS_PORT,			// Unselect Manage
+		  GPIO_MN_NSS_PIN);
 
-  unpack(MANAGE);
-
+  prev_offset = comm_unpack_manage();	// Unpack data from Manage
   if(sys_state==STATE_CALIBRATION)
   {
-
-		if(calibtimer)
-		{
-
-
-		  if (calibtimer<=CALIBTIME)	// Discard first few packets
+	if(calibtimer)
+	{
+	  if (calibtimer<=CALIBTIME)	// Discard first few packets
+	  {
+		  if(calibtimer>CALIBTIME/2)
 		  {
-
-			  if(calibtimer>CALIBTIME/2)
+			  fc.offset=1;fc.control=CTRL_NONE;
+			  for (int i=0;i<6;i++)
 			  {
-				  prep_packet(1,CTRL_NONE,0,0,0,0,0);
-				  //update(MANAGE);
-				  //unpack(MANAGE);
-				  for (int i=0;i<6;i++)
-				  {
-					  straincalib[i]+=rndata.st[i];
-				  }
-			  }
-			  else
-			  {
-				  prep_packet(0,CTRL_NONE,0,0,0,0,0);
-				  //update(MANAGE);
-				  //unpack(MANAGE);
-				  imucalsum[0]+=rndata.gx;
-				  imucalsum[1]+=rndata.gy;
-				  imucalsum[2]+=rndata.gz;
-				  imucalsum[3]+=rndata.ax;
-				  imucalsum[4]+=rndata.ay;
-				  imucalsum[5]+=rndata.az;
-				  imucalsum[6]+=rndata.em;
-				  imucalsum[7]+=rndata.ej;
-				  imucalsum[8]+=rndata.cu;
+				  straincalib[i]+=rndata.st[i];
 			  }
 		  }
-		  calibtimer--;
-		}
-		else
-		{
+		  else
+		  {
+			  fc.offset=0;fc.control=CTRL_NONE;
+			  imucalsum[0]+=rndata.gx;
+			  imucalsum[1]+=rndata.gy;
+			  imucalsum[2]+=rndata.gz;
+			  imucalsum[3]+=rndata.ax;
+			  imucalsum[4]+=rndata.ay;
+			  imucalsum[5]+=rndata.az;
+			  imucalsum[6]+=rndata.em;
+			  imucalsum[7]+=rndata.ej;
+			  imucalsum[8]+=rndata.cu;
+		  }
+	  }
+	  calibtimer--;
+	  return;
+	}
+	else
+	{
 		for (int i=0;i<6;i++)
 		{
 			straincalib[i]/=(CALIBTIME/2);
@@ -299,50 +305,55 @@ void DMA1_Channel4_IRQHandler(void)
 			imucalsum[i]/=(CALIBTIME/2);
 			imucal[i] = (int32_t) imucalsum[i];
 		}
+		calibtimer = CALIBTIME;
+		acktimer = ACKTIME;
 		change_sys_state(&sys_state,EVENT_CALIBRATED);       // Initialized state
-		}
+	}
   }
-  else if (sys_state==STATE_ACTIVE)
+
+  if(sys_state==STATE_ACTIVE)				// If actively controlling, update fsm
   {
-	  update(USER);
 	  fsm_update();
+	  if(log_state==LOG_ON)
+	  {
+		  log_generate();
+	  }
   }
 
-
-
-
-
-  // Clear all channel 4 IT requests
 }
 
 // FlexSEA Manage:      SPI TX Handler
 void DMA1_Channel5_IRQHandler(void)
 {
-  DMA_ClearITPendingBit(DMA1_IT_GL5);
-  // DMA is in circular mode - will keep writing to SPI->DR unless stopped
-  //  by disabling the DMA channel
-  DMA_Cmd(SPI_MN_DMA_TX_CHAN, DISABLE);
-  // Clear all channel 5 IT requests
+	DMA_ClearITPendingBit(DMA1_IT_GL5);  	// Clear all channel 5 IT requests
+	DMA_Cmd(SPI_MN_DMA_TX_CHAN, DISABLE);	// Disable TX channel
+}
+
+// SD Card:             SPI RX Handler
+void DMA1_Channel2_IRQHandler(void)
+{
+	DMA_ClearITPendingBit(DMA1_IT_GL2);	  	// Clear all channel 2 IT requests
+	DMA_Cmd(SPI_SD_DMA_RX_CHAN, DISABLE);		// Disable RX channel
+}
+// SD Card:             SPI TX Handler
+void DMA1_Channel3_IRQHandler(void)
+{
+	DMA_ClearITPendingBit(DMA1_IT_GL3);	  	// Clear all channel 3 IT requests
+	DMA_Cmd(SPI_SD_DMA_TX_CHAN, DISABLE);		// Disable TX channel
 }
 
 // Bluetooth Module:    UART RX Handler
 void DMA1_Channel6_IRQHandler(void)
 {
-  DMA_Cmd(USART_BT_DMA_RX_CHAN, DISABLE);
-  // Clear all channel 6 IT requests
-  DMA_ClearITPendingBit(DMA1_IT_GL6);
-
-  unpack(USER);
+	DMA_ClearITPendingBit(DMA1_IT_GL6);		// Clear all channel 6 IT requests
+	comm_unpack_user();						// Unpack data from RICNU User
 }
 
 // Bluetooth Module:    UART TX Handler
 void DMA1_Channel7_IRQHandler(void)
 {
-  // DMA is in circular mode - will keep writing to USART->TDR unless stopped
-  //  by disabling the DMA channel
-  DMA_Cmd(USART_BT_DMA_TX_CHAN, DISABLE);
-  // Clear all channel 7 IT requests
-  DMA_ClearITPendingBit(DMA1_IT_GL7);
+	DMA_ClearITPendingBit(DMA1_IT_GL7);		// Clear all channel 7 IT requests
+	DMA_Cmd(USART_BT_DMA_TX_CHAN, DISABLE);	// Disable TX channel
 }
 
 /**

@@ -3,7 +3,7 @@
 
 #include "plan_include.h"
 
-#define LOG_FIFO_SIZE	4
+#define LOG_FIFO_SIZE	6
 #define LOG_SECTOR_SIZE	512
 #define LOG_BUFFER_SIZE	LOG_SECTOR_SIZE*LOG_FIFO_SIZE
 
@@ -56,6 +56,12 @@ typedef struct
     uint8_t size;
     uint8_t capacity;
 }logqueue;
+
+typedef enum
+{
+	LOG_ON,
+	LOG_OFF,
+}lstate;
 
 
 void 	log_init();

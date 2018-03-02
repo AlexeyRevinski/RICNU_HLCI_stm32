@@ -441,13 +441,31 @@ void fsm_update(void)
       if(!(TR.cs==prev_state&&TR.cm==prev_mode)) break;
     }
   }
-  
-  
-  //uint16_t numb = 0;
-  uint8_t control = 0;
-  (void) control;
-  
 
+  /*
+  switch(FSM->m[TR.cm].s[TR.cs].ctrl)
+  {
+  case CTRL_NON:
+    control = CTRL_NONE;
+    break;
+  case CTRL_POS:
+    control = CTRL_POSITION;
+    break;
+  case CTRL_CUR:
+    control = CTRL_CURRENT;
+    break;
+  case CTRL_IMP:
+    fc.control = CTRL_IMPEDANCE;
+    fc.setpoint = (uint32_t)FSM->m[TR.cm].s[TR.cs].g[2]*45;
+    fc.g0 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[0];
+    fc.g1 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[1];
+    fc.g2 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[3];
+    fc.g3 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[4];
+    break;
+  }
+  */
+  
+  
   if(TR.cs==1)
   {
     LED_state(LED_YEL,ON,CON);
@@ -463,32 +481,6 @@ void fsm_update(void)
     LED_state(LED_YEL,OFF,CON);
     LED_state(LED_BLU,OFF,CON);
   }
-  
-
-  switch(FSM->m[TR.cm].s[TR.cs].ctrl)
-  {
-  case CTRL_NON:
-    control = CTRL_NONE;
-    break;
-  case CTRL_POS:
-    control = CTRL_POSITION;
-    break;
-  case CTRL_CUR:
-    control = CTRL_CURRENT;
-    break;
-  case CTRL_IMP:
-    control = CTRL_IMPEDANCE;
-    setpoint = (uint32_t)FSM->m[TR.cm].s[TR.cs].g[2]*45;    
-    g0 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[0];
-    g1 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[1];
-    g2 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[3];
-    g3 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[4];
-    break; 
-  }
-  
-  //prep_packet(g_offset,control,setpoint,g0,g1,g2,g3);
-  prep_packet(g_offset,CTRL_NONE,0,0,0,0,0);
-
 }
 
 //==============================================================================

@@ -336,6 +336,7 @@ void DMA_config(void)
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(USART_BT_DMA_RX_CHAN, &DMA_InitStructure);
   DMA_ITConfig(USART_BT_DMA_RX_CHAN, DMA_IT_TC, ENABLE);
+  DMA_Cmd(USART_BT_DMA_RX_CHAN, ENABLE);
   
   // USART TRANSMIT CHANNEL ----------------------------------------------------
   DMA_DeInit(USART_BT_DMA_TX_CHAN);

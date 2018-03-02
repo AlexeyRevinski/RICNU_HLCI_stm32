@@ -23,7 +23,16 @@ typedef enum
   USER,
 } device;
 
-
+typedef struct
+{
+	uint8_t offset;
+	uint8_t control;
+	uint32_t setpoint;
+	uint16_t g0;
+	uint16_t g1;
+	uint16_t g2;
+	uint16_t g3;
+} flexsea_ctrl;
 
 typedef struct
 {
@@ -42,13 +51,12 @@ typedef struct
 
 
 // FUNCTION PROTOTYPES  ========================================================
-int     unpack(device);
-void    update(device);
-void    update_Manage(void);
-void    update_User(void);
-int     pack_P2U(void);
-void    pack_U2P(void);
-void    prep_packet(uint8_t offset, uint8_t ctrl, int32_t sp, int16_t gain0, \
-                 int16_t gain1, int16_t gain2, int16_t gain3);
+uint8_t     comm_unpack_manage(void);
+void    	comm_start(device);
+void    	comm_unpack_user(void);
+void    	comm_prep_manage(void);
+void		comm_send_manage(void);
+void 		comm_send_user_cmd(uint8_t cmd);
+void 		comm_prep_user(uint8_t offset);
 
 #endif //PLAN_COMM_H
