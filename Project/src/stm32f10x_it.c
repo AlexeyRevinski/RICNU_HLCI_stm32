@@ -165,41 +165,23 @@ void PendSV_Handler(void)
 
 void SysTick_Handler(void)
 {
+
 	// Set update flag
 	systick_update = 1;
     // Increment time by SYS_TICK_US microseconds
     if(state_time_us!=(SYS_PERIOD_US-SYS_TICK_US)){state_time_us+=SYS_TICK_US;}
     else{
     	state_time_us=0;
-
-    	if(sys_state==STATE_DONE_CALIB)
-    	{
-    		if(acktimer)
-    		{
-				comm_prep_user(3);
-				comm_start(USER);
-				acktimer--;
-    		}
-    		else
-    		{
-    			change_sys_state(&sys_state,EVENT_CALIB_ACK_SENT);
-    		}
-    	}
-
+    	//GPIO_ResetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN); LED_state(LED_BLU,ON,CON);
     	if(sys_state!=STATE_INITIALIZING||sys_state!=STATE_DONE_CALIB)
-    	{
-			comm_send_manage();		// Start communication with Manage
-
-			if(sys_state!=STATE_CALIBRATION)
-			{
-				comm_prep_user(prev_offset);
-				comm_start(USER);
-			}
-    	}
+		{
+    		comm_start(MANAGE);		// Start communication with Manage
+		}
     }
-
     // Update software timers
     if(!(state_time_us%1000)){SD_TimeUpdate();}	//1kHz time base
+    //GPIO_SetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN); LED_state(LED_BLU,OFF,CON);
+
 }
 
 /******************************************************************************/
@@ -217,9 +199,10 @@ void SysTick_Handler(void)
 
 void RTC_IRQHandler(void)
 {
+	//GPIO_ResetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN);
   if (RTC_GetITStatus(RTC_IT_SEC) != RESET)
   {
-    RTC_ClearITPendingBit(RTC_IT_SEC);			// Clear interrupt pending bit
+	TIM_SetCounter(TIM3,0);						// Reset ms counter
     if (RTC_GetCounter() == 0x0001517F)			// If reached 23:59:59, reset
 	{
     	RTC_WaitForLastTask();					// Wait until last write operation is finished
@@ -227,7 +210,8 @@ void RTC_IRQHandler(void)
 	}
     RTC_WaitForLastTask();						// Wait for last write operation
   }
-  TIM_SetCounter(TIM3,0);						// Reset ms counter
+  RTC_ClearITPendingBit(RTC_IT_SEC);			// Clear interrupt pending bit
+
 }
 
 void TIM2_IRQHandler(void)
@@ -256,12 +240,15 @@ void EXTI4_IRQHandler(void)
 // FlexSEA Manage:      SPI RX Handler
 void DMA1_Channel4_IRQHandler(void)
 {
+
+	//GPIO_ResetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN); LED_state(LED_BLU,ON,CON);
 	DMA_ClearITPendingBit(DMA1_IT_GL4);		// Clear all channel 4 IT requests
   DMA_Cmd(SPI_MN_DMA_RX_CHAN, DISABLE);		// Disable RX channel
   GPIO_SetBits(GPIO_MN_NSS_PORT,			// Unselect Manage
 		  GPIO_MN_NSS_PIN);
 
   prev_offset = comm_unpack_manage();	// Unpack data from Manage
+
   if(sys_state==STATE_CALIBRATION)
   {
 	if(calibtimer)
@@ -310,16 +297,42 @@ void DMA1_Channel4_IRQHandler(void)
 		change_sys_state(&sys_state,EVENT_CALIBRATED);       // Initialized state
 	}
   }
-
   if(sys_state==STATE_ACTIVE)				// If actively controlling, update fsm
   {
 	  fsm_update();
 	  if(log_state==LOG_ON)
 	  {
+
 		  log_generate();
 	  }
   }
-
+  else if (sys_state!=STATE_ACTIVE)
+  {
+	  fc.control = CTRL_NONE;
+  }
+  if(sys_state!=STATE_INITIALIZING && sys_state!=STATE_DONE_CALIB)
+	{
+		comm_prep_manage();		// Prep next manage packet
+		comm_prep_user(prev_offset);
+	}
+  if(sys_state==STATE_DONE_CALIB)
+	{
+		if(acktimer)
+		{
+			comm_prep_user(3);
+			//comm_start(USER);
+			acktimer--;
+		}
+		else
+		{
+			change_sys_state(&sys_state,EVENT_CALIB_ACK_SENT);
+		}
+	}
+  if(sys_state!=STATE_CALIBRATION)
+	{
+		comm_start(USER);
+	}
+  //GPIO_SetBits(GPIO_LED_4_PORT,GPIO_LED_4_PIN); LED_state(LED_BLU,OFF,CON);
 }
 
 // FlexSEA Manage:      SPI TX Handler
@@ -327,19 +340,6 @@ void DMA1_Channel5_IRQHandler(void)
 {
 	DMA_ClearITPendingBit(DMA1_IT_GL5);  	// Clear all channel 5 IT requests
 	DMA_Cmd(SPI_MN_DMA_TX_CHAN, DISABLE);	// Disable TX channel
-}
-
-// SD Card:             SPI RX Handler
-void DMA1_Channel2_IRQHandler(void)
-{
-	DMA_ClearITPendingBit(DMA1_IT_GL2);	  	// Clear all channel 2 IT requests
-	DMA_Cmd(SPI_SD_DMA_RX_CHAN, DISABLE);		// Disable RX channel
-}
-// SD Card:             SPI TX Handler
-void DMA1_Channel3_IRQHandler(void)
-{
-	DMA_ClearITPendingBit(DMA1_IT_GL3);	  	// Clear all channel 3 IT requests
-	DMA_Cmd(SPI_SD_DMA_TX_CHAN, DISABLE);		// Disable TX channel
 }
 
 // Bluetooth Module:    UART RX Handler

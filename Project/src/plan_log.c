@@ -24,6 +24,8 @@ extern char temprxbuff[1000];
 FIL logfile;
 #define SZ_TBL 100
 
+extern uint32_t new_transition;
+uint32_t prev_transition = 0;
 DWORD clmt[SZ_TBL];                    /* Cluster link map table buffer */
 
 
@@ -69,7 +71,7 @@ void log_init()
 
 	FRESULT fr;
 
-	fr = f_open(&logfile, "ricnu.log", FA_WRITE | FA_OPEN_APPEND);
+	fr = f_open(&logfile, "ricnu.txt", FA_WRITE | FA_OPEN_APPEND);
 	if(fr!=FR_OK)
 	{
 		f_close(&logfile);
@@ -106,6 +108,10 @@ void log_generate()
 void log_gen_string()
 {
 	log_time_get();
+	if(logtm.mseconds>999)
+	{
+		logtm.seconds++;logtm.mseconds-=1000;
+	}
 	sprintf(log_string+LOG_STR_ID,		"%08X",log_id++);
 	log_string[LOG_STR_HOUR-1]		=' ';
 	sprintf(log_string+LOG_STR_HOUR,	"%02d",logtm.hours);
@@ -122,42 +128,47 @@ void log_gen_string()
 	log_string[LOG_STR_FSM_S-1] 	=' ';
 	sprintf(log_string+LOG_STR_FSM_S,	"%05d",FSM_s.m[TR.cm].s[TR.cs].id_self);
 	log_string[LOG_STR_FSM_T-1] 	=' ';
-	sprintf(log_string+LOG_STR_FSM_T,	"-----");								// TODO put transition down
+	if(prev_transition!=new_transition)
+	{
+		sprintf(log_string+LOG_STR_FSM_T,	"%05d",(uint16_t)new_transition);
+		prev_transition=new_transition;
+	}
+	else	sprintf(log_string+LOG_STR_FSM_T,	"-----");								// TODO put transition down
 	log_string[LOG_STR_DAT_GX-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_GX,	"%04X",rndata.gx);
+	sprintf(log_string+LOG_STR_DAT_GX,	"%04X",(rndata.gx&0xFFFF));
 	log_string[LOG_STR_DAT_GY-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_GY,	"%04X",rndata.gy);
+	sprintf(log_string+LOG_STR_DAT_GY,	"%04X",(rndata.gy&0xFFFF));
 	log_string[LOG_STR_DAT_GZ-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_GZ,	"%04X",rndata.gz);
+	sprintf(log_string+LOG_STR_DAT_GZ,	"%04X",(rndata.gz&0xFFFF));
 	log_string[LOG_STR_DAT_AX-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_AX,	"%04X",rndata.ax);
+	sprintf(log_string+LOG_STR_DAT_AX,	"%04X",(rndata.ax&0xFFFF));
 	log_string[LOG_STR_DAT_AY-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_AY,	"%04X",rndata.ay);
+	sprintf(log_string+LOG_STR_DAT_AY,	"%04X",(rndata.ay&0xFFFF));
 	log_string[LOG_STR_DAT_AZ-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_AZ,	"%04X",rndata.az);
+	sprintf(log_string+LOG_STR_DAT_AZ,	"%04X",(rndata.az&0xFFFF));
 	log_string[LOG_STR_DAT_EM-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_EM,	"%04X",(uint16_t)(rndata.em>>16));
-	sprintf(log_string+LOG_STR_DAT_EM+4,"%04X",(uint16_t)(rndata.em));
+	sprintf(log_string+LOG_STR_DAT_EM,	"%04X",((uint16_t)(rndata.em>>16)&0xFFFF));
+	sprintf(log_string+LOG_STR_DAT_EM+4,"%04X",((uint16_t)rndata.em&0xFFFF));
 	log_string[LOG_STR_DAT_EJ-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_EJ,	"%04X",(uint16_t)(rndata.ej>>16));
-	sprintf(log_string+LOG_STR_DAT_EJ+4,"%04X",(uint16_t)(rndata.ej));
+	sprintf(log_string+LOG_STR_DAT_EJ,	"%04X",((uint16_t)(rndata.ej>>16)&0xFFFF));
+	sprintf(log_string+LOG_STR_DAT_EJ+4,"%04X",((uint16_t)rndata.ej&0xFFFF));
 	log_string[LOG_STR_DAT_CU-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_CU,	"%04X",rndata.cu);
+	sprintf(log_string+LOG_STR_DAT_CU,	"%04X",(rndata.cu&0xFFFF));
 	log_string[LOG_STR_DAT_SC-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_SC,	"%04X",(uint16_t)(rndata.sc>>16));
-	sprintf(log_string+LOG_STR_DAT_SC+4,"%04X",(uint16_t)(rndata.sc));
+	sprintf(log_string+LOG_STR_DAT_SC,	"%04X",((uint16_t)(rndata.sc>>16)&0xFFFF));
+	sprintf(log_string+LOG_STR_DAT_SC+4,"%04X",((uint16_t)rndata.sc&0xFFFF));
 	log_string[LOG_STR_DAT_S0-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_S0,	"%03X",(uint16_t) rndata.st[0]);
+	sprintf(log_string+LOG_STR_DAT_S0,	"%03X",((uint16_t)rndata.st[0]&0xFFF));
 	log_string[LOG_STR_DAT_S1-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_S1,	"%03X",(uint16_t) rndata.st[1]);
+	sprintf(log_string+LOG_STR_DAT_S1,	"%03X",((uint16_t)rndata.st[1]&0xFFF));
 	log_string[LOG_STR_DAT_S2-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_S2,	"%03X",(uint16_t) rndata.st[2]);
+	sprintf(log_string+LOG_STR_DAT_S2,	"%03X",((uint16_t)rndata.st[2]&0xFFF));
 	log_string[LOG_STR_DAT_S3-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_S3,	"%03X",(uint16_t) rndata.st[3]);
+	sprintf(log_string+LOG_STR_DAT_S3,	"%03X",((uint16_t)rndata.st[3]&0xFFF));
 	log_string[LOG_STR_DAT_S4-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_S4,	"%03X",(uint16_t) rndata.st[4]);
+	sprintf(log_string+LOG_STR_DAT_S4,	"%03X",((uint16_t)rndata.st[4]&0xFFF));
 	log_string[LOG_STR_DAT_S5-1] 	=' ';
-	sprintf(log_string+LOG_STR_DAT_S5,	"%03X",(uint16_t) rndata.st[5]);
+	sprintf(log_string+LOG_STR_DAT_S5,	"%03X",((uint16_t)rndata.st[5]&0xFFF));
 	log_string[LOG_STR_SIZE-1]		='\n';
 }
 
@@ -355,7 +366,7 @@ void log_time_set(uint32_t hr,uint8_t min,uint8_t sec)
 //==============================================================================
 void log_time_get()
 {
-	logtm.mseconds	= TIM_GetCounter(TIM3);	// Get millisecond count
+	logtm.mseconds	= TIM_GetCounter(TIM3);			// Get millisecond count
 	uint32_t count	= RTC_GetCounter();				// Get second count
 	logtm.hours		= count / 3600;					// hours
 	logtm.minutes	= (count % 3600) / 60;			// minutes

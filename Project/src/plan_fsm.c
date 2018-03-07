@@ -78,6 +78,12 @@ static  char            *fstr   = NULL; // Initialize fsm string pointer
 
 uint8_t	g_offset = 0;
 
+uint32_t new_transition = 0;
+
+extern flexsea_ctrl fc;
+
+extern int32_t imucal[];
+
 //==============================================================================
 // FUNCTION fsm_build
 //      - builds fsm from a JSON file stored on the SD card
@@ -413,6 +419,8 @@ void fsm_update(void)
          (condition==EQ&&data==threshold))
       {
         r = tcnt;               // Save this transition number
+        //new_transition = r;
+        new_transition = FSM->m[TR.cm].s[TR.cs].t[tcnt].id_self;
         break;
       }
   }
@@ -442,43 +450,41 @@ void fsm_update(void)
     }
   }
 
-  /*
   switch(FSM->m[TR.cm].s[TR.cs].ctrl)
   {
   case CTRL_NON:
-    control = CTRL_NONE;
+	  fc.control = CTRL_NONE;
     break;
   case CTRL_POS:
-    control = CTRL_POSITION;
+	  fc.control = CTRL_POSITION;
     break;
   case CTRL_CUR:
-    control = CTRL_CURRENT;
+	  fc.control = CTRL_CURRENT;
     break;
   case CTRL_IMP:
     fc.control = CTRL_IMPEDANCE;
-    fc.setpoint = (uint32_t)FSM->m[TR.cm].s[TR.cs].g[2]*45;
+    fc.setpoint = ((uint32_t)(FSM->m[TR.cm].s[TR.cs].g[2]+(imucal[6]*0.021973)))*45;
     fc.g0 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[0];
     fc.g1 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[1];
     fc.g2 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[3];
     fc.g3 = (uint16_t)FSM->m[TR.cm].s[TR.cs].g[4];
     break;
   }
-  */
   
   
   if(TR.cs==1)
   {
-    LED_state(LED_YEL,ON,CON);
+    LED_state(LED_RED,ON,CON);
     LED_state(LED_BLU,OFF,CON);
   }
   else if(TR.cs==2)
   {
-    LED_state(LED_YEL,OFF,CON);
+    LED_state(LED_RED,OFF,CON);
     LED_state(LED_BLU,ON,CON);
   }
   else
   {
-    LED_state(LED_YEL,OFF,CON);
+    LED_state(LED_RED,OFF,CON);
     LED_state(LED_BLU,OFF,CON);
   }
 }

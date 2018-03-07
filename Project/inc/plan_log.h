@@ -3,7 +3,7 @@
 
 #include "plan_include.h"
 
-#define LOG_FIFO_SIZE	6
+#define LOG_FIFO_SIZE	20
 #define LOG_SECTOR_SIZE	512
 #define LOG_BUFFER_SIZE	LOG_SECTOR_SIZE*LOG_FIFO_SIZE
 

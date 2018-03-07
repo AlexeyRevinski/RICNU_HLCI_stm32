@@ -22,7 +22,7 @@ void hardware_config(void)
   RCC_ClocksTypeDef RCC_Clocks;
   RCC_GetClocksFreq(&RCC_Clocks);
   SysTick_Config((RCC_Clocks.HCLK_Frequency/FACTOR_us_PER_s)*SYS_TICK_US);
-  NVIC_SetPriority(SysTick_IRQn, 0x0);
+  NVIC_SetPriority(SysTick_IRQn, 2);
 }
 
 
@@ -254,6 +254,7 @@ void DMA_config(void)
   // Start DMA clock
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);
   
+  /*
   // SPI RECEIVE CHANNEL -------------------------------------------------------
   DMA_DeInit(SPI_SD_DMA_RX_CHAN);
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPI_SD_DR;
@@ -269,7 +270,6 @@ void DMA_config(void)
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(SPI_SD_DMA_RX_CHAN, &DMA_InitStructure);
   DMA_Cmd(SPI_SD_DMA_RX_CHAN, ENABLE);
-
   //DMA_ITConfig(SPI_SD_DMA_RX_CHAN, DMA_IT_TC, ENABLE);
   
    // SPI TRANSMIT CHANNEL -----------------------------------------------------
@@ -288,7 +288,7 @@ void DMA_config(void)
   DMA_Init(SPI_SD_DMA_TX_CHAN, &DMA_InitStructure);
   DMA_Cmd(SPI_SD_DMA_TX_CHAN, ENABLE);
   //DMA_ITConfig(SPI_SD_DMA_TX_CHAN, DMA_IT_TC, ENABLE);
-
+   */
   // SPI RECEIVE CHANNEL -------------------------------------------------------
   DMA_DeInit(SPI_MN_DMA_RX_CHAN);
   DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)SPI_MN_DR;
@@ -362,56 +362,71 @@ void DMA_config(void)
 //==============================================================================
 void NVIC_config(void)
 {
+
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);		// All 4 priority bits are preemption priority
+
 	NVIC_InitTypeDef NVIC_InitStructure;				// Initialization structure
-  
-	// SPI RX interrupt for SD Card --------------------------------------------
-	NVIC_InitStructure.NVIC_IRQChannel = DMA_SD_RX_IRQn;// Specify IRQ channel
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
-	NVIC_Init(&NVIC_InitStructure);						// Implement above
-  
-	// SPI TX interrupt for SD Card --------------------------------------------
-	NVIC_InitStructure.NVIC_IRQChannel = DMA_SD_TX_IRQn;// Specify IRQ channel
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
-	NVIC_Init(&NVIC_InitStructure);						// Implement above
-  
-	// SPI RX interrupt for FlexSEA --------------------------------------------
-	NVIC_InitStructure.NVIC_IRQChannel = DMA_MN_RX_IRQn;// Specify IRQ channel
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
-	NVIC_Init(&NVIC_InitStructure);						// Implement above
-  
+
 	// SPI TX interrupt for FlexSEA --------------------------------------------
     NVIC_InitStructure.NVIC_IRQChannel = DMA_MN_TX_IRQn;// Specify IRQ channel
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
-    NVIC_Init(&NVIC_InitStructure);						// Implement above
-
-    // UART RX interrupt for BT121 ---------------------------------------------
-    NVIC_InitStructure.NVIC_IRQChannel = DMA_BT_RX_IRQn;// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;	// Specify priority		Highest
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
     NVIC_Init(&NVIC_InitStructure);						// Implement above
 
     // UART TX interrupt for BT121 ---------------------------------------------
 	NVIC_InitStructure.NVIC_IRQChannel = DMA_BT_TX_IRQn;// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;	// Specify priority		Highest
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
 	NVIC_Init(&NVIC_InitStructure);						// Implement above
 
-	// EXTI interrupt for Card Detect ------------------------------------------
-	NVIC_InitStructure.NVIC_IRQChannel = EXTI_SD_CD_IRQn;	// Specify IRQ channel
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
-	NVIC_Init(&NVIC_InitStructure);						// Implement above
-  
-	// TIM2 Update interrupt for LEDs ------------------------------------------
-	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;		// Specify IRQ channel
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
-	NVIC_Init(&NVIC_InitStructure);						// Implement above
+	// SysTick - second highest
 
 	// RTC Second Update interrupt ---------------------------------------------
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);		// Select priority grouping
 	NVIC_InitStructure.NVIC_IRQChannel = RTC_IRQn;		// Specify IRQ channel
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;	// Specify priority
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;	// Specify priority		Third highest
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	NVIC_Init(&NVIC_InitStructure);						// Implement above
+
+	// TIM2 Update interrupt for LEDs ------------------------------------------
+	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;		// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 3;	// Specify priority		Fourth highest
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	NVIC_Init(&NVIC_InitStructure);						// Implement above
+
+    // SPI RX interrupt for FlexSEA --------------------------------------------
+	NVIC_InitStructure.NVIC_IRQChannel = DMA_MN_RX_IRQn;// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 4;	// Specify priority		Lowest
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	NVIC_Init(&NVIC_InitStructure);						// Implement above
+
+    // UART RX interrupt for BT121 ---------------------------------------------
+    NVIC_InitStructure.NVIC_IRQChannel = DMA_BT_RX_IRQn;// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 4;	// Specify priority		Lowest
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+    NVIC_Init(&NVIC_InitStructure);						// Implement above
+
+	/*
+	// EXTI interrupt for Card Detect ------------------------------------------
+	NVIC_InitStructure.NVIC_IRQChannel = EXTI_SD_CD_IRQn;	// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;	// Specify priority
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;	// Specify subpriority
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
 	NVIC_Init(&NVIC_InitStructure);						// Implement above
 
+	// SPI RX interrupt for SD Card --------------------------------------------
+	NVIC_InitStructure.NVIC_IRQChannel = DMA_SD_RX_IRQn;// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;	// Specify priority
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;	// Specify subpriority
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	NVIC_Init(&NVIC_InitStructure);						// Implement above
+  
+	// SPI TX interrupt for SD Card --------------------------------------------
+	NVIC_InitStructure.NVIC_IRQChannel = DMA_SD_TX_IRQn;// Specify IRQ channel
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;	// Specify priority
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;	// Specify subpriority
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;		// Enable the channel
+	NVIC_Init(&NVIC_InitStructure);						// Implement above
+	 */
 }
 
 
@@ -507,8 +522,8 @@ void TIM_config(void)
 	TIM_TimeBaseInitStructure.TIM_CounterMode = 		// Specify counter mode
 			TIM_CounterMode_Up;
 	TIM_TimeBaseInitStructure.TIM_ClockDivision = 0;	// Specify clock division
-	TIM_TimeBaseInitStructure.TIM_Prescaler = 48000;	// Specify prescaler
-	TIM_TimeBaseInitStructure.TIM_Period = 999;			// Specify period
+	TIM_TimeBaseInitStructure.TIM_Prescaler = 48003;	// Specify prescaler
+	TIM_TimeBaseInitStructure.TIM_Period = 1500;		// Specify period	//Higher than 1000
 	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseInitStructure); // Implement above
 	//TIM_ITConfig(TIM3,TIM_IT_Update,ENABLE);			// Enable update interrupt
 	TIM_Cmd(TIM3,ENABLE);								// Enable timer

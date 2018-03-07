@@ -11,10 +11,13 @@ extern uint8_t		g_offset;
 extern 			state sys_state;
 extern			lstate log_state;
 ricnu_data 		rndata;
+int32_t			prevst[6] = {0,0,0,0,0,0};
 flexsea_ctrl 	fc;
 
 extern int32_t straincal[];
 extern int32_t imucal[];
+
+extern fsm_tracker TR;
 
 
 int64_t loadCellM[6][6] = {{ 9008,	101,	-9026,	-60,	121,	41},		// Fx, x10
@@ -146,7 +149,7 @@ uint8_t comm_unpack_manage(void)
 			rndata.cu = (int16_t) REBUILD_UINT16(spi_payload, &index);
 			if(sys_state!=STATE_CALIBRATION)
 			{
-				fc.offset = 1;
+				//fc.offset = 1;
 				rndata.gx-=imucal[0];
 				rndata.gy-=imucal[1];
 				rndata.gz-=imucal[2];
@@ -182,11 +185,19 @@ uint8_t comm_unpack_manage(void)
 				(rawstrain[5] * loadCellM[i][5]);
 				if(sys_state!=STATE_CALIBRATION)
 				{
-					fc.offset = 0;
+					//fc.offset = 0;
 					rndata.st[i]-=straincal[i];
 					rndata.st[i]>>=9;
+					int32_t diff = prevst[i]-rndata.st[i];
+					if(diff>100||diff<-100){rndata.st[i] = prevst[i];}	// If noise, discard
+					else {prevst[i]=rndata.st[i];}	// Otherwise accept
 				}
+
 			}
+		}
+		if(sys_state!=STATE_CALIBRATION)
+		{
+			fc.offset=!fc.offset;
 		}
 		return offset;
 	}
@@ -201,6 +212,7 @@ void comm_unpack_user(void)
   }
   else if(((usart_rx_buffer[0]>>4)&0x03)==0x02)// Relax
   {
+	  TR.cm = 0; TR.cs = 0;	// temporary
 	  change_sys_state(&sys_state,EVENT_STOP);
   }
   else
@@ -211,6 +223,7 @@ void comm_unpack_user(void)
 	    }
 	    else if (!((usart_rx_buffer[0]>>(7-0))&1))
 	    {
+	    	TR.cm = 0; TR.cs = 0;	// temporary
 	  	  change_sys_state(&sys_state,EVENT_STOP);
 	    }
 	    if(((usart_rx_buffer[0]>>(7-1))&1))		// Log on and off
